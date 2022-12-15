@@ -1,0 +1,15 @@
+[
+  {
+    "id": 1,
+    "name": "A70",
+    "brand": "Samsung",
+    "price": 300,
+    "category": "mobile-phones",
+    "description": "A good phone for life!",
+    "properties": ["Camera 64px", "Display 6.7\""],
+    "posters": [
+      "./assets/img/posters/A70/a70.jpeg",
+      "./assets/img/posters/A70/A70-2.jpeg"
+    ]
+  }
+]
