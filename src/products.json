@@ -10,6 +10,7 @@
     "posters": [
       "./assets/img/posters/A70/a70.jpeg",
       "./assets/img/posters/A70/A70-2.jpeg"
-    ]
+    ],
+    "inStock": true
   }
 ]

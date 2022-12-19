@@ -7,4 +7,5 @@ export interface ProductData {
   description: string;
   properties: Array<string>;
   posters: Array<string>;
+  inStock: boolean;
 }
