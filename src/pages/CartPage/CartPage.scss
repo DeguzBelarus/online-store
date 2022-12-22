@@ -1,0 +1,6 @@
+@import "../../variables";
+
+.cart-page-wrapper {
+  width: 100%;
+  height: calc(100vh - #{($header-height + px)} - #{($footer-height + px)});
+}

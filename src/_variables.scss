@@ -1,3 +1,18 @@
+// sizes
+$header-height: 40;
+$footer-height: 30;
+$sort-bar-width: 100;
+$product-item-width: 150;
+$product-item-height: 180;
+$product-item-height-list: 80;
+// sizes
+
+// colors
+$header-background-color: green;
+$footer-background-color: green;
+$sort-bar-background-color: #eee;
+// colors
+
 // mixins
 // flex row mixins
 @mixin flex-all-center {
