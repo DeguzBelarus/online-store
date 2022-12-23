@@ -425,7 +425,7 @@ export const Header: FC = (): JSX.Element => {
         <input
           type="text"
           className="search-input"
-          placeholder="Enter a product name"
+          placeholder="Product name or other info..."
           onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
             productNameFilterHandler(event.target.value)
           }
