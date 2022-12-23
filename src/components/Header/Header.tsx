@@ -552,8 +552,16 @@ export const Header: FC = (): JSX.Element => {
         </div>
       )}
       <div className="cart-button" onClick={cartTransition}>
+        {cartData.length > 0 && (
+          <span className="cart-quantity-span">{`${cartData.length} pcs`}</span>
+        )}
         <img src={cartLogo} alt="a cart logo" />
-        {cartData.length > 0 && <span>{cartData.length}</span>}
+        {cartData.length > 0 && (
+          <span className="cart-summary-span">{`${cartData.reduce(
+            (sum, product: ProductData) => sum + product.price,
+            0
+          )}$`}</span>
+        )}
       </div>
     </header>
   );
