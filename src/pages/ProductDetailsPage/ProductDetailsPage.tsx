@@ -28,6 +28,12 @@ export const ProductDetailsPage: FC = (): JSX.Element => {
     }
   }, [filteredProducts]);
 
+  useEffect(() => {
+    return () => {
+      dispatch(setCurrentProduct(null));
+    };
+  }, []);
+
   return (
     <>
       <Header />
