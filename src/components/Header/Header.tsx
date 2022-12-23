@@ -118,6 +118,7 @@ export const Header: FC = (): JSX.Element => {
     dispatch(setMinPriceFilter(null));
     dispatch(setProductNameFilter(null));
     setIsPriceRangesShown(false);
+    productNameFilterInput.current && (productNameFilterInput.current.value = '');
   }
 
   function localStorageLoadData(): void {
