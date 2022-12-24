@@ -1,0 +1,9 @@
+@import "../../variables";
+
+footer {
+  width: 100%;
+  height: $footer-height + px;
+  @include flex-all-center;
+  @include user-select-none;
+  background-color: $footer-background-color;
+}

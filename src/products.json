@@ -7,10 +7,20 @@
     "category": "mobile-phones",
     "description": "A good phone for life!",
     "properties": ["Camera 64px", "Display 6.7\""],
-    "posters": [
-      "./assets/img/posters/A70/a70.jpeg",
-      "./assets/img/posters/A70/A70-2.jpeg"
-    ],
-    "inStock": true
+    "posters": ["posters/A70/a70.jpeg", "posters/A70/A70-2.jpeg"],
+    "inStock": true,
+    "amount": 30
+  },
+  {
+    "id": 2,
+    "name": "S21",
+    "brand": "Samsung",
+    "price": 700,
+    "category": "mobile-phones",
+    "description": "A great phone!",
+    "properties": ["Camera 128px", "Display 6.7\""],
+    "posters": ["posters/S21/s21.jpeg", "posters/A70/A70-2.jpeg"],
+    "inStock": true,
+    "amount": 10
   }
 ]

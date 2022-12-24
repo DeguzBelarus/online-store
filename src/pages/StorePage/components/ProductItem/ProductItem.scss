@@ -1,0 +1,125 @@
+@import "../../../../variables";
+
+.external-wrapper {
+  width: auto;
+  position: relative;
+
+  .add-to-cart-button {
+    @include flex-all-center;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background-color: #fff;
+    border: 2px solid #000;
+    cursor: pointer;
+
+    img {
+      width: 45%;
+      height: auto;
+    }
+  }
+
+  &.list-view {
+    width: 65%;
+  }
+
+  .add-to-cart-button {
+    @include flex-all-center;
+    position: absolute;
+    bottom: 6px;
+    right: 6px;
+    background-color: #fff;
+    border: 2px solid #000;
+    cursor: pointer;
+
+    img {
+      width: 35%;
+      height: auto;
+    }
+  }
+}
+
+.product-item-wrapper {
+  width: $product-item-width + px;
+  height: $product-item-height + px;
+  @include user-select-none;
+  transition-property: border-color, transform;
+  transition-timing-function: linear;
+  transition-duration: 0.5s;
+  position: relative;
+  cursor: pointer;
+
+  &:not(.list-view) {
+    @include flex-column-line-center-vertical-top;
+  }
+
+  .name-paragraph {
+    color: yellowgreen;
+  }
+
+  .poster-wrapper {
+    width: 65%;
+
+    .poster {
+      width: 100%;
+      height: auto;
+    }
+  }
+
+  .price-paragraph {
+    color: deeppink;
+  }
+
+  &.list-view {
+    width: 100%;
+    height: $product-item-height-list + px;
+    @include flex-line-start-vertical-center;
+    gap: 10px;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    padding: 3px;
+
+    .name-paragraph {
+      color: yellowgreen;
+    }
+
+    .poster-wrapper {
+      width: auto;
+      height: 100%;
+
+      .poster {
+        width: auto;
+        height: 100%;
+      }
+    }
+
+    .price-paragraph {
+      color: deeppink;
+    }
+
+    .add-to-cart-button {
+      @include flex-all-center;
+      position: absolute;
+      bottom: 3px;
+      right: 3px;
+      background-color: #fff;
+      border: 2px solid #000;
+      cursor: pointer;
+
+      img {
+        width: 35%;
+        height: auto;
+      }
+    }
+  }
+}
+
+@media (hover: hover) {
+  .product-item-wrapper:not(.list-view):hover {
+    transform: translateY(-5px) translateX(-5px) scale(1.05);
+  }
+
+  .product-item-wrapper.list-view:hover {
+    border-color: darkorchid;
+  }
+}
