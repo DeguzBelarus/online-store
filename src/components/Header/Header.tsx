@@ -90,23 +90,23 @@ export const Header: FC = (): JSX.Element => {
     }
   };
 
-  const productNameFilterHandler = (value: string): void => {
-    if (value) {
-      dispatch(setProductNameFilter(value));
+  const productNameFilterHandler = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    if (event.target.value) {
+      dispatch(setProductNameFilter(event.target.value));
     } else {
       dispatch(setProductNameFilter(null));
     }
   };
 
-  const minPriceFilterHandler = (value: string): void => {
-    if (value) {
-      dispatch(setMinPriceFilter(Number(value)));
+  const minPriceFilterHandler = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    if (event.target.value) {
+      dispatch(setMinPriceFilter(Number(event.target.value)));
     }
   };
 
-  const maxPriceFilterHandler = (value: string): void => {
-    if (value) {
-      dispatch(setMaxPriceFilter(Number(value)));
+  const maxPriceFilterHandler = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    if (event.target.value) {
+      dispatch(setMaxPriceFilter(Number(event.target.value)));
     }
   };
 
@@ -426,9 +426,7 @@ export const Header: FC = (): JSX.Element => {
           type="text"
           className="search-input"
           placeholder="Product name or other info..."
-          onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-            productNameFilterHandler(event.target.value)
-          }
+          onChange={(event: React.ChangeEvent<HTMLInputElement>) => productNameFilterHandler(event)}
           spellCheck={false}
           ref={productNameFilterInput}
         />
@@ -483,7 +481,7 @@ export const Header: FC = (): JSX.Element => {
                     value={minPriceFilter || 0}
                     step={10}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                      minPriceFilterHandler(event.target.value)
+                      minPriceFilterHandler(event)
                     }
                     ref={minPriceRange}
                   />
@@ -506,7 +504,7 @@ export const Header: FC = (): JSX.Element => {
                     value={maxPriceFilter || 5000}
                     step={10}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                      maxPriceFilterHandler(event.target.value)
+                      maxPriceFilterHandler(event)
                     }
                     ref={maxPriceRange}
                   />
