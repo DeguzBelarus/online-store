@@ -11,10 +11,6 @@ footer {
     width: 100%;
     @include flex-all-center;
     gap: 15px;
-
-    // .footer-author-link {
-    //   padding: 0 15px;
-    // }
   }
 
   .footer-logo-year {
