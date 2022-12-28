@@ -2,12 +2,18 @@
 
 aside {
   width: $sort-bar-width + px;
-  height: calc(100% - #{($header-height + px)});
+  height: 100%;
   @include flex-column-line-center-vertical-top;
   @include user-select-none;
   gap: 10px;
-  margin-top: $header-height + px;
+  padding-top: 20px;
   background-color: $sort-bar-background-color;
+  transition: transform linear 0.5s;
+  transform: translateX(-100%);
+
+  &.active {
+    transform: none;
+  }
 
   .sort-types-wrapper {
     width: 100%;
