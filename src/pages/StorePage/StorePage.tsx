@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { useAppSelector } from 'app/hooks';
 
 import { getFilteredProducts, getViewType } from 'app/shopSlice';
-import { IProductData } from '../../types/types';
+import { IProductData, ViewType } from '../../types/types';
 import { ProductItem } from './components/ProductItem/ProductItem';
 import { Header } from '../../components/Header/Header';
 import { Footer } from '../../components/Footer/Footer';
@@ -20,7 +20,7 @@ export const StorePage: FC = (): JSX.Element => {
     new URLSearchParams(search).get('instock') === 'true' ? true : false;
   const minpriceFilter: number | null = Number(new URLSearchParams(search).get('minprice'));
   const maxpriceFilter: number | null = Number(new URLSearchParams(search).get('maxprice'));
-  const viewType: 'cards' | 'list' = useAppSelector(getViewType);
+  const viewType: ViewType = useAppSelector(getViewType);
   const [isMouseOnMain, setIsMouseOnMain] = useState<boolean>(false);
 
   const isMouseOnMainTrue = (

@@ -1,3 +1,6 @@
+export type PromoCode = [string, number];
+export type ViewType = 'cards' | 'list';
+
 export interface IProductData {
   id: number;
   name: string;
@@ -25,12 +28,10 @@ export interface ILocalStorageSaveObject {
   productNameFilter: string | null;
   isPriceRangesShown: boolean;
   isFiltersShown: boolean;
-  viewType: 'cards' | 'list';
+  viewType: ViewType;
   sortByName: 'ascending' | 'descending' | null;
   sortByPrice: 'ascending' | 'descending' | null;
   cart: Array<IProductData>;
   currentCartPage: number;
   productsPerCartPage: number;
 }
-
-export type PromoCode = [string, number];

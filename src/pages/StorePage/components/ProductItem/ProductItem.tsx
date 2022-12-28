@@ -5,7 +5,7 @@ import { useNavigate, NavigateFunction } from 'react-router-dom';
 
 import addToCartLogo from '../../../../assets/img/add-to-cart.png';
 import { getViewType, setCurrentProduct, getCart, setCart } from 'app/shopSlice';
-import { IProductData } from '../../../../types/types';
+import { IProductData, ViewType } from '../../../../types/types';
 import './ProductItem.scss';
 
 export const ProductItem: FC<IProductData> = ({ ...IProductData }) => {
@@ -13,7 +13,7 @@ export const ProductItem: FC<IProductData> = ({ ...IProductData }) => {
   const navigate: NavigateFunction = useNavigate();
 
   const cartData: Array<IProductData> = useAppSelector(getCart);
-  const viewType: 'cards' | 'list' = useAppSelector(getViewType);
+  const viewType: ViewType = useAppSelector(getViewType);
 
   const productDetailsTransition = (
     event: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>

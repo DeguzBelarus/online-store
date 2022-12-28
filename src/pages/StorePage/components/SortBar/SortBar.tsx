@@ -10,6 +10,7 @@ import {
   setSortByName,
   setSortByPrice,
 } from 'app/shopSlice';
+import { ViewType } from 'types/types';
 import './SortBar.scss';
 
 interface Props {
@@ -19,13 +20,13 @@ interface Props {
 export const SortBar: FC<Props> = ({ isMouseOnMain }): JSX.Element => {
   const dispatch: Dispatch = useAppDispatch();
 
-  const viewType: 'cards' | 'list' = useAppSelector(getViewType);
+  const viewType: ViewType = useAppSelector(getViewType);
   const sortByName: string | null = useAppSelector(getSortByName);
   const sortByPrice: string | null = useAppSelector(getSortByPrice);
 
   const viewTypeHandler = (
     event: React.MouseEvent<HTMLParagraphElement> | React.TouchEvent<HTMLParagraphElement>,
-    value: 'cards' | 'list'
+    value: ViewType
   ): void => {
     if (viewType !== value) {
       dispatch(setViewType(value));

@@ -32,7 +32,7 @@ import {
   getProductsPerCartPage,
   setProductsPerCartPage,
 } from 'app/shopSlice';
-import { IProductData } from '../../types/types';
+import { IProductData, ViewType } from '../../types/types';
 import products from '../../products.json';
 import { ILocalStorageSaveObject } from '../../types/types';
 import cartLogo from '../../assets/img/cart-logo.svg';
@@ -60,7 +60,7 @@ export const Header: FC = (): JSX.Element => {
   const minPriceFilter: number | null = useAppSelector(getMinPriceFilter);
   const maxPriceFilter: number | null = useAppSelector(getMaxPriceFilter);
   const productNameFilter: string | null = useAppSelector(getProductNameFilter);
-  const viewType: 'cards' | 'list' = useAppSelector(getViewType);
+  const viewType: ViewType = useAppSelector(getViewType);
   const sortByName: 'ascending' | 'descending' | null = useAppSelector(getSortByName);
   const sortByPrice: 'ascending' | 'descending' | null = useAppSelector(getSortByPrice);
   const cartData: Array<IProductData> = useAppSelector(getCart);

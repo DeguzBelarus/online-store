@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { WritableDraft } from 'immer/dist/internal';
 import { RootState } from './store';
 
-import { IProductData, PromoCode } from '../types/types';
+import { IProductData, PromoCode, ViewType } from '../types/types';
 
 export interface ShopState {
   cart: Array<IProductData>;
@@ -16,7 +16,7 @@ export interface ShopState {
   productNameFilter: string | null;
   sortByName: 'ascending' | 'descending' | null;
   sortByPrice: 'ascending' | 'descending' | null;
-  viewType: 'cards' | 'list';
+  viewType: ViewType;
   currentCartPage: number;
   productsPerCartPage: number;
   activePromoCodes: Array<PromoCode>;
@@ -130,7 +130,7 @@ export const shopSlice = createSlice({
         state.sortByPrice = initialState.sortByPrice;
       }
     },
-    setViewType(state: WritableDraft<ShopState>, action: PayloadAction<'cards' | 'list'>) {
+    setViewType(state: WritableDraft<ShopState>, action: PayloadAction<ViewType>) {
       if (action.payload) {
         state.viewType = action.payload;
       } else {
