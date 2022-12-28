@@ -19,7 +19,11 @@ import { CartProductItem } from './components/CartProductItem/CartProductItem';
 import { Order } from './components/Order/Order';
 import './CartPage.scss';
 
-export const CartPage: FC = (): JSX.Element => {
+interface Props {
+  orderMode: boolean;
+}
+
+export const CartPage: FC<Props> = ({ orderMode }): JSX.Element => {
   const promoCodeInput = useRef<HTMLInputElement>(null);
 
   const dispatch: Dispatch = useAppDispatch();
@@ -94,10 +98,10 @@ export const CartPage: FC = (): JSX.Element => {
   const orderModeHandler = (
     event: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>
   ) => {
-    if (isOrderMode) {
-      setIsOrderMode(false);
+    if (location.href.includes('order')) {
+      navigate('/cart');
     } else {
-      setIsOrderMode(true);
+      navigate('/cart/order');
     }
   };
 
@@ -191,7 +195,7 @@ export const CartPage: FC = (): JSX.Element => {
 
   useEffect(() => {
     queryUpdate();
-  }, [currentCartPage, productsPerCartPage]);
+  }, [currentCartPage, productsPerCartPage, orderMode]);
 
   useEffect(() => {
     const cartPagesArray = new Array(Math.ceil(cartProductsModified.length / productsPerCartPage))
@@ -230,7 +234,7 @@ export const CartPage: FC = (): JSX.Element => {
     <>
       <Header />
       <div className="cart-page-wrapper">
-        {isOrderMode && <Order setIsOrderMode={setIsOrderMode} />}
+        {orderMode && <Order orderModeHandler={orderModeHandler} />}
         <div
           className={
             cartProducts.length > 0

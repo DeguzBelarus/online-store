@@ -14,8 +14,10 @@ export const useRoutes = (): JSX.Element => {
         path="/:brand?/:category?/:name?/:instock?/:minprice?/:maxprice?/:pricesort?/:namesort?/:view?"
         element={<StorePage />}
       ></Route>
-      <Route path="/cart" element={<CartPage />}></Route>
-      <Route path="/cart/:page?/:limit?" element={<CartPage />}></Route>
+      <Route path="/cart" element={<CartPage orderMode={false} />}></Route>
+      <Route path="/cart/:page?/:limit?" element={<CartPage orderMode={false} />}></Route>
+      <Route path="/cart/order" element={<CartPage orderMode={true} />}></Route>
+      <Route path="/cart/order/:page?/:limit?" element={<CartPage orderMode={true} />}></Route>
       <Route path="/product/:id" element={<ProductDetailsPage />}></Route>
       <Route path="*" element={<Page404 />}></Route>
     </Routes>
