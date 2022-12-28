@@ -334,5 +334,90 @@
     "posters": ["posters/Pad8/Pad8.jpeg", "posters/Pad8/Pad8-2.jpeg"],
     "inStock": true,
     "amount": 20
+  },
+  {
+    "id": 29,
+    "name": "Galaxy Tab A7",
+    "brand": "Samsung",
+    "price": 170,
+    "category": "tablets",
+    "description": "TFT (1340x800), Android, MediaTek MT8768T, 3 GB RAM, 32 GB Flash",
+    "properties": ["Camera 8MP", "Display 8.7\""],
+    "posters": ["posters/GalaxyTabA7/galaxytaba7.jpeg", "posters/GalaxyTabA7/galaxytaba7-2.jpeg"],
+    "inStock": true,
+    "amount": 30
+  },
+  {
+    "id": 30,
+    "name": "MatePad T10s",
+    "brand": "Huawei",
+    "price": 240,
+    "category": "tablets",
+    "description": "IPS (1920x1200), Android, Hisilicon Kirin 710A, 4 GB RAM, 128 GB Flash",
+    "properties": ["Camera 5MP", "Display 10.1\""],
+    "posters": ["posters/MatePadT10S/matepadt10s.jpeg", "posters/MatePadT10S/matepadt10s-2.jpeg"],
+    "inStock": false,
+    "amount": 0
+  },
+  {
+    "id": 31,
+    "name": "Mate 50 Pro",
+    "brand": "Huawei",
+    "price": 1305,
+    "category": "mobile-phones",
+    "description": "Android, screen OLED (1212x2616) 120 Hz, Qualcomm Snapdragon 8+ Gen1, 8 GB RAM, 256 GB flash memory, memory cards, 4700 mAh battery, 2 SIM, IP68 waterproof",
+    "properties": ["Camera 50MP", "Display 6.74\""],
+    "posters": ["posters/Mate50P/mate50p.jpeg", "posters/Mate50P/mate50p-2.jpeg"],
+    "inStock": true,
+    "amount": 10
+  },
+  {
+    "id": 32,
+    "name": "Honor 70",
+    "brand": "Honor",
+    "price": 510,
+    "category": "mobile-phones",
+    "description": "Android, screen OLED (1080x2400) 120 Hz, Qualcomm Snapdragon 778G+, 8 GB RAM, 256 GB flash memory, 4800 mAh battery, 2 SIM",
+    "properties": ["Camera 54MP", "Display 6.67\""],
+    "posters": ["posters/Honor70/honor70.jpeg", "posters/Honor70/honor70-2.jpeg"],
+    "inStock": true,
+    "amount": 20
+  },
+  {
+    "id": 33,
+    "name": "Poco X4",
+    "brand": "Poco",
+    "price": 405,
+    "category": "mobile-phones",
+    "description": "Android, screen IPS (1080x2460) 144 Hz, Mediatek Dimensity 8100, 8 GB RAM, 256 GB flash memory, 5080 mAh battery, 2 SIM",
+    "properties": ["Camera 64MP", "Display 6.6\""],
+    "posters": ["posters/PocoX4/pocox4.jpeg", "posters/PocoX4/pocox4-2.jpeg"],
+    "inStock": false,
+    "amount": 0
+  },
+  {
+    "id": 34,
+    "name": "MateBook D 15",
+    "brand": "Huawei",
+    "price": 1045,
+    "category": "laptops",
+    "description": "1920 x 1080 IPS, 60Hz, non-touch, AMD Ryzen 5 5500U 2100MHz, 16GB DDR4, 512GB SSD, integrated graphics, Windows 11",
+    "properties": ["Display 15.6\""],
+    "posters": ["posters/MateBookD15/matebookd15.jpeg", "posters/MateBookD15/matebookd15-2.jpeg"],
+    "inStock": true,
+    "amount": 10
+  },
+  {
+    "id": 35,
+    "name": "Aspire 3",
+    "brand": "Acer",
+    "price": 765,
+    "category": "laptops",
+    "description": "1920 x 1080 IPS, 60 Hz, non-touch, AMD Ryzen 5 5500U 2100 MHz, 16 GB DDR4, SSD 512 GB, integrated graphics, no OS",
+    "properties": ["Display 15.6\""],
+    "posters": ["posters/Aspire3/aspire3.jpeg", "posters/Aspire3/aspire3-2.jpeg"],
+    "inStock": false,
+    "amount": 0
   }
+  
 ]
