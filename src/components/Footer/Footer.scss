@@ -3,7 +3,26 @@
 footer {
   width: 100%;
   height: $footer-height + px;
-  @include flex-all-center;
+  @include flex-line-spacebetween-vertical-center;
   @include user-select-none;
   background-color: $footer-background-color;
+
+  .footer-authors {
+    width: 100%;
+    @include flex-all-center;
+    gap: 15px;
+  }
+
+  .footer-logo-year {
+    width: 100%;
+    @include flex-all-center;
+    gap: 15px;
+
+    .rsschool-footer-link {
+      height: 30px;
+      width: 80px;
+      background-image: url(../../assets/img/rs_school_js.svg);
+      background-size: contain;
+    }
+  }
 }
