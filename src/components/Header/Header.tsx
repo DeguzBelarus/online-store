@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useState, useRef } from 'react';
 import { Dispatch } from '@reduxjs/toolkit';
 import { useAppSelector, useAppDispatch } from 'app/hooks';
-import { NavigateFunction, useNavigate } from 'react-router-dom';
+import { NavigateFunction, useNavigate, useLocation } from 'react-router-dom';
 
 import {
   getCategoryFilter,
@@ -26,10 +26,15 @@ import {
   setSortByPrice,
   setCurrentProduct,
   getCart,
+  setCart,
+  getCurrentCartPage,
+  setCurrentCartPage,
+  getProductsPerCartPage,
+  setProductsPerCartPage,
 } from 'app/shopSlice';
-import { ProductData } from '../../types/types';
+import { IProductData, ViewType } from '../../types/types';
 import products from '../../products.json';
-import { LocalStorageSaveObject } from '../../types/types';
+import { ILocalStorageSaveObject } from '../../types/types';
 import cartLogo from '../../assets/img/cart-logo.svg';
 import './Header.scss';
 
@@ -48,25 +53,34 @@ export const Header: FC = (): JSX.Element => {
   const [filteredProductsMinPrice, setFilteredProductsMinPrice] = useState<number | null>(null);
   const [filteredProductsMaxPrice, setFilteredProductsMaxPrice] = useState<number | null>(null);
 
-  const filteredProducts: Array<ProductData> = useAppSelector(getFilteredProducts);
+  const filteredProducts: Array<IProductData> = useAppSelector(getFilteredProducts);
   const categoryFilter: string | null = useAppSelector(getCategoryFilter);
   const brandFilter: string | null = useAppSelector(getBrandFilter);
   const inStockFilter: boolean = useAppSelector(getInStockFilter);
   const minPriceFilter: number | null = useAppSelector(getMinPriceFilter);
   const maxPriceFilter: number | null = useAppSelector(getMaxPriceFilter);
   const productNameFilter: string | null = useAppSelector(getProductNameFilter);
-  const viewType: 'cards' | 'list' = useAppSelector(getViewType);
+  const viewType: ViewType = useAppSelector(getViewType);
   const sortByName: 'ascending' | 'descending' | null = useAppSelector(getSortByName);
   const sortByPrice: 'ascending' | 'descending' | null = useAppSelector(getSortByPrice);
-  const cartData: Array<ProductData> = useAppSelector(getCart);
+  const cartData: Array<IProductData> = useAppSelector(getCart);
+  const currentCartPage: number = useAppSelector(getCurrentCartPage);
+  const productsPerCartPage: number = useAppSelector(getProductsPerCartPage);
+  const search: string = useLocation().search;
+  const cartPageQuery: string | null = new URLSearchParams(search).get('page');
+  const productsPerPageQuery: string | null = new URLSearchParams(search).get('limit');
 
   const brandsArray: Array<string> = Array.from(
-    new Set(filteredProducts.map((product: ProductData) => product.brand))
+    new Set(filteredProducts.map((product: IProductData) => product.brand))
   );
   const categoriesArray: Array<string> = Array.from(
-    new Set(filteredProducts.map((product: ProductData) => product.category))
+    new Set(filteredProducts.map((product: IProductData) => product.category))
   );
-  const brandFilterHandler = (value: string): void => {
+
+  const brandFilterHandler = (
+    event: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>,
+    value: string
+  ): void => {
     if (value === brandFilter) {
       dispatch(setBrandFilter(null));
     } else {
@@ -74,7 +88,10 @@ export const Header: FC = (): JSX.Element => {
     }
   };
 
-  const categoryFilterHandler = (value: string): void => {
+  const categoryFilterHandler = (
+    event: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>,
+    value: string
+  ): void => {
     if (value === categoryFilter) {
       dispatch(setCategoryFilter(null));
     } else {
@@ -82,7 +99,7 @@ export const Header: FC = (): JSX.Element => {
     }
   };
 
-  const inStockFilterHandler = (): void => {
+  const inStockFilterHandler = (event: React.ChangeEvent<HTMLInputElement>): void => {
     if (inStockFilter) {
       dispatch(setInStockFilter(false));
     } else {
@@ -110,7 +127,9 @@ export const Header: FC = (): JSX.Element => {
     }
   };
 
-  function resetSearchFilters() {
+  const resetSearchFilters = (
+    event: React.MouseEvent<HTMLButtonElement> | React.TouchEvent<HTMLButtonElement>
+  ): void => {
     dispatch(setBrandFilter(null));
     dispatch(setCategoryFilter(null));
     dispatch(setInStockFilter(false));
@@ -119,14 +138,17 @@ export const Header: FC = (): JSX.Element => {
     dispatch(setProductNameFilter(null));
     setIsPriceRangesShown(false);
     productNameFilterInput.current && (productNameFilterInput.current.value = '');
-  }
+  };
 
   function localStorageLoadData(): void {
     if (localStorage.getItem('online-store-data')) {
-      const storageSaveData: LocalStorageSaveObject = JSON.parse(
+      const storageSaveData: ILocalStorageSaveObject = JSON.parse(
         localStorage.getItem('online-store-data') || ''
       );
 
+      if (storageSaveData.cart.length > 0) {
+        dispatch(setCart(storageSaveData.cart));
+      }
       if (storageSaveData.brandFilter) {
         dispatch(setBrandFilter(storageSaveData.brandFilter));
       }
@@ -162,11 +184,33 @@ export const Header: FC = (): JSX.Element => {
       if (storageSaveData.sortByPrice) {
         dispatch(setSortByPrice(storageSaveData.sortByPrice));
       }
+      if (storageSaveData.currentCartPage !== 1) {
+        if (!cartPageQuery) {
+          dispatch(setCurrentCartPage(storageSaveData.currentCartPage));
+        } else {
+          if (storageSaveData.currentCartPage === Number(cartPageQuery)) {
+            dispatch(setCurrentCartPage(storageSaveData.currentCartPage));
+          } else {
+            dispatch(setCurrentCartPage(Number(cartPageQuery)));
+          }
+        }
+      }
+      if (storageSaveData.productsPerCartPage !== 2) {
+        if (!productsPerPageQuery) {
+          dispatch(setProductsPerCartPage(storageSaveData.productsPerCartPage));
+        } else {
+          if (storageSaveData.productsPerCartPage === Number(productsPerPageQuery)) {
+            dispatch(setProductsPerCartPage(storageSaveData.productsPerCartPage));
+          } else {
+            dispatch(setProductsPerCartPage(Number(productsPerPageQuery)));
+          }
+        }
+      }
     }
   }
 
   function localStorageSaveData(): void {
-    const storageSaveData: LocalStorageSaveObject = {
+    const storageSaveData: ILocalStorageSaveObject = {
       brandFilter,
       categoryFilter,
       inStockFilter,
@@ -178,11 +222,16 @@ export const Header: FC = (): JSX.Element => {
       sortByName,
       sortByPrice,
       isFiltersShown,
+      cart: cartData,
+      currentCartPage,
+      productsPerCartPage,
     };
     localStorage.setItem('online-store-data', JSON.stringify(storageSaveData));
   }
 
-  function navigateToMain(): void {
+  const navigateToMain = (
+    event: React.MouseEvent<HTMLSpanElement> | React.TouchEvent<HTMLSpanElement>
+  ): void => {
     const urlSearchParams = new URLSearchParams();
     if (categoryFilter) {
       urlSearchParams.append('category', categoryFilter);
@@ -213,10 +262,10 @@ export const Header: FC = (): JSX.Element => {
     }
     navigate(`/?${urlSearchParams}`);
     dispatch(setCurrentProduct(null));
-  }
+  };
 
   function queryUpdate(): void {
-    let filteredProducts: Array<ProductData> = products;
+    let filteredProducts: Array<IProductData> = products;
     const urlSearchParams = new URLSearchParams();
 
     if (categoryFilter) {
@@ -224,7 +273,7 @@ export const Header: FC = (): JSX.Element => {
         urlSearchParams.append('category', categoryFilter);
       }
       filteredProducts = filteredProducts.filter(
-        (product: ProductData) => product.category === categoryFilter
+        (product: IProductData) => product.category === categoryFilter
       );
     }
     if (brandFilter) {
@@ -232,7 +281,7 @@ export const Header: FC = (): JSX.Element => {
         urlSearchParams.append('brand', brandFilter);
       }
       filteredProducts = filteredProducts.filter(
-        (product: ProductData) => product.brand === brandFilter
+        (product: IProductData) => product.brand === brandFilter
       );
     }
     if (productNameFilter) {
@@ -240,7 +289,7 @@ export const Header: FC = (): JSX.Element => {
         urlSearchParams.append('name', productNameFilter);
       }
       filteredProducts = filteredProducts.filter(
-        (product: ProductData) =>
+        (product: IProductData) =>
           product.name.toUpperCase().startsWith(productNameFilter.toUpperCase()) ||
           product.brand.toUpperCase().startsWith(productNameFilter.toUpperCase()) ||
           product.category.toUpperCase().startsWith(productNameFilter.toUpperCase()) ||
@@ -257,14 +306,14 @@ export const Header: FC = (): JSX.Element => {
       if (!location.href.includes('cart') && !location.href.includes('product')) {
         urlSearchParams.append('instock', String(inStockFilter));
       }
-      filteredProducts = filteredProducts.filter((product: ProductData) => product.inStock);
+      filteredProducts = filteredProducts.filter((product: IProductData) => product.inStock);
     }
     if (filteredProducts.length) {
       const minPrice: number = Math.min(
-        ...filteredProducts.map((product: ProductData) => product.price || 0)
+        ...filteredProducts.map((product: IProductData) => product.price || 0)
       );
       const maxPrice: number = Math.max(
-        ...filteredProducts.map((product: ProductData) => product.price || 0)
+        ...filteredProducts.map((product: IProductData) => product.price || 0)
       );
 
       setFilteredProductsMinPrice(minPrice);
@@ -275,7 +324,7 @@ export const Header: FC = (): JSX.Element => {
         urlSearchParams.append('minprice', String(minPriceFilter));
       }
       filteredProducts = filteredProducts.filter(
-        (product: ProductData) => product.price >= minPriceFilter
+        (product: IProductData) => product.price >= minPriceFilter
       );
     }
     if (maxPriceFilter) {
@@ -283,7 +332,7 @@ export const Header: FC = (): JSX.Element => {
         urlSearchParams.append('maxprice', String(maxPriceFilter));
       }
       filteredProducts = filteredProducts.filter(
-        (product: ProductData) => product.price <= maxPriceFilter
+        (product: IProductData) => product.price <= maxPriceFilter
       );
     }
     if (viewType !== 'cards') {
@@ -298,7 +347,7 @@ export const Header: FC = (): JSX.Element => {
 
       if (sortByName === 'ascending') {
         filteredProducts = [...filteredProducts].sort(
-          (prevProduct: ProductData, nextProduct: ProductData) => {
+          (prevProduct: IProductData, nextProduct: IProductData) => {
             if (prevProduct.name > nextProduct.name) {
               return 1;
             }
@@ -310,7 +359,7 @@ export const Header: FC = (): JSX.Element => {
         );
       } else {
         filteredProducts = [...filteredProducts].sort(
-          (prevProduct: ProductData, nextProduct: ProductData) => {
+          (prevProduct: IProductData, nextProduct: IProductData) => {
             if (prevProduct.name > nextProduct.name) {
               return -1;
             }
@@ -329,7 +378,7 @@ export const Header: FC = (): JSX.Element => {
 
       if (sortByPrice === 'ascending') {
         filteredProducts = [...filteredProducts].sort(
-          (prevProduct: ProductData, nextProduct: ProductData) => {
+          (prevProduct: IProductData, nextProduct: IProductData) => {
             if (prevProduct.price > nextProduct.price) {
               return 1;
             }
@@ -341,7 +390,7 @@ export const Header: FC = (): JSX.Element => {
         );
       } else {
         filteredProducts = [...filteredProducts].sort(
-          (prevProduct: ProductData, nextProduct: ProductData) => {
+          (prevProduct: IProductData, nextProduct: IProductData) => {
             if (prevProduct.price > nextProduct.price) {
               return -1;
             }
@@ -364,12 +413,15 @@ export const Header: FC = (): JSX.Element => {
     navigate(`?${urlSearchParams}`);
   }
 
-  const isPricesRangesShownHandler = (target: HTMLDivElement): void => {
+  const isPricesRangesShownHandler = (
+    event: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>
+  ): void => {
+    const eventTarget = event.target as HTMLDivElement;
     if (
-      target.classList.contains('price-range-input') ||
-      target.classList.contains('price-text-input') ||
-      target.classList.contains('range-wrapper') ||
-      target.classList.contains('price-range-span')
+      eventTarget.classList.contains('price-range-input') ||
+      eventTarget.classList.contains('price-text-input') ||
+      eventTarget.classList.contains('range-wrapper') ||
+      eventTarget.classList.contains('price-range-span')
     )
       return;
     if (isPriceRangesShown) {
@@ -379,7 +431,9 @@ export const Header: FC = (): JSX.Element => {
     }
   };
 
-  const isFiltersShownHandler = (): void => {
+  const isFiltersShownHandler = (
+    event: React.MouseEvent<HTMLButtonElement> | React.TouchEvent<HTMLButtonElement>
+  ): void => {
     if (isFiltersShown) {
       setIsFiltersShown(false);
     } else {
@@ -387,7 +441,9 @@ export const Header: FC = (): JSX.Element => {
     }
   };
 
-  const urlCopy = (): void => {
+  const urlCopy = (
+    event: React.MouseEvent<HTMLButtonElement> | React.TouchEvent<HTMLButtonElement>
+  ): void => {
     if (isUrlCopied) return;
     navigator.clipboard.writeText(location.href);
     setIsUrlCopied(true);
@@ -396,7 +452,10 @@ export const Header: FC = (): JSX.Element => {
     }, 2000);
   };
 
-  const cartTransition = (): void => {
+  const cartTransition = (
+    event: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>
+  ): void => {
+    if (location.href.includes('cart')) return;
     navigate('/cart');
   };
 
@@ -414,38 +473,53 @@ export const Header: FC = (): JSX.Element => {
     sortByName,
     sortByPrice,
     isFiltersShown,
+    currentCartPage,
+    productsPerCartPage,
   ]);
+
+  useEffect(() => {
+    localStorageSaveData();
+  }, [cartData]);
 
   return (
     <header>
-      <span className="text-logo" onClick={navigateToMain}>
+      <span
+        className="text-logo"
+        onClick={(event: React.MouseEvent<HTMLSpanElement>) => navigateToMain(event)}
+      >
         OnlineStore
       </span>
-      <div className="search-input-wrapper">
-        <input
-          type="text"
-          className="search-input"
-          placeholder="Product name or other info..."
-          onChange={(event: React.ChangeEvent<HTMLInputElement>) => productNameFilterHandler(event)}
-          spellCheck={false}
-          ref={productNameFilterInput}
-        />
-      </div>
-      <button
-        type="button"
-        className={isFiltersShown ? 'filters-show-button active' : 'filters-show-button'}
-        onClick={isFiltersShownHandler}
-      >
-        Filters
-      </button>
+      {!location.href.includes('cart') && !location.href.includes('product') && (
+        <div className="search-input-wrapper">
+          <input
+            type="text"
+            className="search-input"
+            placeholder="Product name or other info..."
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+              productNameFilterHandler(event)
+            }
+            spellCheck={false}
+            ref={productNameFilterInput}
+          />
+        </div>
+      )}
+      {!location.href.includes('cart') && !location.href.includes('product') && (
+        <button
+          type="button"
+          className={isFiltersShown ? 'filters-show-button active' : 'filters-show-button'}
+          onClick={(event: React.MouseEvent<HTMLButtonElement>) => isFiltersShownHandler(event)}
+        >
+          Filters
+        </button>
+      )}
       <button
         type="button"
         className={isUrlCopied ? 'url-copy-button url-copied' : 'url-copy-button'}
-        onClick={urlCopy}
+        onClick={(event: React.MouseEvent<HTMLButtonElement>) => urlCopy(event)}
       >
         {isUrlCopied ? `Copied!` : `URL Copy`}
       </button>
-      {isFiltersShown && (
+      {isFiltersShown && !location.href.includes('cart') && !location.href.includes('product') && (
         <div className="filters-wrapper">
           <div className="brands-wrapper">
             <span>brands: </span>
@@ -454,7 +528,9 @@ export const Header: FC = (): JSX.Element => {
                 <div
                   className={brandFilter === brand ? 'brand-item active' : 'brand-item'}
                   key={index}
-                  onClick={() => brandFilterHandler(brand)}
+                  onClick={(event: React.MouseEvent<HTMLDivElement>) =>
+                    brandFilterHandler(event, brand)
+                  }
                 >
                   <span>{brand}</span>
                 </div>
@@ -463,9 +539,7 @@ export const Header: FC = (): JSX.Element => {
           </div>
           <div
             className="price-range-wrapper"
-            onClick={(event: React.MouseEvent) =>
-              isPricesRangesShownHandler(event.target as HTMLDivElement)
-            }
+            onClick={(event: React.MouseEvent<HTMLDivElement>) => isPricesRangesShownHandler(event)}
           >
             <span className="prices-range-span">price range</span>
             {isPriceRangesShown && (
@@ -526,7 +600,9 @@ export const Header: FC = (): JSX.Element => {
                 <div
                   className={categoryFilter === category ? 'category-item active' : 'category-item'}
                   key={index}
-                  onClick={() => categoryFilterHandler(category)}
+                  onClick={(event: React.MouseEvent<HTMLDivElement>) =>
+                    categoryFilterHandler(event, category)
+                  }
                 >
                   <span>{category}</span>
                 </div>
@@ -541,22 +617,29 @@ export const Header: FC = (): JSX.Element => {
               title="in stock only"
               checked={inStockFilter}
               disabled={filteredProducts.length < 1}
-              onChange={inStockFilterHandler}
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) => inStockFilterHandler(event)}
             />
           </div>
-          <button type="button" className="reset-filters-button" onClick={resetSearchFilters}>
+          <button
+            type="button"
+            className="reset-filters-button"
+            onClick={(event: React.MouseEvent<HTMLButtonElement>) => resetSearchFilters(event)}
+          >
             Reset
           </button>
         </div>
       )}
-      <div className="cart-button" onClick={cartTransition}>
+      <div
+        className="cart-button"
+        onClick={(event: React.MouseEvent<HTMLDivElement>) => cartTransition(event)}
+      >
         {cartData.length > 0 && (
           <span className="cart-quantity-span">{`${cartData.length} pcs`}</span>
         )}
         <img src={cartLogo} alt="a cart logo" />
         {cartData.length > 0 && (
           <span className="cart-summary-span">{`${cartData.reduce(
-            (sum, product: ProductData) => sum + product.price,
+            (sum, product: IProductData) => sum + product.price,
             0
           )}$`}</span>
         )}

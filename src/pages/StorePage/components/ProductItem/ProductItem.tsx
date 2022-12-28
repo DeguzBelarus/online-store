@@ -5,47 +5,55 @@ import { useNavigate, NavigateFunction } from 'react-router-dom';
 
 import addToCartLogo from '../../../../assets/img/add-to-cart.png';
 import { getViewType, setCurrentProduct, getCart, setCart } from 'app/shopSlice';
-import { ProductData } from '../../../../types/types';
+import { IProductData, ViewType } from '../../../../types/types';
 import './ProductItem.scss';
 
-export const ProductItem: FC<ProductData> = ({ ...productData }) => {
+export const ProductItem: FC<IProductData> = ({ ...IProductData }) => {
   const dispatch: Dispatch = useAppDispatch();
   const navigate: NavigateFunction = useNavigate();
 
-  const cartData: Array<ProductData> = useAppSelector(getCart);
-  const viewType: 'cards' | 'list' = useAppSelector(getViewType);
+  const cartData: Array<IProductData> = useAppSelector(getCart);
+  const viewType: ViewType = useAppSelector(getViewType);
 
-  const productDetailsTransition = (): void => {
-    dispatch(setCurrentProduct({ ...productData }));
-    navigate(`/product/${productData.id}`);
+  const productDetailsTransition = (
+    event: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>
+  ): void => {
+    dispatch(setCurrentProduct({ ...IProductData }));
+    navigate(`/product/${IProductData.id}`);
   };
 
-  const addProductToCart = (): void => {
-    dispatch(setCart([...cartData, { ...productData }]));
+  const addProductToCart = (
+    event: React.MouseEvent<HTMLButtonElement> | React.TouchEvent<HTMLButtonElement>
+  ): void => {
+    dispatch(setCart([...cartData, { ...IProductData }]));
   };
   return (
     <div className={viewType === 'cards' ? 'external-wrapper' : 'external-wrapper list-view'}>
       <div
         className={viewType === 'cards' ? 'product-item-wrapper' : 'product-item-wrapper list-view'}
-        onClick={productDetailsTransition}
+        onClick={(event: React.MouseEvent<HTMLDivElement>) => productDetailsTransition(event)}
       >
-        <p className="name-paragraph">{productData.name}</p>
+        <p className="name-paragraph">{IProductData.name}</p>
         <div className="poster-wrapper">
           <img
             draggable={false}
-            src={require('../../../../assets/img/' + productData.posters[0])}
+            src={require('../../../../assets/img/' + IProductData.posters[0])}
             className="poster"
             alt="product preview"
           />
         </div>
-        <p className="price-paragraph">{`${productData.price}`}$</p>
+        <p className="price-paragraph">{`${IProductData.price}`}$</p>
         {viewType === 'list' && (
           <>
-            <span>{`brand: ${productData.brand} amount: ${productData.amount}pcs`}</span>
+            <span>{`brand: ${IProductData.brand} amount: ${IProductData.amount}pcs`}</span>
           </>
         )}
       </div>
-      <button type="button" className="add-to-cart-button" onClick={addProductToCart}>
+      <button
+        type="button"
+        className="add-to-cart-button"
+        onClick={(event: React.MouseEvent<HTMLButtonElement>) => addProductToCart(event)}
+      >
         <img src={addToCartLogo} alt="an add to cart logo" />
       </button>
     </div>

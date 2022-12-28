@@ -10,22 +10,33 @@ import {
   setSortByName,
   setSortByPrice,
 } from 'app/shopSlice';
+import { ViewType } from 'types/types';
 import './SortBar.scss';
 
-export const SortBar: FC = (): JSX.Element => {
+interface Props {
+  isMouseOnMain: boolean;
+}
+
+export const SortBar: FC<Props> = ({ isMouseOnMain }): JSX.Element => {
   const dispatch: Dispatch = useAppDispatch();
 
-  const viewType: 'cards' | 'list' = useAppSelector(getViewType);
+  const viewType: ViewType = useAppSelector(getViewType);
   const sortByName: string | null = useAppSelector(getSortByName);
   const sortByPrice: string | null = useAppSelector(getSortByPrice);
 
-  const viewTypeHandler = (value: 'cards' | 'list'): void => {
+  const viewTypeHandler = (
+    event: React.MouseEvent<HTMLParagraphElement> | React.TouchEvent<HTMLParagraphElement>,
+    value: ViewType
+  ): void => {
     if (viewType !== value) {
       dispatch(setViewType(value));
     }
   };
 
-  const sortByNameHandler = (value: 'ascending' | 'descending' | null): void => {
+  const sortByNameHandler = (
+    event: React.MouseEvent<HTMLParagraphElement> | React.TouchEvent<HTMLParagraphElement>,
+    value: 'ascending' | 'descending' | null
+  ): void => {
     if (sortByName !== value) {
       dispatch(setSortByName(value));
     } else {
@@ -36,7 +47,10 @@ export const SortBar: FC = (): JSX.Element => {
     }
   };
 
-  const sortByPriceHandler = (value: 'ascending' | 'descending' | null): void => {
+  const sortByPriceHandler = (
+    event: React.MouseEvent<HTMLParagraphElement> | React.TouchEvent<HTMLParagraphElement>,
+    value: 'ascending' | 'descending' | null
+  ): void => {
     if (sortByPrice !== value) {
       dispatch(setSortByPrice(value));
     } else {
@@ -48,7 +62,7 @@ export const SortBar: FC = (): JSX.Element => {
   };
 
   return (
-    <aside>
+    <aside className={isMouseOnMain ? 'active' : ''}>
       <div className="sort-types-wrapper">
         <h3>Sort Type:</h3>
         <div className="sort-type-wrapper">
@@ -59,7 +73,9 @@ export const SortBar: FC = (): JSX.Element => {
                 ? 'sort-type-selector active clickable'
                 : 'sort-type-selector clickable'
             }
-            onClick={() => sortByNameHandler('ascending')}
+            onClick={(event: React.MouseEvent<HTMLParagraphElement>) =>
+              sortByNameHandler(event, 'ascending')
+            }
           >
             ascending
           </p>
@@ -69,7 +85,9 @@ export const SortBar: FC = (): JSX.Element => {
                 ? 'sort-type-selector active clickable'
                 : 'sort-type-selector clickable'
             }
-            onClick={() => sortByNameHandler('descending')}
+            onClick={(event: React.MouseEvent<HTMLParagraphElement>) =>
+              sortByNameHandler(event, 'descending')
+            }
           >
             descending
           </p>
@@ -82,7 +100,9 @@ export const SortBar: FC = (): JSX.Element => {
                 ? 'sort-type-selector active clickable'
                 : 'sort-type-selector clickable'
             }
-            onClick={() => sortByPriceHandler('ascending')}
+            onClick={(event: React.MouseEvent<HTMLParagraphElement>) =>
+              sortByPriceHandler(event, 'ascending')
+            }
           >
             ascending
           </p>
@@ -92,7 +112,9 @@ export const SortBar: FC = (): JSX.Element => {
                 ? 'sort-type-selector active clickable'
                 : 'sort-type-selector clickable'
             }
-            onClick={() => sortByPriceHandler('descending')}
+            onClick={(event: React.MouseEvent<HTMLParagraphElement>) =>
+              sortByPriceHandler(event, 'descending')
+            }
           >
             descending
           </p>
@@ -103,13 +125,17 @@ export const SortBar: FC = (): JSX.Element => {
         <div className="sort-type-wrapper">
           <p
             className={viewType === 'cards' ? 'sort-type-selector active' : 'sort-type-selector'}
-            onClick={() => viewTypeHandler('cards')}
+            onClick={(event: React.MouseEvent<HTMLParagraphElement>) =>
+              viewTypeHandler(event, 'cards')
+            }
           >
             cards
           </p>
           <p
             className={viewType === 'list' ? 'sort-type-selector active' : 'sort-type-selector'}
-            onClick={() => viewTypeHandler('list')}
+            onClick={(event: React.MouseEvent<HTMLParagraphElement>) =>
+              viewTypeHandler(event, 'list')
+            }
           >
             list
           </p>

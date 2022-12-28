@@ -1,9 +1,9 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useAppSelector } from 'app/hooks';
 
 import { getFilteredProducts, getViewType } from 'app/shopSlice';
-import { ProductData } from '../../types/types';
+import { IProductData, ViewType } from '../../types/types';
 import { ProductItem } from './components/ProductItem/ProductItem';
 import { Header } from '../../components/Header/Header';
 import { Footer } from '../../components/Footer/Footer';
@@ -11,7 +11,7 @@ import { SortBar } from './components/SortBar/SortBar';
 import './StorePage.scss';
 
 export const StorePage: FC = (): JSX.Element => {
-  const filteredProducts: Array<ProductData> = useAppSelector(getFilteredProducts);
+  const filteredProducts: Array<IProductData> = useAppSelector(getFilteredProducts);
   const search: string = useLocation().search;
   const brandFilter: string | null = new URLSearchParams(search).get('brand');
   const categoryFilter: string | null = new URLSearchParams(search).get('category');
@@ -20,7 +20,20 @@ export const StorePage: FC = (): JSX.Element => {
     new URLSearchParams(search).get('instock') === 'true' ? true : false;
   const minpriceFilter: number | null = Number(new URLSearchParams(search).get('minprice'));
   const maxpriceFilter: number | null = Number(new URLSearchParams(search).get('maxprice'));
-  const viewType: 'cards' | 'list' = useAppSelector(getViewType);
+  const viewType: ViewType = useAppSelector(getViewType);
+  const [isMouseOnMain, setIsMouseOnMain] = useState<boolean>(false);
+
+  const isMouseOnMainTrue = (
+    event: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>
+  ): void => {
+    setIsMouseOnMain(true);
+  };
+
+  const isMouseOnMainFalse = (
+    event: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>
+  ): void => {
+    setIsMouseOnMain(false);
+  };
 
   const filtersIsActive = (): boolean => {
     if (
@@ -40,7 +53,11 @@ export const StorePage: FC = (): JSX.Element => {
   return (
     <>
       <Header />
-      <div className={filteredProducts.length < 1 ? 'store-wrapper no-products' : 'store-wrapper'}>
+      <div
+        className={filteredProducts.length < 1 ? 'store-wrapper no-products' : 'store-wrapper'}
+        onMouseOver={(event: React.MouseEvent<HTMLDivElement>) => isMouseOnMainTrue(event)}
+        onMouseLeave={(event: React.MouseEvent<HTMLDivElement>) => isMouseOnMainFalse(event)}
+      >
         {filteredProducts.length > 0 && filtersIsActive() && (
           <div
             className={
@@ -50,10 +67,10 @@ export const StorePage: FC = (): JSX.Element => {
             <span>{`Was found ${filteredProducts.length} product(s)`}</span>
           </div>
         )}
-        <SortBar />
+        <SortBar isMouseOnMain={isMouseOnMain} />
         <div className={viewType === 'cards' ? 'products-wrapper' : 'products-wrapper list-view'}>
           {filteredProducts.length > 0 &&
-            filteredProducts.map((product: ProductData) => {
+            filteredProducts.map((product: IProductData) => {
               return (
                 <ProductItem
                   key={product.id}

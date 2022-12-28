@@ -1,4 +1,7 @@
-export interface ProductData {
+export type PromoCode = [string, number];
+export type ViewType = 'cards' | 'list';
+
+export interface IProductData {
   id: number;
   name: string;
   brand: string;
@@ -11,7 +14,12 @@ export interface ProductData {
   amount: number;
 }
 
-export interface LocalStorageSaveObject {
+export interface ICartProductData extends IProductData {
+  quantity: number;
+  sum: number;
+}
+
+export interface ILocalStorageSaveObject {
   categoryFilter: string | null;
   brandFilter: string | null;
   inStockFilter: boolean;
@@ -20,7 +28,10 @@ export interface LocalStorageSaveObject {
   productNameFilter: string | null;
   isPriceRangesShown: boolean;
   isFiltersShown: boolean;
-  viewType: 'cards' | 'list';
+  viewType: ViewType;
   sortByName: 'ascending' | 'descending' | null;
   sortByPrice: 'ascending' | 'descending' | null;
+  cart: Array<IProductData>;
+  currentCartPage: number;
+  productsPerCartPage: number;
 }

@@ -1,0 +1,35 @@
+@import "../../../../variables";
+
+.order-wrapper {
+  width: 100%;
+  height: calc(100% - 20px);
+  @include flex-column-all-center;
+  @include user-select-none;
+  margin-top: 10px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  background-color: rgba($color: #fff, $alpha: 0.85);
+
+  .order-form {
+    width: 600px;
+    height: 800px;
+    @include flex-column-all-center;
+    padding-top: 10px;
+    border: 1px solid #000;
+    border-bottom: none;
+    background-color: #fff;
+
+    .order-return-button {
+      width: 100%;
+      @include flex-all-center;
+      margin-top: auto;
+      border: 1px solid #000;
+      border-left: none;
+      border-right: none;
+      cursor: pointer;
+    }
+  }
+
+}

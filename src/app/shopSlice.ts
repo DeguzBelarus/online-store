@@ -2,12 +2,12 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { WritableDraft } from 'immer/dist/internal';
 import { RootState } from './store';
 
-import { ProductData } from '../types/types';
+import { IProductData, PromoCode, ViewType } from '../types/types';
 
 export interface ShopState {
-  cart: Array<ProductData>;
-  filteredProducts: Array<ProductData>;
-  currentProduct: ProductData | null;
+  cart: Array<IProductData>;
+  filteredProducts: Array<IProductData>;
+  currentProduct: IProductData | null;
   categoryFilter: string | null;
   brandFilter: string | null;
   inStockFilter: boolean;
@@ -16,7 +16,10 @@ export interface ShopState {
   productNameFilter: string | null;
   sortByName: 'ascending' | 'descending' | null;
   sortByPrice: 'ascending' | 'descending' | null;
-  viewType: 'cards' | 'list';
+  viewType: ViewType;
+  currentCartPage: number;
+  productsPerCartPage: number;
+  activePromoCodes: Array<PromoCode>;
 }
 
 const initialState: ShopState = {
@@ -32,6 +35,9 @@ const initialState: ShopState = {
   sortByName: null,
   sortByPrice: null,
   viewType: 'cards',
+  currentCartPage: 1,
+  productsPerCartPage: 2,
+  activePromoCodes: [],
 };
 
 export const shopSlice = createSlice({
@@ -52,7 +58,7 @@ export const shopSlice = createSlice({
         state.brandFilter = initialState.brandFilter;
       }
     },
-    setCurrentProduct(state: WritableDraft<ShopState>, action: PayloadAction<ProductData | null>) {
+    setCurrentProduct(state: WritableDraft<ShopState>, action: PayloadAction<IProductData | null>) {
       if (action.payload) {
         state.currentProduct = action.payload;
       } else {
@@ -87,7 +93,7 @@ export const shopSlice = createSlice({
         state.productNameFilter = initialState.productNameFilter;
       }
     },
-    setCart(state: WritableDraft<ShopState>, action: PayloadAction<Array<ProductData>>) {
+    setCart(state: WritableDraft<ShopState>, action: PayloadAction<Array<IProductData>>) {
       if (action.payload) {
         state.cart = action.payload;
       } else {
@@ -96,7 +102,7 @@ export const shopSlice = createSlice({
     },
     setFilteredProducts(
       state: WritableDraft<ShopState>,
-      action: PayloadAction<Array<ProductData>>
+      action: PayloadAction<Array<IProductData>>
     ) {
       if (action.payload) {
         state.filteredProducts = action.payload;
@@ -124,11 +130,32 @@ export const shopSlice = createSlice({
         state.sortByPrice = initialState.sortByPrice;
       }
     },
-    setViewType(state: WritableDraft<ShopState>, action: PayloadAction<'cards' | 'list'>) {
+    setViewType(state: WritableDraft<ShopState>, action: PayloadAction<ViewType>) {
       if (action.payload) {
         state.viewType = action.payload;
       } else {
         state.viewType = initialState.viewType;
+      }
+    },
+    setCurrentCartPage(state: WritableDraft<ShopState>, action: PayloadAction<number>) {
+      if (action.payload) {
+        state.currentCartPage = action.payload;
+      } else {
+        state.currentCartPage = initialState.currentCartPage;
+      }
+    },
+    setProductsPerCartPage(state: WritableDraft<ShopState>, action: PayloadAction<number>) {
+      if (action.payload) {
+        state.productsPerCartPage = action.payload;
+      } else {
+        state.productsPerCartPage = initialState.productsPerCartPage;
+      }
+    },
+    setActivePromoCodes(state: WritableDraft<ShopState>, action: PayloadAction<Array<PromoCode>>) {
+      if (action.payload) {
+        state.activePromoCodes = action.payload;
+      } else {
+        state.activePromoCodes = initialState.activePromoCodes;
       }
     },
   },
@@ -147,6 +174,9 @@ export const {
   setSortByName,
   setSortByPrice,
   setViewType,
+  setCurrentCartPage,
+  setActivePromoCodes,
+  setProductsPerCartPage,
 } = shopSlice.actions;
 
 export const getCart = (state: RootState) => state.shop.cart;
@@ -161,5 +191,8 @@ export const getProductNameFilter = (state: RootState) => state.shop.productName
 export const getSortByName = (state: RootState) => state.shop.sortByName;
 export const getSortByPrice = (state: RootState) => state.shop.sortByPrice;
 export const getViewType = (state: RootState) => state.shop.viewType;
+export const getCurrentCartPage = (state: RootState) => state.shop.currentCartPage;
+export const getProductsPerCartPage = (state: RootState) => state.shop.productsPerCartPage;
+export const getActivePromoCodes = (state: RootState) => state.shop.activePromoCodes;
 
 export default shopSlice.reducer;

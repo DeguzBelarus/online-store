@@ -107,12 +107,25 @@ $sort-bar-background-color: #eee;
   justify-content: center;
 }
 
+@mixin flex-column-line-end-vertical-top {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-start;
+}
+
 @mixin flex-column-vertical-center {
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
 
+@mixin flex-column-line-center-vertical-spacebetween {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
 // flex column mixins
 
 @mixin user-select-none {
