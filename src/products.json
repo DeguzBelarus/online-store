@@ -19,7 +19,7 @@
     "category": "mobile-phones",
     "description": "Android, screen AMOLED (1080x2400) 120 Hz, Exynos 990, 6 GB RAM, 128 GB flash memory, memory cards, 4500 mAh battery, 2 SIM, IP68 waterproof",
     "properties": ["Camera 12MP", "Display 6.2\""],
-    "posters": ["posters/S20/s20.jpeg", "posters/S20/S20-2.jpeg"],
+    "posters": ["posters/S20/s20.jpeg", "posters/S20/s20-2.jpeg"],
     "inStock": true,
     "amount": 10
   },
@@ -31,7 +31,7 @@
     "category": "mobile-phones",
     "description": "Android, screen AMOLED (1080x2340) 120 Hz, Qualcomm Snapdragon 888, 6 GB RAM, 128 GB flash memory, 4500 mAh battery, 2 SIM, IP68 waterproof",
     "properties": ["Camera 12MP", "Display 6.4\""],
-    "posters": ["posters/S21/s21.jpeg", "posters/S21/S21-2.jpeg"],
+    "posters": ["posters/S21/s21.jpeg", "posters/S21/s21-2.jpeg"],
     "inStock": true,
     "amount": 40
   },
@@ -115,7 +115,7 @@
     "category": "mobile-phones",
     "description": "Apple iOS, OLED screen (1170x2532) 60 Hz, Apple A15 Bionic, 4 GB RAM, 128 GB flash memory, 3227 mAh battery, 1 SIM, IP68 waterproof",
     "properties": ["Camera 12MP", "Display 6.1\""],
-    "posters": ["posters/Iphone13/Iphone13.jpeg", "posters/Iphone13/Iphone13-2.jpeg"],
+    "posters": ["posters/Iphone13/iphone13.jpeg", "posters/Iphone13/iphone13-2.jpeg"],
     "inStock": true,
     "amount": 30
   },
@@ -223,7 +223,7 @@
     "category": "laptops",
     "description": "1920 x 1080 IPS, 60Hz, non-touch, AMD Ryzen 3 5300U 2600MHz, 8GB DDR4, 256GB SSD, integrated graphics, Windows 10",
     "properties": ["Display 15.6\""],
-    "posters": ["posters/IdeaPad3/ideapad3.jpeg", "posters/Ideapad3/ideapad3-2.jpeg"],
+    "posters": ["posters/IdeaPad3/ideapad3.jpeg", "posters/IdeaPad3/ideapad3-2.jpeg"],
     "inStock": true,
     "amount": 20
   },
@@ -235,7 +235,7 @@
     "category": "laptops",
     "description": "2560 x 1600 IPS, 60 Hz, non-touch, AMD Ryzen 5 6600HS 3300 MHz, 16 GB LPDDR5, SSD 512 GB, integrated graphics, no OS",
     "properties": ["Display 16.0\""],
-    "posters": ["posters/IdeaPad5/ideapad5.jpeg", "posters/Ideapad5/ideapad5-2.jpeg"],
+    "posters": ["posters/IdeaPad5/ideapad5.jpeg", "posters/IdeaPad5/ideapad5-2.jpeg"],
     "inStock": true,
     "amount": 30
   },
