@@ -32,7 +32,7 @@ import {
   getProductsPerCartPage,
   setProductsPerCartPage,
 } from 'app/shopSlice';
-import { IProductData, ViewType } from '../../types/types';
+import { IProductData, ViewType, ICartProductData } from '../../types/types';
 import products from '../../products.json';
 import { ILocalStorageSaveObject } from '../../types/types';
 import cartLogo from '../../assets/img/cart-logo.svg';
@@ -53,6 +53,10 @@ export const Header: FC = (): JSX.Element => {
   const [isFirstLoad, setIsFirstLoad] = useState<boolean>(true);
   const [filteredProductsMinPrice, setFilteredProductsMinPrice] = useState<number | null>(null);
   const [filteredProductsMaxPrice, setFilteredProductsMaxPrice] = useState<number | null>(null);
+  const [cartProductsModified, setCartProductsModified] = useState<Array<ICartProductData>>([]);
+  const [increasableProductsInCart, setIncreasableProductsInCart] = useState<
+    Array<ICartProductData>
+  >([]);
 
   const filteredProducts: Array<IProductData> = useAppSelector(getFilteredProducts);
   const categoryFilter: string | null = useAppSelector(getCategoryFilter);
@@ -70,6 +74,52 @@ export const Header: FC = (): JSX.Element => {
   const search: string = useLocation().search;
   const cartPageQuery: string | null = new URLSearchParams(search).get('page');
   const productsPerPageQuery: string | null = new URLSearchParams(search).get('limit');
+
+  const cartProductsModifiedUpdate = (): void => {
+    setCartProductsModified(
+      cartData
+        .map((cartProduct: IProductData, index: number, array: Array<IProductData>) => {
+          const productId: number = cartProduct.id;
+
+          return {
+            id: cartProduct.id,
+            name: cartProduct.name,
+            brand: cartProduct.brand,
+            price: cartProduct.price,
+            category: cartProduct.category,
+            description: cartProduct.description,
+            properties: cartProduct.properties,
+            inStock: cartProduct.inStock,
+            amount: cartProduct.amount,
+            posters: cartProduct.posters,
+            quantity: array.filter((cartProduct: IProductData) => cartProduct.id === productId)
+              .length,
+            sum: array.reduce((sum: number, cartProduct: IProductData) => {
+              if (cartProduct.id === productId) {
+                return (sum += cartProduct.price || sum);
+              } else {
+                return sum;
+              }
+            }, 0),
+          };
+        })
+        .reduce((unique: Array<ICartProductData>, cartProduct: ICartProductData) => {
+          return unique.find(
+            (uniqueProduct: ICartProductData) => uniqueProduct.id === cartProduct.id
+          )
+            ? unique
+            : [...unique, cartProduct];
+        }, [])
+    );
+  };
+
+  const increasableProductsInCartUpdate = (): void => {
+    setIncreasableProductsInCart(
+      cartProductsModified.filter(
+        (cartProduct: ICartProductData) => cartProduct.amount !== cartProduct.quantity
+      )
+    );
+  };
 
   const brandsArray: Array<string> = Array.from(
     new Set(filteredProducts.map((product: IProductData) => product.brand))
@@ -488,7 +538,12 @@ export const Header: FC = (): JSX.Element => {
 
   useEffect(() => {
     localStorageSaveData();
+    cartProductsModifiedUpdate();
   }, [cartData]);
+
+  useEffect(() => {
+    increasableProductsInCartUpdate();
+  }, [cartProductsModified]);
 
   return (
     <header>
@@ -558,7 +613,11 @@ export const Header: FC = (): JSX.Element => {
         onClick={(event: React.MouseEvent<HTMLDivElement>) => cartTransition(event)}
       >
         {cartData.length > 0 && (
-          <span className="cart-quantity-span">{`${cartData.length} pcs`}</span>
+          <span className="cart-quantity-span">
+            {increasableProductsInCart.length > 0
+              ? `${cartData.length} (${increasableProductsInCart.length}) pcs`
+              : `${cartData.length} pcs`}
+          </span>
         )}
         <img src={cartLogo} alt="a cart logo" />
         {cartData.length > 0 && (
