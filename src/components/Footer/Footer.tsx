@@ -4,7 +4,7 @@ import './Footer.scss';
 export const Footer: FC = (): JSX.Element => {
   return (
     <footer>
-      <p className="footer-authors">
+      <div className="footer-authors">
         <a href="https://github.com/DeguzBelarus" className="footer-author-link">
           Anton Dektyarev
         </a>
@@ -12,7 +12,7 @@ export const Footer: FC = (): JSX.Element => {
         <a href="https://github.com/shalick" className="footer-author-link">
           Alick Shabanovich
         </a>
-      </p>
+      </div>
       <div className="footer-logo-year">
         <a href="https://rs.school/js/">
           <div className="rsschool-footer-link"></div>
