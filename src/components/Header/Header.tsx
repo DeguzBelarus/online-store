@@ -36,6 +36,7 @@ import { IProductData, ViewType } from '../../types/types';
 import products from '../../products.json';
 import { ILocalStorageSaveObject } from '../../types/types';
 import cartLogo from '../../assets/img/cart-logo.svg';
+import { FiltersBar } from './components/FiltersBar/FiltersBar';
 import './Header.scss';
 
 export const Header: FC = (): JSX.Element => {
@@ -117,13 +118,21 @@ export const Header: FC = (): JSX.Element => {
 
   const minPriceFilterHandler = (event: React.ChangeEvent<HTMLInputElement>): void => {
     if (event.target.value) {
-      dispatch(setMinPriceFilter(Number(event.target.value)));
+      if (Number(event.target.value) === filteredProductsMinPrice) {
+        dispatch(setMinPriceFilter(null));
+      } else {
+        dispatch(setMinPriceFilter(Number(event.target.value)));
+      }
     }
   };
 
   const maxPriceFilterHandler = (event: React.ChangeEvent<HTMLInputElement>): void => {
     if (event.target.value) {
-      dispatch(setMaxPriceFilter(Number(event.target.value)));
+      if (Number(event.target.value) === filteredProductsMaxPrice) {
+        dispatch(setMaxPriceFilter(null));
+      } else {
+        dispatch(setMaxPriceFilter(Number(event.target.value)));
+      }
     }
   };
 
@@ -483,6 +492,31 @@ export const Header: FC = (): JSX.Element => {
 
   return (
     <header>
+      {!location.href.includes('cart') && !location.href.includes('product') && (
+        <FiltersBar
+          filteredProducts={filteredProducts}
+          brandsArray={brandsArray}
+          brandFilter={brandFilter}
+          categoriesArray={categoriesArray}
+          categoryFilter={categoryFilter}
+          brandFilterHandler={brandFilterHandler}
+          categoryFilterHandler={categoryFilterHandler}
+          isPricesRangesShownHandler={isPricesRangesShownHandler}
+          minPriceFilterHandler={minPriceFilterHandler}
+          maxPriceFilterHandler={maxPriceFilterHandler}
+          isPriceRangesShown={isPriceRangesShown}
+          filteredProductsMinPrice={filteredProductsMinPrice}
+          filteredProductsMaxPrice={filteredProductsMaxPrice}
+          maxPriceFilter={maxPriceFilter}
+          minPriceFilter={minPriceFilter}
+          minPriceRange={minPriceRange}
+          maxPriceRange={maxPriceRange}
+          inStockFilter={inStockFilter}
+          inStockFilterHandler={inStockFilterHandler}
+          resetSearchFilters={resetSearchFilters}
+          isFiltersShown={isFiltersShown}
+        />
+      )}
       <span
         className="text-logo"
         onClick={(event: React.MouseEvent<HTMLSpanElement>) => navigateToMain(event)}
@@ -519,116 +553,6 @@ export const Header: FC = (): JSX.Element => {
       >
         {isUrlCopied ? `Copied!` : `URL Copy`}
       </button>
-      {isFiltersShown && !location.href.includes('cart') && !location.href.includes('product') && (
-        <div className="filters-wrapper">
-          <div className="brands-wrapper">
-            <span>brands: </span>
-            {brandsArray.map((brand: string, index: number) => {
-              return (
-                <div
-                  className={brandFilter === brand ? 'brand-item active' : 'brand-item'}
-                  key={index}
-                  onClick={(event: React.MouseEvent<HTMLDivElement>) =>
-                    brandFilterHandler(event, brand)
-                  }
-                >
-                  <span>{brand}</span>
-                </div>
-              );
-            })}
-          </div>
-          <div
-            className="price-range-wrapper"
-            onClick={(event: React.MouseEvent<HTMLDivElement>) => isPricesRangesShownHandler(event)}
-          >
-            <span className="prices-range-span">price range</span>
-            {isPriceRangesShown && (
-              <div className="ranges-wrapper">
-                <div className="range-wrapper">
-                  <span className="price-range-span">min: </span>
-                  <input
-                    type="range"
-                    className="price-range-input"
-                    title="choose the minimal prise"
-                    min={filteredProductsMinPrice || 0}
-                    max={maxPriceFilter || 5000}
-                    value={minPriceFilter || 0}
-                    step={10}
-                    onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                      minPriceFilterHandler(event)
-                    }
-                    ref={minPriceRange}
-                  />
-                  <input
-                    type="text"
-                    className="price-text-input"
-                    title="current minimal price"
-                    value={(minPriceFilter || filteredProductsMinPrice || 0) + '$'}
-                    readOnly={true}
-                  />
-                </div>
-                <div className="range-wrapper">
-                  <span className="price-range-span">max: </span>
-                  <input
-                    type="range"
-                    className="price-range-input"
-                    title="choose the maximal prise"
-                    min={minPriceFilter || 0}
-                    max={filteredProductsMaxPrice || 5000}
-                    value={maxPriceFilter || 5000}
-                    step={10}
-                    onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                      maxPriceFilterHandler(event)
-                    }
-                    ref={maxPriceRange}
-                  />
-                  <input
-                    type="text"
-                    className="price-text-input"
-                    title="current maximal price"
-                    value={(maxPriceFilter || filteredProductsMaxPrice || 5000) + '$'}
-                    readOnly={true}
-                  />
-                </div>
-              </div>
-            )}
-          </div>
-          <div className="categories-wrapper">
-            <span>categories: </span>
-            {categoriesArray.map((category: string, index: number) => {
-              return (
-                <div
-                  className={categoryFilter === category ? 'category-item active' : 'category-item'}
-                  key={index}
-                  onClick={(event: React.MouseEvent<HTMLDivElement>) =>
-                    categoryFilterHandler(event, category)
-                  }
-                >
-                  <span>{category}</span>
-                </div>
-              );
-            })}
-          </div>
-          <div className="in-stock-wrapper">
-            <span>in stock: </span>
-            <input
-              type="checkbox"
-              className="in-stock-checkbox"
-              title="in stock only"
-              checked={inStockFilter}
-              disabled={filteredProducts.length < 1}
-              onChange={(event: React.ChangeEvent<HTMLInputElement>) => inStockFilterHandler(event)}
-            />
-          </div>
-          <button
-            type="button"
-            className="reset-filters-button"
-            onClick={(event: React.MouseEvent<HTMLButtonElement>) => resetSearchFilters(event)}
-          >
-            Reset
-          </button>
-        </div>
-      )}
       <div
         className="cart-button"
         onClick={(event: React.MouseEvent<HTMLDivElement>) => cartTransition(event)}
