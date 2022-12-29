@@ -38,7 +38,6 @@ export const CartPage: FC<Props> = ({ orderMode }): JSX.Element => {
   const activePromoCodes: Array<PromoCode> = useAppSelector(getActivePromoCodes);
   const [cartProductsModified, setCartProductsModified] = useState<Array<ICartProductData>>([]);
   const [cartProductsSlices, setCartProductsSlices] = useState<Array<Array<ICartProductData>>>([]);
-  const [isOrderMode, setIsOrderMode] = useState<boolean>(false);
   const [enteredPromoCode, setEnteredPromoCode] = useState<string>('');
   const [cartPages, setCartPages] = useState<Array<string>>([]);
   const validPromoCodes: Array<PromoCode> = [

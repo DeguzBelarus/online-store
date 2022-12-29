@@ -22,11 +22,24 @@ export const ProductItem: FC<IProductData> = ({ ...IProductData }) => {
     navigate(`/product/${IProductData.id}`);
   };
 
+  const productInCartAvailabilityCheck = (): boolean => {
+    return cartData.some((cartProduct: IProductData) => cartProduct.id === IProductData.id);
+  };
+
   const addProductToCart = (
     event: React.MouseEvent<HTMLButtonElement> | React.TouchEvent<HTMLButtonElement>
   ): void => {
     dispatch(setCart([...cartData, { ...IProductData }]));
   };
+
+  const removeProductFromCart = (
+    event: React.MouseEvent<HTMLButtonElement> | React.TouchEvent<HTMLButtonElement>
+  ): void => {
+    dispatch(
+      setCart(cartData.filter((cartProduct: IProductData) => cartProduct.id !== IProductData.id))
+    );
+  };
+
   return (
     <div className={viewType === 'cards' ? 'external-wrapper' : 'external-wrapper list-view'}>
       <div
@@ -59,9 +72,16 @@ export const ProductItem: FC<IProductData> = ({ ...IProductData }) => {
         <button
           type="button"
           className="add-to-cart-button"
-          onClick={(event: React.MouseEvent<HTMLButtonElement>) => addProductToCart(event)}
+          onClick={(event: React.MouseEvent<HTMLButtonElement>) =>
+            productInCartAvailabilityCheck()
+              ? removeProductFromCart(event)
+              : addProductToCart(event)
+          }
         >
-          <img src={addToCartLogo} alt="an add to cart logo" />
+          {!productInCartAvailabilityCheck() && (
+            <img src={addToCartLogo} alt="an add to cart logo" />
+          )}
+          {productInCartAvailabilityCheck() && <span>remove</span>}
         </button>
       )}
       {!IProductData.inStock && IProductData.amount === 0 && (
