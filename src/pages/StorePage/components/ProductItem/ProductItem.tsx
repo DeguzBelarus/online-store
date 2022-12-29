@@ -34,7 +34,13 @@ export const ProductItem: FC<IProductData> = ({ ...IProductData }) => {
         onClick={(event: React.MouseEvent<HTMLDivElement>) => productDetailsTransition(event)}
       >
         <p className="name-paragraph">{IProductData.name}</p>
-        <div className="poster-wrapper">
+        <div
+          className={
+            !IProductData.inStock && IProductData.amount === 0
+              ? 'poster-wrapper poster-out-of-stock'
+              : 'poster-wrapper'
+          }
+        >
           <img
             draggable={false}
             src={require('../../../../assets/img/' + IProductData.posters[0])}
@@ -45,17 +51,24 @@ export const ProductItem: FC<IProductData> = ({ ...IProductData }) => {
         <p className="price-paragraph">{`${IProductData.price}`}$</p>
         {viewType === 'list' && (
           <>
-            <span>{`brand: ${IProductData.brand} amount: ${IProductData.amount}pcs`}</span>
+            <span>{`brand: ${IProductData.brand} amount: ${IProductData.amount} pcs`}</span>
           </>
         )}
       </div>
-      <button
-        type="button"
-        className="add-to-cart-button"
-        onClick={(event: React.MouseEvent<HTMLButtonElement>) => addProductToCart(event)}
-      >
-        <img src={addToCartLogo} alt="an add to cart logo" />
-      </button>
+      {IProductData.inStock && IProductData.amount > 0 && (
+        <button
+          type="button"
+          className="add-to-cart-button"
+          onClick={(event: React.MouseEvent<HTMLButtonElement>) => addProductToCart(event)}
+        >
+          <img src={addToCartLogo} alt="an add to cart logo" />
+        </button>
+      )}
+      {!IProductData.inStock && IProductData.amount === 0 && (
+        <div className="out-out-stock-container">
+          <p className="out-of-stock-paragraph">OUT OF STOCK</p>
+        </div>
+      )}
     </div>
   );
 };
