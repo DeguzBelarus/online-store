@@ -5,7 +5,12 @@ import { useNavigate, NavigateFunction } from 'react-router-dom';
 
 import addToCartLogo from '../../../../assets/img/add-to-cart.png';
 import { getViewType, setCurrentProduct, getCart, setCart } from 'app/shopSlice';
-import { IProductData, ViewType } from '../../../../types/types';
+import {
+  IProductData,
+  ViewType,
+  ClickAndTouchDivHandler,
+  ClickAndTouchButtonHandler,
+} from '../../../../types/types';
 import './ProductItem.scss';
 
 export const ProductItem: FC<IProductData> = ({ ...IProductData }) => {
@@ -15,9 +20,7 @@ export const ProductItem: FC<IProductData> = ({ ...IProductData }) => {
   const cartData: Array<IProductData> = useAppSelector(getCart);
   const viewType: ViewType = useAppSelector(getViewType);
 
-  const productDetailsTransition = (
-    event: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>
-  ): void => {
+  const productDetailsTransition: ClickAndTouchDivHandler = (event) => {
     dispatch(setCurrentProduct({ ...IProductData }));
     navigate(`/product/${IProductData.id}`);
   };
@@ -26,15 +29,11 @@ export const ProductItem: FC<IProductData> = ({ ...IProductData }) => {
     return cartData.some((cartProduct: IProductData) => cartProduct.id === IProductData.id);
   };
 
-  const addProductToCart = (
-    event: React.MouseEvent<HTMLButtonElement> | React.TouchEvent<HTMLButtonElement>
-  ): void => {
+  const addProductToCart: ClickAndTouchButtonHandler = (event) => {
     dispatch(setCart([...cartData, { ...IProductData }]));
   };
 
-  const removeProductFromCart = (
-    event: React.MouseEvent<HTMLButtonElement> | React.TouchEvent<HTMLButtonElement>
-  ): void => {
+  const removeProductFromCart: ClickAndTouchButtonHandler = (event) => {
     dispatch(
       setCart(cartData.filter((cartProduct: IProductData) => cartProduct.id !== IProductData.id))
     );

@@ -1,6 +1,19 @@
 export type PromoCode = [string, number];
 export type ViewType = 'cards' | 'list';
 
+export type ClickAndTouchDivHandler = (
+  event: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>
+) => void;
+export type ClickAndTouchButtonHandler = (
+  event: React.MouseEvent<HTMLButtonElement> | React.TouchEvent<HTMLButtonElement>
+) => void;
+export type ClickAndTouchSpanHandler = (
+  event: React.MouseEvent<HTMLSpanElement> | React.TouchEvent<HTMLSpanElement>
+) => void;
+export type ChangeInputHandler = (event: React.ChangeEvent<HTMLInputElement>) => void;
+export type FocusInputHandler = (event: React.FocusEvent<HTMLInputElement>) => void;
+export type FormHandler = (event: React.FormEvent<HTMLFormElement>) => void;
+
 export interface IProductData {
   id: number;
   name: string;
@@ -34,4 +47,15 @@ export interface ILocalStorageSaveObject {
   cart: Array<IProductData>;
   currentCartPage: number;
   productsPerCartPage: number;
+  activePromoCodes: Array<PromoCode>;
+}
+
+export interface IOrderData {
+  products: Array<ICartProductData>;
+  codes: Array<PromoCode>;
+  total: number;
+  firstAndLastNames: string;
+  phoneNumber: string;
+  address: string;
+  email: string;
 }

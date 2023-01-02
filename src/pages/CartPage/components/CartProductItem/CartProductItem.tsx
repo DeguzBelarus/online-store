@@ -9,7 +9,7 @@ import {
   getCurrentCartPage,
   getProductsPerCartPage,
 } from 'app/shopSlice';
-import { ICartProductData, IProductData, PromoCode } from 'types/types';
+import { ICartProductData, IProductData, PromoCode, ClickAndTouchDivHandler } from 'types/types';
 import './CartProductItem.scss';
 
 interface Props {
@@ -28,9 +28,7 @@ export const CartProductItem: FC<ICartProductData & Props> = ({
   const currentCartPage: number = useAppSelector(getCurrentCartPage);
   const productsPerCartPage: number = useAppSelector(getProductsPerCartPage);
 
-  const showNextPoster = (
-    event: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>
-  ): void => {
+  const showNextPoster: ClickAndTouchDivHandler = (event) => {
     if (ICartProductData.posters.length < 2) return;
     if (currentPosterIndex + 1 === ICartProductData.posters.length) {
       setCurrentPosterIndex(0);
@@ -39,9 +37,7 @@ export const CartProductItem: FC<ICartProductData & Props> = ({
     }
   };
 
-  const showPreviousPoster = (
-    event: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>
-  ): void => {
+  const showPreviousPoster: ClickAndTouchDivHandler = (event) => {
     if (ICartProductData.posters.length < 2) return;
     if (currentPosterIndex === 0) {
       setCurrentPosterIndex(ICartProductData.posters.length - 1);
@@ -103,19 +99,20 @@ export const CartProductItem: FC<ICartProductData & Props> = ({
           }
         >
           {'Price: '}
-          <span>{ICartProductData.price + '$'}</span>
+          <span>{ICartProductData.price.toFixed(2) + '$'}</span>
         </p>
         {activePromoCodes.length > 0 && (
           <p className="price-with-discount">
             {' '}
             {`Your price: ${
-              ICartProductData.price -
-              ICartProductData.price *
-                activePromoCodes.reduce(
-                  (sum: number, promoCode: PromoCode) => sum + promoCode[1] / 100,
-                  0
-                ) +
-              '$'
+              (
+                ICartProductData.price -
+                ICartProductData.price *
+                  activePromoCodes.reduce(
+                    (sum: number, promoCode: PromoCode) => sum + promoCode[1] / 100,
+                    0
+                  )
+              ).toFixed(2) + '$'
             }`}
           </p>
         )}

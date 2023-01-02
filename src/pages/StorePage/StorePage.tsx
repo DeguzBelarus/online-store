@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { useAppSelector } from 'app/hooks';
 
 import { getFilteredProducts, getViewType } from 'app/shopSlice';
-import { IProductData, ViewType } from '../../types/types';
+import { IProductData, ViewType, ClickAndTouchDivHandler } from '../../types/types';
 import { ProductItem } from './components/ProductItem/ProductItem';
 import { Header } from '../../components/Header/Header';
 import { Footer } from '../../components/Footer/Footer';
@@ -23,15 +23,11 @@ export const StorePage: FC = (): JSX.Element => {
   const viewType: ViewType = useAppSelector(getViewType);
   const [isMouseOnMain, setIsMouseOnMain] = useState<boolean>(false);
 
-  const isMouseOnMainTrue = (
-    event: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>
-  ): void => {
+  const isMouseOnMainTrue: ClickAndTouchDivHandler = (event) => {
     setIsMouseOnMain(true);
   };
 
-  const isMouseOnMainFalse = (
-    event: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>
-  ): void => {
+  const isMouseOnMainFalse: ClickAndTouchDivHandler = (event) => {
     setIsMouseOnMain(false);
   };
 
