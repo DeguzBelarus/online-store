@@ -12,7 +12,14 @@ import {
   setCurrentCartPage,
   getCurrentCartPage,
 } from 'app/shopSlice';
-import { ICartProductData, IProductData, PromoCode } from 'types/types';
+import {
+  ICartProductData,
+  IProductData,
+  PromoCode,
+  ClickAndTouchDivHandler,
+  ClickAndTouchButtonHandler,
+  ChangeInputHandler,
+} from 'types/types';
 import { Header } from 'components/Header/Header';
 import { Footer } from 'components/Footer/Footer';
 import { CartProductItem } from './components/CartProductItem/CartProductItem';
@@ -52,19 +59,17 @@ export const CartPage: FC<Props> = ({ orderMode }): JSX.Element => {
     navigate(`?${urlSearchParams}`);
   }
 
-  const validatePromoCode = (code: string): boolean => {
+  function validatePromoCode(code: string): boolean {
     if (activePromoCodes.some((promoCode: PromoCode) => promoCode[0] === code)) return false;
     if (!validPromoCodes.some((promoCode: PromoCode) => promoCode[0] === code)) return false;
     return true;
-  };
+  }
 
-  const enteredPromoCodeHandler = (event: React.ChangeEvent<HTMLInputElement>): void => {
+  const enteredPromoCodeHandler: ChangeInputHandler = (event): void => {
     setEnteredPromoCode(event.target.value);
   };
 
-  const activatePromoCode = (
-    event: React.MouseEvent<HTMLButtonElement> | React.TouchEvent<HTMLButtonElement>
-  ): void => {
+  const activatePromoCode: ClickAndTouchButtonHandler = (event): void => {
     if (validatePromoCode(enteredPromoCode)) {
       const validCode = validPromoCodes.find(
         (promoCode: PromoCode) => promoCode[0] === enteredPromoCode
@@ -94,9 +99,7 @@ export const CartPage: FC<Props> = ({ orderMode }): JSX.Element => {
     }
   };
 
-  const orderModeHandler = (
-    event: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>
-  ) => {
+  const orderModeHandler: ClickAndTouchDivHandler = (event) => {
     if (location.href.includes('order')) {
       navigate('/cart');
     } else {
@@ -104,10 +107,7 @@ export const CartPage: FC<Props> = ({ orderMode }): JSX.Element => {
     }
   };
 
-  const sortByNameMethod = (
-    prevCartProduct: IProductData,
-    nextCartProduct: IProductData
-  ): number => {
+  function sortByNameMethod(prevCartProduct: IProductData, nextCartProduct: IProductData): number {
     if (prevCartProduct.name < nextCartProduct.name) {
       return -1;
     }
@@ -115,9 +115,9 @@ export const CartPage: FC<Props> = ({ orderMode }): JSX.Element => {
       return 1;
     }
     return 0;
-  };
+  }
 
-  const cartProductsModifiedUpdate = (): void => {
+  function cartProductsModifiedUpdate(): void {
     setCartProductsModified(
       cartProducts
         .map((cartProduct: IProductData, index: number, array: Array<IProductData>) => {
@@ -154,7 +154,7 @@ export const CartPage: FC<Props> = ({ orderMode }): JSX.Element => {
             : [...unique, cartProduct];
         }, [])
     );
-  };
+  }
 
   const productsPerCartPageHandler = (
     event: React.MouseEvent<HTMLButtonElement> | React.TouchEvent<HTMLButtonElement>,
@@ -172,11 +172,11 @@ export const CartPage: FC<Props> = ({ orderMode }): JSX.Element => {
     dispatch(setCurrentCartPage(Number(value)));
   };
 
-  useEffect(() => {
+  useEffect((): void => {
     cartProductsModifiedUpdate();
   }, [cartProducts]);
 
-  useEffect(() => {
+  useEffect((): void => {
     if (cartProductsModified.length) {
       let cartProductsSlices: Array<Array<ICartProductData>> = [];
       for (let i = 0; i < cartProductsModified.length; i = productsPerCartPage + i) {
@@ -192,21 +192,18 @@ export const CartPage: FC<Props> = ({ orderMode }): JSX.Element => {
     }
   }, [cartProductsModified, productsPerCartPage]);
 
-  useEffect(() => {
+  useEffect((): void => {
     queryUpdate();
-  }, [currentCartPage, productsPerCartPage, orderMode]);
+  }, [currentCartPage, productsPerCartPage, orderMode, activePromoCodes.length]);
 
-  useEffect(() => {
+  useEffect((): void => {
     const cartPagesArray = new Array(Math.ceil(cartProductsModified.length / productsPerCartPage))
       .fill('0')
       .map((page: string, index: number) => String(index + 1));
     setCartPages(cartPagesArray);
-    if (!cartProductsModified.length) {
-      dispatch(setActivePromoCodes([]));
-    }
   }, [cartProductsModified.length, productsPerCartPage]);
 
-  useEffect(() => {
+  useEffect((): void => {
     if (cartPageQuery && String(currentCartPage) !== cartPageQuery) {
       dispatch(setCurrentCartPage(Number(cartPageQuery)));
     }
@@ -403,19 +400,18 @@ export const CartPage: FC<Props> = ({ orderMode }): JSX.Element => {
                         ? 'price-paragraph price-discounted'
                         : 'price-paragraph'
                     }
-                  >{`Cost: ${cartProducts.reduce(
-                    (sum, product: IProductData) => sum + product.price,
-                    0
-                  )}$`}</p>
+                  >{`Cost: ${cartProducts
+                    .reduce((sum, product: IProductData) => sum + product.price, 0)
+                    .toFixed(2)}$`}</p>
                   {activePromoCodes.length > 0 && (
-                    <p className="price-with-discount">{`Your cost: ${
+                    <p className="price-with-discount">{`Your cost: ${(
                       cartProducts.reduce((sum, product: IProductData) => sum + product.price, 0) -
                       cartProducts.reduce((sum, product: IProductData) => sum + product.price, 0) *
                         activePromoCodes.reduce(
                           (sum: number, promoCode: PromoCode) => sum + promoCode[1] / 100,
                           0
                         )
-                    }$`}</p>
+                    ).toFixed(2)}$`}</p>
                   )}
                   <div
                     className="proceed-order-button"

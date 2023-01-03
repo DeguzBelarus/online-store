@@ -10,26 +10,282 @@
   top: 0;
   left: 0;
   z-index: 1;
-  background-color: rgba($color: #fff, $alpha: 0.85);
+  backdrop-filter: blur(5px) saturate(180%);
+  -webkit-backdrop-filter: blur(5px) saturate(180%);
+  background-color: rgba(255, 255, 255, 0.3);
+
+  .order-completed-heading {
+    color: green;
+  }
 
   .order-form {
     width: 600px;
     height: 800px;
-    @include flex-column-all-center;
+    @include flex-column-line-center-vertical-top;
+    gap: 5px;
     padding-top: 10px;
-    border: 1px solid #000;
+    border: 1px solid #aaa;
+    border-radius: 5px;
     border-bottom: none;
-    background-color: #fff;
+    background-color: #07485B;
+    overflow: hidden;
+
+    .order-submit-button {
+      width: 150px;
+      height: 50px;
+      @include flex-all-center;
+      margin-top: 30px;
+      background-color: blue;
+      border: 2px solid #555;
+      color: #eee;
+      cursor: pointer;
+    }
+
+    h3 {
+      margin-bottom: 10px;
+      color: #fff;
+    }
+
+    .input-label {
+      width: 400px;
+      height: 40px;
+      @include flex-column-line-start-vertical-top;
+      position: relative;
+      border: 1px solid #aaa;
+      background-color: #fff;
+      cursor: text;
+
+      &.invalid-input {
+        border: 1px solid red;
+
+        span {
+          color: red;
+        }
+
+        input {
+          color: red;
+        }
+      }
+
+      &.valid-input {
+        border: 1px solid yellowgreen;
+
+        span {
+          color: yellowgreen;
+        }
+
+        input {
+          color: yellowgreen;
+        }
+      }
+
+      span {
+        position: absolute;
+        top: 2px;
+        left: 5px;
+        color: #000;
+        font-size: 12px;
+        z-index: 1;
+      }
+
+      .error-span {
+        text-align: right;
+        position: absolute;
+        top: 2px;
+        right: 5px;
+        color: red;
+        font-size: 12px;
+        z-index: 1;
+      }
+
+      input {
+        width: 100%;
+        height: 50%;
+        border: none;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        padding-left: 5px;
+
+        &:focus {
+          outline: none;
+        }
+      }
+    }
+
+    .credit-card-wrapper {
+      width: 400px;
+      height: 220px;
+      @include flex-column-line-center-vertical-top;
+      position: relative;
+      margin-top: 15px;
+      border-radius: 15px;
+      background-image: url("../../../../assets/img/cc-placeholder.png");
+      background-repeat: no-repeat;
+      background-size: 100%;
+      transition: box-shadow 0.3s linear;
+      box-shadow: 0 0 5px #222;
+
+      .error-message-container {
+        width: 100%;
+        height: 30px;
+        position: absolute;
+        bottom: -37px;
+        left: 0;
+        color: red;
+        font-size: 14px;
+      }
+
+      .active-promo-codes {
+        @include flex-line-start-vertical-center;
+        gap: 10px;
+        position: absolute;
+        top: 50px;
+        left: 50px;
+
+        span {
+          color: gold;
+        }
+      }
+
+      .transaction-total-span {
+        position: absolute;
+        bottom: 95px;
+        left: 110px;
+        color: goldenrod;
+        font-size: 30px;
+        text-shadow: -1px -1px 1px #777, 1px 1px 1px #777, 1px -1px 1px #777, -1px 1px 1px #777;
+      }
+
+      .card-number-input {
+        width: 70%;
+        height: 30px;
+        margin-top: 140px;
+        margin-left: -40px;
+        padding-left: 5px;
+        background: transparent;
+        color: goldenrod;
+        text-align: center;
+
+        &:focus {
+          outline: none;
+        }
+
+        &:invalid,
+        &.invalid {
+          color: red;
+        }
+
+        &:valid:not(:focus):not(:placeholder-shown):not(:invalid):not(.invalid) {
+          border: none;
+          text-shadow: -1px -1px 1px #777, 1px 1px 1px #777, 1px -1px 1px #777, -1px 1px 1px #777;
+          color: orange;
+        }
+      }
+
+      .card-expiration-input {
+        width: 51px;
+        height: 20px;
+        position: absolute;
+        bottom: 25px;
+        left: 92px;
+        background: transparent;
+        color: goldenrod;
+        font-size: 12px;
+        padding: 0 5px;
+
+        &:focus {
+          outline: none;
+        }
+
+        &:invalid,
+        &.invalid {
+          color: red;
+        }
+
+        &:valid:not(:focus):not(:placeholder-shown):not(:invalid):not(.invalid) {
+          border: none;
+          text-shadow: -1px -1px 1px #777, 1px 1px 1px #777, 1px -1px 1px #777, -1px 1px 1px #777;
+          color: orange;
+        }
+      }
+
+      .card-cvv-input {
+        width: 38px;
+        height: 20px;
+        position: absolute;
+        bottom: 25px;
+        left: 150px;
+        background: transparent;
+        color: goldenrod;
+        font-size: 12px;
+        padding: 0 4px;
+        text-align: center;
+
+        &:focus {
+          outline: none;
+        }
+
+        &:invalid,
+        &.invalid {
+          color: red;
+        }
+
+        &:valid:not(:focus):not(:placeholder-shown):not(:invalid):not(.invalid) {
+          border: none;
+          font-style: italic;
+          color: orange;
+        }
+      }
+
+      .card-type-container {
+        width: 58px;
+        height: 30px;
+        @include flex-all-center;
+        position: absolute;
+        bottom: 50px;
+        right: 20px;
+        border: 1px solid #000;
+        opacity: 0;
+
+        &.card-visa {
+          opacity: 1;
+          background-image: url("../../../../assets/img/visa-logo.png");
+          background-color: #fff;
+          background-size: 100%;
+          background-repeat: no-repeat;
+          background-position: center;
+        }
+
+        &.card-mastercard {
+          opacity: 1;
+          background-image: url("../../../../assets/img/mastercard-logo.png");
+          background-color: #fff;
+          background-size: 100%;
+          background-repeat: no-repeat;
+          background-position: center;
+        }
+
+        &.card-maestro {
+          opacity: 1;
+          background-image: url("../../../../assets/img/maestro-logo.png");
+          background-color: #fff;
+          background-size: 100%;
+          background-repeat: no-repeat;
+          background-position: center;
+        }
+      }
+    }
 
     .order-return-button {
       width: 100%;
       @include flex-all-center;
       margin-top: auto;
-      border: 1px solid #000;
+      border: 1px solid #aaa;
+      background-color: #fff;
       border-left: none;
       border-right: none;
       cursor: pointer;
     }
   }
-
 }

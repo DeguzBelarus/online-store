@@ -31,8 +31,19 @@ import {
   setCurrentCartPage,
   getProductsPerCartPage,
   setProductsPerCartPage,
+  getActivePromoCodes,
+  setActivePromoCodes,
 } from 'app/shopSlice';
-import { IProductData, ViewType, ICartProductData } from '../../types/types';
+import {
+  IProductData,
+  ViewType,
+  ICartProductData,
+  PromoCode,
+  ChangeInputHandler,
+  ClickAndTouchButtonHandler,
+  ClickAndTouchSpanHandler,
+  ClickAndTouchDivHandler,
+} from '../../types/types';
 import products from '../../products.json';
 import { ILocalStorageSaveObject } from '../../types/types';
 import cartLogo from '../../assets/img/cart-logo.svg';
@@ -59,6 +70,7 @@ export const Header: FC = (): JSX.Element => {
   >([]);
 
   const filteredProducts: Array<IProductData> = useAppSelector(getFilteredProducts);
+  const activePromoCodes: Array<PromoCode> = useAppSelector(getActivePromoCodes);
   const categoryFilter: string | null = useAppSelector(getCategoryFilter);
   const brandFilter: string | null = useAppSelector(getBrandFilter);
   const inStockFilter: boolean = useAppSelector(getInStockFilter);
@@ -75,7 +87,7 @@ export const Header: FC = (): JSX.Element => {
   const cartPageQuery: string | null = new URLSearchParams(search).get('page');
   const productsPerPageQuery: string | null = new URLSearchParams(search).get('limit');
 
-  const cartProductsModifiedUpdate = (): void => {
+  function cartProductsModifiedUpdate(): void {
     setCartProductsModified(
       cartData
         .map((cartProduct: IProductData, index: number, array: Array<IProductData>) => {
@@ -111,7 +123,7 @@ export const Header: FC = (): JSX.Element => {
             : [...unique, cartProduct];
         }, [])
     );
-  };
+  }
 
   const increasableProductsInCartUpdate = (): void => {
     setIncreasableProductsInCart(
@@ -150,7 +162,7 @@ export const Header: FC = (): JSX.Element => {
     }
   };
 
-  const inStockFilterHandler = (event: React.ChangeEvent<HTMLInputElement>): void => {
+  const inStockFilterHandler: ChangeInputHandler = (event) => {
     if (inStockFilter) {
       dispatch(setInStockFilter(false));
     } else {
@@ -158,7 +170,7 @@ export const Header: FC = (): JSX.Element => {
     }
   };
 
-  const productNameFilterHandler = (event: React.ChangeEvent<HTMLInputElement>): void => {
+  const productNameFilterHandler: ChangeInputHandler = (event) => {
     if (event.target.value) {
       dispatch(setProductNameFilter(event.target.value));
     } else {
@@ -166,7 +178,7 @@ export const Header: FC = (): JSX.Element => {
     }
   };
 
-  const minPriceFilterHandler = (event: React.ChangeEvent<HTMLInputElement>): void => {
+  const minPriceFilterHandler: ChangeInputHandler = (event) => {
     if (event.target.value) {
       if (Number(event.target.value) === filteredProductsMinPrice) {
         dispatch(setMinPriceFilter(null));
@@ -176,7 +188,7 @@ export const Header: FC = (): JSX.Element => {
     }
   };
 
-  const maxPriceFilterHandler = (event: React.ChangeEvent<HTMLInputElement>): void => {
+  const maxPriceFilterHandler: ChangeInputHandler = (event) => {
     if (event.target.value) {
       if (Number(event.target.value) === filteredProductsMaxPrice) {
         dispatch(setMaxPriceFilter(null));
@@ -186,9 +198,7 @@ export const Header: FC = (): JSX.Element => {
     }
   };
 
-  const resetSearchFilters = (
-    event: React.MouseEvent<HTMLButtonElement> | React.TouchEvent<HTMLButtonElement>
-  ): void => {
+  const resetSearchFilters: ClickAndTouchButtonHandler = (event) => {
     dispatch(setBrandFilter(null));
     dispatch(setCategoryFilter(null));
     dispatch(setInStockFilter(false));
@@ -265,6 +275,9 @@ export const Header: FC = (): JSX.Element => {
           }
         }
       }
+      if (storageSaveData.activePromoCodes.length > 0) {
+        dispatch(setActivePromoCodes(storageSaveData.activePromoCodes));
+      }
     }
   }
 
@@ -284,13 +297,12 @@ export const Header: FC = (): JSX.Element => {
       cart: cartData,
       currentCartPage,
       productsPerCartPage,
+      activePromoCodes,
     };
     localStorage.setItem('online-store-data', JSON.stringify(storageSaveData));
   }
 
-  const navigateToMain = (
-    event: React.MouseEvent<HTMLSpanElement> | React.TouchEvent<HTMLSpanElement>
-  ): void => {
+  const navigateToMain: ClickAndTouchSpanHandler = (event) => {
     const urlSearchParams = new URLSearchParams();
     if (categoryFilter) {
       urlSearchParams.append('category', categoryFilter);
@@ -472,9 +484,7 @@ export const Header: FC = (): JSX.Element => {
     navigate(`?${urlSearchParams}`);
   }
 
-  const isPricesRangesShownHandler = (
-    event: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>
-  ): void => {
+  const isPricesRangesShownHandler: ClickAndTouchDivHandler = (event) => {
     const eventTarget = event.target as HTMLDivElement;
     if (
       eventTarget.classList.contains('price-range-input') ||
@@ -490,9 +500,7 @@ export const Header: FC = (): JSX.Element => {
     }
   };
 
-  const isFiltersShownHandler = (
-    event: React.MouseEvent<HTMLButtonElement> | React.TouchEvent<HTMLButtonElement>
-  ): void => {
+  const isFiltersShownHandler: ClickAndTouchButtonHandler = (event) => {
     if (isFiltersShown) {
       setIsFiltersShown(false);
     } else {
@@ -500,9 +508,7 @@ export const Header: FC = (): JSX.Element => {
     }
   };
 
-  const urlCopy = (
-    event: React.MouseEvent<HTMLButtonElement> | React.TouchEvent<HTMLButtonElement>
-  ): void => {
+  const urlCopy: ClickAndTouchButtonHandler = (event) => {
     if (isUrlCopied) return;
     navigator.clipboard.writeText(location.href);
     setIsUrlCopied(true);
@@ -511,14 +517,12 @@ export const Header: FC = (): JSX.Element => {
     }, 2000);
   };
 
-  const cartTransition = (
-    event: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>
-  ): void => {
+  const cartTransition: ClickAndTouchDivHandler = (event) => {
     if (location.href.includes('cart')) return;
     navigate('/cart');
   };
 
-  useEffect(() => {
+  useEffect((): void => {
     queryUpdate();
   }, [
     categoryFilter,
@@ -534,14 +538,15 @@ export const Header: FC = (): JSX.Element => {
     isFiltersShown,
     currentCartPage,
     productsPerCartPage,
+    activePromoCodes.length,
   ]);
 
-  useEffect(() => {
+  useEffect((): void => {
     localStorageSaveData();
     cartProductsModifiedUpdate();
   }, [cartData]);
 
-  useEffect(() => {
+  useEffect((): void => {
     increasableProductsInCartUpdate();
   }, [cartProductsModified]);
 

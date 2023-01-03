@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
-import './Page404.scss';
 import { NavigateFunction, useNavigate } from 'react-router-dom';
+
+import './Page404.scss';
 
 export const Page404: FC = (): JSX.Element => {
   const navigate: NavigateFunction = useNavigate();
