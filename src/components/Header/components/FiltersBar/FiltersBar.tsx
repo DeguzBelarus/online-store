@@ -1,15 +1,15 @@
 import React, { FC } from 'react';
 
-import { IProductData } from 'types/types';
+import { IProductData, Nullable } from 'types/types';
 import './FiltersBar.scss';
 
 interface Props {
   isFiltersShown: boolean;
   filteredProducts: Array<IProductData>;
   brandsArray: Array<string>;
-  brandFilter: string | null;
+  brandFilter: Nullable<string>;
   categoriesArray: Array<string>;
-  categoryFilter: string | null;
+  categoryFilter: Nullable<string>;
   inStockFilter: boolean;
   brandFilterHandler: (
     event: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>,
@@ -29,10 +29,10 @@ interface Props {
     event: React.MouseEvent<HTMLButtonElement> | React.TouchEvent<HTMLButtonElement>
   ) => void;
   isPriceRangesShown: boolean;
-  filteredProductsMinPrice: number | null;
-  filteredProductsMaxPrice: number | null;
-  minPriceFilter: number | null;
-  maxPriceFilter: number | null;
+  filteredProductsMinPrice: Nullable<number>;
+  filteredProductsMaxPrice: Nullable<number>;
+  minPriceFilter: Nullable<number>;
+  maxPriceFilter: Nullable<number>;
   minPriceRange: React.RefObject<HTMLInputElement>;
   maxPriceRange: React.RefObject<HTMLInputElement>;
 }

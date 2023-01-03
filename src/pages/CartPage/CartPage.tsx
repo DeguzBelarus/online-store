@@ -19,6 +19,7 @@ import {
   ClickAndTouchDivHandler,
   ClickAndTouchButtonHandler,
   ChangeInputHandler,
+  Nullable,
 } from 'types/types';
 import { Header } from 'components/Header/Header';
 import { Footer } from 'components/Footer/Footer';
@@ -31,14 +32,14 @@ interface Props {
 }
 
 export const CartPage: FC<Props> = ({ orderMode }): JSX.Element => {
-  const promoCodeInput = useRef<HTMLInputElement>(null);
+  const promoCodeInput = useRef<Nullable<HTMLInputElement>>(null);
 
   const dispatch: Dispatch = useAppDispatch();
   const navigate: NavigateFunction = useNavigate();
 
   const search: string = useLocation().search;
-  const cartPageQuery: string | null = new URLSearchParams(search).get('page');
-  const productsPerPageQuery: string | null = new URLSearchParams(search).get('limit');
+  const cartPageQuery: Nullable<string> = new URLSearchParams(search).get('page');
+  const productsPerPageQuery: Nullable<string> = new URLSearchParams(search).get('limit');
   const cartProducts: Array<IProductData> = useAppSelector(getCart);
   const currentCartPage: number = useAppSelector(getCurrentCartPage);
   const productsPerCartPage: number = useAppSelector(getProductsPerCartPage);

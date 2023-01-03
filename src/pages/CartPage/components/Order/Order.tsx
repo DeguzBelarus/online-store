@@ -13,6 +13,7 @@ import {
   ICartProductData,
   FocusInputHandler,
   FormHandler,
+  Nullable,
 } from 'types/types';
 import './Order.scss';
 
@@ -21,13 +22,13 @@ interface Props {
 }
 
 export const Order: FC<Props> = ({ orderModeHandler }): JSX.Element => {
-  const firstAndLastNamesInput = useRef<HTMLInputElement>(null);
-  const phoneInput = useRef<HTMLInputElement>(null);
-  const addressInput = useRef<HTMLInputElement>(null);
-  const emailInput = useRef<HTMLInputElement>(null);
-  const creditCardNumberInput = useRef<HTMLInputElement>(null);
-  const creditCardExpirationInput = useRef<HTMLInputElement>(null);
-  const creditCardCVVInput = useRef<HTMLInputElement>(null);
+  const firstAndLastNamesInput = useRef<Nullable<HTMLInputElement>>(null);
+  const phoneInput = useRef<Nullable<HTMLInputElement>>(null);
+  const addressInput = useRef<Nullable<HTMLInputElement>>(null);
+  const emailInput = useRef<Nullable<HTMLInputElement>>(null);
+  const creditCardNumberInput = useRef<Nullable<HTMLInputElement>>(null);
+  const creditCardExpirationInput = useRef<Nullable<HTMLInputElement>>(null);
+  const creditCardCVVInput = useRef<Nullable<HTMLInputElement>>(null);
 
   const dispatch: Dispatch = useAppDispatch();
   const navigate: NavigateFunction = useNavigate();

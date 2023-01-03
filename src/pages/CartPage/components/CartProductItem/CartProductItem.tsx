@@ -9,7 +9,13 @@ import {
   getCurrentCartPage,
   getProductsPerCartPage,
 } from 'app/shopSlice';
-import { ICartProductData, IProductData, PromoCode, ClickAndTouchDivHandler } from 'types/types';
+import {
+  ICartProductData,
+  IProductData,
+  PromoCode,
+  ClickAndTouchDivHandler,
+  Nullable,
+} from 'types/types';
 import './CartProductItem.scss';
 
 interface Props {

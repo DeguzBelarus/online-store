@@ -1,3 +1,4 @@
+export type Nullable<T> = T | null;
 export type PromoCode = [string, number];
 export type ViewType = 'cards' | 'list';
 
