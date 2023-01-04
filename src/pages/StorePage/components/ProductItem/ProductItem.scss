@@ -4,31 +4,33 @@
   width: $product-item-width + px;
   height: $product-item-height + px;
   position: relative;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  background-color: #eee;
-  transition-property: border-color, transform;
+  border: 2px solid $main-theme-color;
+  border-radius: 15px;
+  background-color: $product-item-background-color;
+  transition-property: border-color;
   transition-timing-function: linear;
-  transition-duration: 0.5s;
+  transition-duration: 0.2s;
 
   .add-to-cart-button {
-    width: 60px;
-    height: 25px;
+    width: 100%;
+    height: 30px;
     @include flex-all-center;
     position: absolute;
-    bottom: 0;
-    right: -27px;
+    top: 30px;
+    right: 0;
     background-color: #fff;
     border: 2px solid #000;
+    border-right: none;
+    border-left: none;
     cursor: pointer;
 
     img {
-      width: 35%;
-      height: auto;
+      width: auto;
+      height: 95%;
     }
 
     span {
-      color: brown;
+      color: darkmagenta;
     }
   }
 
@@ -40,52 +42,58 @@
     top: 30px;
     left: 0;
     background-color: #fff;
+    border-top: 2px solid #000;
+    border-bottom: 2px solid #000;
 
     .out-of-stock-paragraph {
       width: 100%;
       text-align: center;
       color: deeppink;
       font-size: 14px;
-      border-top: 1px solid #000;
-      border-bottom: 1px solid #000;
     }
   }
 
   &.list-view {
-    width: 65%;
+    width: 60%;
+    height: auto;
     margin: 0 auto;
+    border-radius: 12px;
 
     .add-to-cart-button {
+      width: 80px;
       @include flex-all-center;
       position: absolute;
       bottom: 6px;
-      right: 6px;
+      right: 0;
       background-color: #fff;
       border: 2px solid #000;
+      border-right: none;
       cursor: pointer;
 
       img {
-        width: 35%;
-        height: auto;
+        width: auto;
+        height: 85%;
       }
     }
 
     .out-out-stock-container {
       width: 100%;
-      height: 30px;
+      height: 25px;
       @include flex-all-center;
       position: absolute;
       top: 0;
       left: 0;
-      background-color: #fff;
+      background-color: rgba($color: #fff, $alpha: 0.7);
+      border-top: none;
+      border-top-left-radius: 15px;
+      border-top-right-radius: 15px;
+      border-bottom: 1px solid #000;
 
       .out-of-stock-paragraph {
         width: 100%;
         text-align: center;
         color: deeppink;
         font-size: 14px;
-        border-top: 1px solid #000;
-        border-bottom: 1px solid #000;
       }
     }
   }
@@ -102,24 +110,24 @@
     }
 
     .name-paragraph {
-      color: green;
+      color: grey;
+      z-index: 1;
     }
 
     .poster-wrapper {
       width: 65%;
 
-      &.poster-out-of-stock {
-        opacity: 0.4;
-      }
-
       .poster {
         width: 100%;
         height: auto;
+        transition-property: transform;
+        transition-timing-function: linear;
+        transition-duration: 0.3s;
       }
     }
 
     .price-paragraph {
-      color: yellowgreen;
+      color: grey;
     }
 
     &.list-view {
@@ -131,7 +139,8 @@
       padding: 3px;
 
       .name-paragraph {
-        color: yellowgreen;
+        width: 110px;
+        color: grey;
       }
 
       .poster-wrapper {
@@ -145,22 +154,7 @@
       }
 
       .price-paragraph {
-        color: deeppink;
-      }
-
-      .add-to-cart-button {
-        @include flex-all-center;
-        position: absolute;
-        bottom: 3px;
-        right: 3px;
-        background-color: #fff;
-        border: 2px solid #000;
-        cursor: pointer;
-
-        img {
-          width: 35%;
-          height: auto;
-        }
+        color: grey;
       }
     }
   }
@@ -169,10 +163,17 @@
 
 @media (hover: hover) {
   .external-wrapper:not(.list-view):hover {
-    transform: translateY(-5px) translateX(-5px) scale(1.05);
+    .product-item-wrapper {
+      .poster-wrapper {
+        .poster {
+          transform: scale(1.17);
+        }
+      }
+    }
+
   }
 
-  .external.list-view:hover {
+  .external-wrapper.list-view:hover {
     border-color: darkorchid;
   }
 }

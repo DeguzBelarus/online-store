@@ -552,7 +552,7 @@ export const Header: FC = (): JSX.Element => {
   }, [cartProductsModified]);
 
   return (
-    <header>
+    <header data-testid="header">
       {!location.href.includes('cart') && !location.href.includes('product') && (
         <FiltersBar
           filteredProducts={filteredProducts}
@@ -595,6 +595,7 @@ export const Header: FC = (): JSX.Element => {
             }
             spellCheck={false}
             ref={productNameFilterInput}
+            data-testid="product-search-input"
           />
         </div>
       )}
@@ -603,6 +604,7 @@ export const Header: FC = (): JSX.Element => {
           type="button"
           className={isFiltersShown ? 'filters-show-button active' : 'filters-show-button'}
           onClick={(event: React.MouseEvent<HTMLButtonElement>) => isFiltersShownHandler(event)}
+          data-testid="filters-show-button"
         >
           Filters
         </button>

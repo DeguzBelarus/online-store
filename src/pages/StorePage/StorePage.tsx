@@ -53,6 +53,7 @@ export const StorePage: FC = (): JSX.Element => {
         className={filteredProducts.length < 1 ? 'store-wrapper no-products' : 'store-wrapper'}
         onMouseOver={(event: React.MouseEvent<HTMLDivElement>) => isMouseOnMainTrue(event)}
         onMouseLeave={(event: React.MouseEvent<HTMLDivElement>) => isMouseOnMainFalse(event)}
+        data-testid="store-page"
       >
         {filteredProducts.length > 0 && filtersIsActive() && (
           <div
@@ -64,7 +65,10 @@ export const StorePage: FC = (): JSX.Element => {
           </div>
         )}
         <SortBar isMouseOnMain={isMouseOnMain} />
-        <div className={viewType === 'cards' ? 'products-wrapper' : 'products-wrapper list-view'}>
+        <div
+          className={viewType === 'cards' ? 'products-wrapper' : 'products-wrapper list-view'}
+          data-testid="products-wrapper"
+        >
           {filteredProducts.length > 0 &&
             filteredProducts.map((product: IProductData) => {
               return (

@@ -1,3 +1,8 @@
+//colors
+$main-theme-color: #6F4E37;
+$sidebars-color: #eee;
+//colors
+
 // sizes
 $header-height: 40;
 $footer-height: 30;
@@ -8,9 +13,11 @@ $product-item-height-list: 80;
 // sizes
 
 // colors
-$header-background-color: green;
-$footer-background-color: green;
-$sort-bar-background-color: #eee;
+$header-background-color: $main-theme-color;
+$footer-background-color: $main-theme-color;
+$sort-bar-background-color: $sidebars-color;
+$filters-bar-background-color: $sidebars-color;
+$product-item-background-color: rgba($color: #fff, $alpha: 0.8);
 // colors
 
 // mixins
@@ -126,6 +133,7 @@ $sort-bar-background-color: #eee;
   align-items: center;
   justify-content: space-between;
 }
+
 // flex column mixins
 
 @mixin user-select-none {
