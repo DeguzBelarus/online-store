@@ -7,7 +7,7 @@
     "category": "mobile-phones",
     "description": "Android, screen Qualcomm Snapdragon 675, 6 GB RAM, 128 GB flash memory, memory cards, 4500 mAh battery, 2 SIM",
     "properties": ["Camera 32MP", "Display 6.7\""],
-    "posters": ["posters/A70/a70.jpeg", "posters/A70/A70-2.jpeg"],
+    "posters": ["posters/A70/a70.jpeg", "posters/A70/a70-2.jpeg"],
     "inStock": false,
     "amount": 0
   },
@@ -19,7 +19,7 @@
     "category": "mobile-phones",
     "description": "Android, screen AMOLED (1080x2400) 120 Hz, Exynos 990, 6 GB RAM, 128 GB flash memory, memory cards, 4500 mAh battery, 2 SIM, IP68 waterproof",
     "properties": ["Camera 12MP", "Display 6.2\""],
-    "posters": ["posters/S20/s20.jpeg", "posters/S20/S20-2.jpeg"],
+    "posters": ["posters/S20/s20.jpeg", "posters/S20/s20-2.jpeg"],
     "inStock": true,
     "amount": 10
   },
@@ -31,7 +31,7 @@
     "category": "mobile-phones",
     "description": "Android, screen AMOLED (1080x2340) 120 Hz, Qualcomm Snapdragon 888, 6 GB RAM, 128 GB flash memory, 4500 mAh battery, 2 SIM, IP68 waterproof",
     "properties": ["Camera 12MP", "Display 6.4\""],
-    "posters": ["posters/S21/s21.jpeg", "posters/S21/S21-2.jpeg"],
+    "posters": ["posters/S21/s21.jpeg", "posters/S21/s21-2.jpeg"],
     "inStock": true,
     "amount": 40
   },

@@ -3,4 +3,53 @@
 .product-details-wrapper {
   width: 100%;
   height: calc(100vh - #{($header-height + px)} - #{($footer-height + px)});
+  border: solid 1px;
+  @include flex-column-line-center-vertical-top;
+
+  .product-title {
+    height: 50px;
+    text-align: center;
+    border: solid 1px;
+  }
+
+  .product-data {
+    // height: 70%;
+    width: 70%;
+    border: solid 1px;
+    @include flex-line-start-vertical-center;
+
+    .product-photos {
+      @include flex-line-start-vertical-top;
+
+      .small-photos {
+
+        // @include flex-line-start-vertical-top;
+        .small-photo {
+          height: 90px;
+          width: 50px;
+        }
+      }
+
+      .big-photo {
+        height: 300px;
+        width: 150px;
+      }
+    }
+
+    .product-info {
+
+      @include flex-column-line-center-vertical-top;
+      gap: 2px;
+      .product-detail-item {
+        border: solid 1px;
+        @include flex-column-line-center-vertical-top;
+        
+      }
+    }
+
+    .add-to-cart {
+      width: 300px;
+      @include flex-column-line-center-vertical-top;
+    }
+  }
 }
