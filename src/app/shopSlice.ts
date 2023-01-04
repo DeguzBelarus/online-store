@@ -2,20 +2,20 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { WritableDraft } from 'immer/dist/internal';
 import { RootState } from './store';
 
-import { IProductData, PromoCode, ViewType } from '../types/types';
+import { IProductData, PromoCode, ViewType, Nullable } from '../types/types';
 
 export interface ShopState {
   cart: Array<IProductData>;
   filteredProducts: Array<IProductData>;
-  currentProduct: IProductData | null;
-  categoryFilter: string | null;
-  brandFilter: string | null;
+  currentProduct: Nullable<IProductData>;
+  categoryFilter: Nullable<string>;
+  brandFilter: Nullable<string>;
   inStockFilter: boolean;
-  minPriceFilter: number | null;
-  maxPriceFilter: number | null;
-  productNameFilter: string | null;
-  sortByName: 'ascending' | 'descending' | null;
-  sortByPrice: 'ascending' | 'descending' | null;
+  minPriceFilter: Nullable<number>;
+  maxPriceFilter: Nullable<number>;
+  productNameFilter: Nullable<string>;
+  sortByName: Nullable<'ascending' | 'descending'>;
+  sortByPrice: Nullable<'ascending' | 'descending'>;
   viewType: ViewType;
   currentCartPage: number;
   productsPerCartPage: number;
@@ -44,21 +44,24 @@ export const shopSlice = createSlice({
   name: 'shop',
   initialState,
   reducers: {
-    setCategoryFilter(state: WritableDraft<ShopState>, action: PayloadAction<string | null>) {
+    setCategoryFilter(state: WritableDraft<ShopState>, action: PayloadAction<Nullable<string>>) {
       if (action.payload) {
         state.categoryFilter = action.payload;
       } else {
         state.categoryFilter = initialState.categoryFilter;
       }
     },
-    setBrandFilter(state: WritableDraft<ShopState>, action: PayloadAction<string | null>) {
+    setBrandFilter(state: WritableDraft<ShopState>, action: PayloadAction<Nullable<string>>) {
       if (action.payload) {
         state.brandFilter = action.payload;
       } else {
         state.brandFilter = initialState.brandFilter;
       }
     },
-    setCurrentProduct(state: WritableDraft<ShopState>, action: PayloadAction<IProductData | null>) {
+    setCurrentProduct(
+      state: WritableDraft<ShopState>,
+      action: PayloadAction<Nullable<IProductData>>
+    ) {
       if (action.payload) {
         state.currentProduct = action.payload;
       } else {
@@ -72,21 +75,21 @@ export const shopSlice = createSlice({
         state.inStockFilter = initialState.inStockFilter;
       }
     },
-    setMinPriceFilter(state: WritableDraft<ShopState>, action: PayloadAction<number | null>) {
+    setMinPriceFilter(state: WritableDraft<ShopState>, action: PayloadAction<Nullable<number>>) {
       if (action.payload) {
         state.minPriceFilter = action.payload;
       } else {
         state.minPriceFilter = initialState.minPriceFilter;
       }
     },
-    setMaxPriceFilter(state: WritableDraft<ShopState>, action: PayloadAction<number | null>) {
+    setMaxPriceFilter(state: WritableDraft<ShopState>, action: PayloadAction<Nullable<number>>) {
       if (action.payload) {
         state.maxPriceFilter = action.payload;
       } else {
         state.maxPriceFilter = initialState.maxPriceFilter;
       }
     },
-    setProductNameFilter(state: WritableDraft<ShopState>, action: PayloadAction<string | null>) {
+    setProductNameFilter(state: WritableDraft<ShopState>, action: PayloadAction<Nullable<string>>) {
       if (action.payload) {
         state.productNameFilter = action.payload;
       } else {
@@ -112,7 +115,7 @@ export const shopSlice = createSlice({
     },
     setSortByName(
       state: WritableDraft<ShopState>,
-      action: PayloadAction<'ascending' | 'descending' | null>
+      action: PayloadAction<Nullable<'ascending' | 'descending'>>
     ) {
       if (action.payload) {
         state.sortByName = action.payload;
@@ -122,7 +125,7 @@ export const shopSlice = createSlice({
     },
     setSortByPrice(
       state: WritableDraft<ShopState>,
-      action: PayloadAction<'ascending' | 'descending' | null>
+      action: PayloadAction<Nullable<'ascending' | 'descending'>>
     ) {
       if (action.payload) {
         state.sortByPrice = action.payload;

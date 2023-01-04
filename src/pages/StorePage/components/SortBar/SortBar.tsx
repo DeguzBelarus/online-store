@@ -10,7 +10,7 @@ import {
   setSortByName,
   setSortByPrice,
 } from 'app/shopSlice';
-import { ViewType } from 'types/types';
+import { ViewType, Nullable } from 'types/types';
 import './SortBar.scss';
 
 interface Props {
@@ -21,8 +21,8 @@ export const SortBar: FC<Props> = ({ isMouseOnMain }): JSX.Element => {
   const dispatch: Dispatch = useAppDispatch();
 
   const viewType: ViewType = useAppSelector(getViewType);
-  const sortByName: string | null = useAppSelector(getSortByName);
-  const sortByPrice: string | null = useAppSelector(getSortByPrice);
+  const sortByName: Nullable<string> = useAppSelector(getSortByName);
+  const sortByPrice: Nullable<string> = useAppSelector(getSortByPrice);
 
   const viewTypeHandler = (
     event: React.MouseEvent<HTMLParagraphElement> | React.TouchEvent<HTMLParagraphElement>,
@@ -35,7 +35,7 @@ export const SortBar: FC<Props> = ({ isMouseOnMain }): JSX.Element => {
 
   const sortByNameHandler = (
     event: React.MouseEvent<HTMLParagraphElement> | React.TouchEvent<HTMLParagraphElement>,
-    value: 'ascending' | 'descending' | null
+    value: Nullable<'ascending' | 'descending'>
   ): void => {
     if (sortByName !== value) {
       dispatch(setSortByName(value));
@@ -49,7 +49,7 @@ export const SortBar: FC<Props> = ({ isMouseOnMain }): JSX.Element => {
 
   const sortByPriceHandler = (
     event: React.MouseEvent<HTMLParagraphElement> | React.TouchEvent<HTMLParagraphElement>,
-    value: 'ascending' | 'descending' | null
+    value: Nullable<'ascending' | 'descending'>
   ): void => {
     if (sortByPrice !== value) {
       dispatch(setSortByPrice(value));

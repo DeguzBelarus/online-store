@@ -44,6 +44,7 @@ export const ProductItem: FC<IProductData> = ({ ...IProductData }) => {
       <div
         className={viewType === 'cards' ? 'product-item-wrapper' : 'product-item-wrapper list-view'}
         onClick={(event: React.MouseEvent<HTMLDivElement>) => productDetailsTransition(event)}
+        data-testid="product-card"
       >
         <p className="name-paragraph">{IProductData.name}</p>
         <div

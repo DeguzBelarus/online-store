@@ -43,6 +43,7 @@ import {
   ClickAndTouchButtonHandler,
   ClickAndTouchSpanHandler,
   ClickAndTouchDivHandler,
+  Nullable,
 } from '../../types/types';
 import products from '../../products.json';
 import { ILocalStorageSaveObject } from '../../types/types';
@@ -51,9 +52,9 @@ import { FiltersBar } from './components/FiltersBar/FiltersBar';
 import './Header.scss';
 
 export const Header: FC = (): JSX.Element => {
-  const productNameFilterInput = useRef<HTMLInputElement>(null);
-  const minPriceRange = useRef<HTMLInputElement>(null);
-  const maxPriceRange = useRef<HTMLInputElement>(null);
+  const productNameFilterInput = useRef<Nullable<HTMLInputElement>>(null);
+  const minPriceRange = useRef<Nullable<HTMLInputElement>>(null);
+  const maxPriceRange = useRef<Nullable<HTMLInputElement>>(null);
 
   const dispatch: Dispatch = useAppDispatch();
   const navigate: NavigateFunction = useNavigate();
@@ -62,8 +63,8 @@ export const Header: FC = (): JSX.Element => {
   const [isFiltersShown, setIsFiltersShown] = useState<boolean>(false);
   const [isUrlCopied, setIsUrlCopied] = useState<boolean>(false);
   const [isFirstLoad, setIsFirstLoad] = useState<boolean>(true);
-  const [filteredProductsMinPrice, setFilteredProductsMinPrice] = useState<number | null>(null);
-  const [filteredProductsMaxPrice, setFilteredProductsMaxPrice] = useState<number | null>(null);
+  const [filteredProductsMinPrice, setFilteredProductsMinPrice] = useState<Nullable<number>>(null);
+  const [filteredProductsMaxPrice, setFilteredProductsMaxPrice] = useState<Nullable<number>>(null);
   const [cartProductsModified, setCartProductsModified] = useState<Array<ICartProductData>>([]);
   const [increasableProductsInCart, setIncreasableProductsInCart] = useState<
     Array<ICartProductData>
@@ -71,21 +72,21 @@ export const Header: FC = (): JSX.Element => {
 
   const filteredProducts: Array<IProductData> = useAppSelector(getFilteredProducts);
   const activePromoCodes: Array<PromoCode> = useAppSelector(getActivePromoCodes);
-  const categoryFilter: string | null = useAppSelector(getCategoryFilter);
-  const brandFilter: string | null = useAppSelector(getBrandFilter);
+  const categoryFilter: Nullable<string> = useAppSelector(getCategoryFilter);
+  const brandFilter: Nullable<string> = useAppSelector(getBrandFilter);
   const inStockFilter: boolean = useAppSelector(getInStockFilter);
-  const minPriceFilter: number | null = useAppSelector(getMinPriceFilter);
-  const maxPriceFilter: number | null = useAppSelector(getMaxPriceFilter);
-  const productNameFilter: string | null = useAppSelector(getProductNameFilter);
+  const minPriceFilter: Nullable<number> = useAppSelector(getMinPriceFilter);
+  const maxPriceFilter: Nullable<number> = useAppSelector(getMaxPriceFilter);
+  const productNameFilter: Nullable<string> = useAppSelector(getProductNameFilter);
   const viewType: ViewType = useAppSelector(getViewType);
-  const sortByName: 'ascending' | 'descending' | null = useAppSelector(getSortByName);
-  const sortByPrice: 'ascending' | 'descending' | null = useAppSelector(getSortByPrice);
+  const sortByName: Nullable<'ascending' | 'descending'> = useAppSelector(getSortByName);
+  const sortByPrice: Nullable<'ascending' | 'descending'> = useAppSelector(getSortByPrice);
   const cartData: Array<IProductData> = useAppSelector(getCart);
   const currentCartPage: number = useAppSelector(getCurrentCartPage);
   const productsPerCartPage: number = useAppSelector(getProductsPerCartPage);
   const search: string = useLocation().search;
-  const cartPageQuery: string | null = new URLSearchParams(search).get('page');
-  const productsPerPageQuery: string | null = new URLSearchParams(search).get('limit');
+  const cartPageQuery: Nullable<string> = new URLSearchParams(search).get('page');
+  const productsPerPageQuery: Nullable<string> = new URLSearchParams(search).get('limit');
 
   function cartProductsModifiedUpdate(): void {
     setCartProductsModified(
@@ -551,7 +552,7 @@ export const Header: FC = (): JSX.Element => {
   }, [cartProductsModified]);
 
   return (
-    <header>
+    <header data-testid="header">
       {!location.href.includes('cart') && !location.href.includes('product') && (
         <FiltersBar
           filteredProducts={filteredProducts}
@@ -594,6 +595,7 @@ export const Header: FC = (): JSX.Element => {
             }
             spellCheck={false}
             ref={productNameFilterInput}
+            data-testid="product-search-input"
           />
         </div>
       )}
@@ -602,6 +604,7 @@ export const Header: FC = (): JSX.Element => {
           type="button"
           className={isFiltersShown ? 'filters-show-button active' : 'filters-show-button'}
           onClick={(event: React.MouseEvent<HTMLButtonElement>) => isFiltersShownHandler(event)}
+          data-testid="filters-show-button"
         >
           Filters
         </button>

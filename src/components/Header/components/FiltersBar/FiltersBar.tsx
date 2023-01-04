@@ -1,15 +1,15 @@
 import React, { FC } from 'react';
 
-import { IProductData } from 'types/types';
+import { IProductData, Nullable } from 'types/types';
 import './FiltersBar.scss';
 
 interface Props {
   isFiltersShown: boolean;
   filteredProducts: Array<IProductData>;
   brandsArray: Array<string>;
-  brandFilter: string | null;
+  brandFilter: Nullable<string>;
   categoriesArray: Array<string>;
-  categoryFilter: string | null;
+  categoryFilter: Nullable<string>;
   inStockFilter: boolean;
   brandFilterHandler: (
     event: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>,
@@ -29,17 +29,16 @@ interface Props {
     event: React.MouseEvent<HTMLButtonElement> | React.TouchEvent<HTMLButtonElement>
   ) => void;
   isPriceRangesShown: boolean;
-  filteredProductsMinPrice: number | null;
-  filteredProductsMaxPrice: number | null;
-  minPriceFilter: number | null;
-  maxPriceFilter: number | null;
+  filteredProductsMinPrice: Nullable<number>;
+  filteredProductsMaxPrice: Nullable<number>;
+  minPriceFilter: Nullable<number>;
+  maxPriceFilter: Nullable<number>;
   minPriceRange: React.RefObject<HTMLInputElement>;
   maxPriceRange: React.RefObject<HTMLInputElement>;
 }
 
 export const FiltersBar: FC<Props> = ({
   isFiltersShown,
-  filteredProducts,
   brandsArray,
   brandFilter,
   categoriesArray,
@@ -61,7 +60,10 @@ export const FiltersBar: FC<Props> = ({
   maxPriceRange,
 }): JSX.Element => {
   return (
-    <div className={isFiltersShown ? 'filters-bar-wrapper active' : 'filters-bar-wrapper'}>
+    <div
+      className={isFiltersShown ? 'filters-bar-wrapper active' : 'filters-bar-wrapper'}
+      data-testid="filters-bar"
+    >
       <h3>Filters:</h3>
       <div className="brands-wrapper">
         <h4>Brands: </h4>
@@ -73,8 +75,9 @@ export const FiltersBar: FC<Props> = ({
               onClick={(event: React.MouseEvent<HTMLDivElement>) =>
                 brandFilterHandler(event, brand)
               }
+              data-testid="brand-filter-selector"
             >
-              <span>{brand}</span>
+              <span className="brand-selector-span">{brand}</span>
             </div>
           );
         })}
@@ -89,8 +92,9 @@ export const FiltersBar: FC<Props> = ({
               onClick={(event: React.MouseEvent<HTMLDivElement>) =>
                 categoryFilterHandler(event, category)
               }
+              data-testid="category-filter-selector"
             >
-              <span>{category}</span>
+              <span className="category-selector-span">{category}</span>
             </div>
           );
         })}
@@ -164,7 +168,6 @@ export const FiltersBar: FC<Props> = ({
           className="in-stock-checkbox"
           title="in stock only"
           checked={inStockFilter}
-          disabled={filteredProducts.length < 1}
           onChange={(event: React.ChangeEvent<HTMLInputElement>) => inStockFilterHandler(event)}
         />
       </div>

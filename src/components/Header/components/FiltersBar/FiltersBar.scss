@@ -9,7 +9,7 @@
   position: absolute;
   top: $header-height + px;
   left: 0;
-  background-color: $sort-bar-background-color;
+  background-color: $filters-bar-background-color;
   z-index: 1;
   transition: transform linear 0.5s;
   transform: translateX(-100%);
@@ -43,7 +43,7 @@
       cursor: pointer;
 
       &.active {
-        span {
+        .brand-selector-span {
           color: deeppink;
         }
       }
@@ -69,7 +69,7 @@
       cursor: pointer;
 
       &.active {
-        span {
+        .category-selector-span {
           color: deeppink;
         }
       }
