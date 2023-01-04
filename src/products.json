@@ -7,7 +7,7 @@
     "category": "smartphones",
     "description": "Android, screen Qualcomm Snapdragon 675, 6 GB RAM, 128 GB flash memory, memory cards, 4500 mAh battery, 2 SIM",
     "properties": ["Camera 32MP", "Display 6.7\""],
-    "posters": ["posters/A70/a70.jpeg", "posters/A70/A70-2.jpeg"],
+    "posters": ["posters/A70/a70.jpeg", "posters/A70/a70-2.jpeg"],
     "inStock": false,
     "amount": 0
   },

@@ -37,7 +37,59 @@ export const ProductDetailsPage: FC = (): JSX.Element => {
   return (
     <>
       <Header />
-      <div className="product-details-wrapper">{`${currentIProductData?.name}`}</div>
+      <div className="hleb"></div>
+      <div className="product-details-wrapper">
+        <div className="product-title">
+          <h1>{`${currentIProductData?.name}`}</h1>
+        </div>
+        <div className="product-data">
+          <div className="product-photos">
+            <div className="small-photos">
+              {currentIProductData?.posters && currentIProductData.posters.length > 0 && (
+                <div className="small-photo-wrapper">
+                  {currentIProductData?.posters.map((poster: string, index: number) => {
+                    return (
+                      <img
+                        className="small-photo"
+                        src={require(`../../assets/img/${poster}`)}
+                        key={index}
+                        alt="a product preview"
+                      />
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+            <div className="big-photo-wrapper">
+              <img
+                className="big-photo"
+                src={require(`../../assets/img/posters/A70/a70.jpeg`)}
+                alt="a product photo"
+              />
+            </div>
+          </div>
+          <div className="product-info">
+            <div className="product-detail-item">
+              <h3>Brand</h3>
+              <p>{`${currentIProductData?.brand}`}</p>
+            </div>
+            <div className="product-detail-item">
+              <h3>Description</h3>
+              {`${currentIProductData?.description}`}
+            </div>
+            <div className="product-detail-item">
+              <h3>Category</h3>
+              {`${currentIProductData?.category}`}
+            </div>
+          </div>
+          <div className="add-to-cart">
+            <div className="product-data-price">{`${currentIProductData?.price}`}</div>
+            <button className="add-to-cart-button">add to cart</button>
+            <button className="add-to-cart-button">buy now</button>
+          </div>
+        </div>
+      </div>
+
       <Footer />
     </>
   );
