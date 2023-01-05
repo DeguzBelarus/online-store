@@ -1,17 +1,23 @@
 import React, { FC, useEffect } from 'react';
 import { useAppSelector, useAppDispatch } from 'app/hooks';
 import { Dispatch } from '@reduxjs/toolkit';
-import { Params, useParams } from 'react-router-dom';
+import { Params, useParams, Link } from 'react-router-dom';
 
-import { getCurrentProduct, setCurrentProduct, getFilteredProducts } from 'app/shopSlice';
-import { IProductData } from 'types/types';
+import {
+  getCurrentProduct,
+  setCurrentProduct,
+  getFilteredProducts,
+  getCart,
+  setCart,
+} from 'app/shopSlice';
+import { IProductData, ClickAndTouchButtonHandler } from 'types/types';
 import { Header } from 'components/Header/Header';
 import { Footer } from 'components/Footer/Footer';
 import './ProductDetailsPage.scss';
 
 export const ProductDetailsPage: FC = (): JSX.Element => {
   const dispatch: Dispatch = useAppDispatch();
-
+  const cartData: Array<IProductData> = useAppSelector(getCart);
   const filteredProducts: Array<IProductData> = useAppSelector(getFilteredProducts);
   const currentIProductData: IProductData | null = useAppSelector(getCurrentProduct);
   const { id }: Readonly<Params<string>> = useParams();
@@ -34,10 +40,39 @@ export const ProductDetailsPage: FC = (): JSX.Element => {
     };
   }, []);
 
+  const productInCartAvailabilityCheck = (): boolean => {
+    return cartData.some((cartProduct: IProductData) => cartProduct.id === currentIProductData?.id);
+  };
+
+  const addProductToCart: ClickAndTouchButtonHandler = (event) => {
+    if (currentIProductData) {
+      const productToCart: IProductData = {
+        id: currentIProductData.id,
+        name: currentIProductData.name,
+        brand: currentIProductData.name,
+        price: currentIProductData.price,
+        category: currentIProductData.category,
+        description: currentIProductData.description,
+        properties: currentIProductData.properties,
+        posters: currentIProductData.posters,
+        inStock: currentIProductData.inStock,
+        amount: currentIProductData.amount,
+      };
+      dispatch(setCart([...cartData, { ...productToCart }]));
+    }
+  };
+
+  const removeProductFromCart: ClickAndTouchButtonHandler = (event) => {
+    dispatch(
+      setCart(
+        cartData.filter((cartProduct: IProductData) => cartProduct.id !== currentIProductData?.id)
+      )
+    );
+  };
+
   return (
     <>
       <Header />
-      <div className="hleb"></div>
       <div className="product-details-wrapper">
         <div className="product-title">
           <h1>{`${currentIProductData?.name}`}</h1>
@@ -84,7 +119,19 @@ export const ProductDetailsPage: FC = (): JSX.Element => {
           </div>
           <div className="add-to-cart">
             <div className="product-data-price">{`${currentIProductData?.price}`}</div>
-            <button className="add-to-cart-button">add to cart</button>
+            {currentIProductData?.inStock && currentIProductData.amount > 0 && (
+              <button
+                type="button"
+                className="add-to-cart-button"
+                onClick={(event: React.MouseEvent<HTMLButtonElement>) =>
+                  productInCartAvailabilityCheck()
+                    ? removeProductFromCart(event)
+                    : addProductToCart(event)
+                }
+              >
+                add to cart
+              </button>
+            )}
             <button className="add-to-cart-button">buy now</button>
           </div>
         </div>
