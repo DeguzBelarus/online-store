@@ -87,6 +87,30 @@ export const Header: FC = (): JSX.Element => {
   const search: string = useLocation().search;
   const cartPageQuery: Nullable<string> = new URLSearchParams(search).get('page');
   const productsPerPageQuery: Nullable<string> = new URLSearchParams(search).get('limit');
+  const brandFilterQuery: Nullable<string> = new URLSearchParams(search).get('brand');
+  const categoryFilterQuery: Nullable<string> = new URLSearchParams(search).get('category');
+  const nameFilterQuery: Nullable<string> = new URLSearchParams(search).get('name');
+  const instockFilterQuery = !!new URLSearchParams(search).get('instock');
+  const minPriceFilterQuery: Nullable<number> = Number(new URLSearchParams(search).get('minprice'));
+  const maxPriceFilterQuery: Nullable<number> = Number(new URLSearchParams(search).get('maxprice'));
+  const viewTypeQuery: Nullable<string> = new URLSearchParams(search).get('view');
+  const sortByNameQuery: Nullable<string> = new URLSearchParams(search).get('namesort');
+  const sortByPriceQuery: Nullable<string> = new URLSearchParams(search).get('pricesort');
+
+  const filtersIsActive = (): boolean => {
+    if (
+      brandFilter !== null ||
+      categoryFilter !== null ||
+      productNameFilter !== null ||
+      inStockFilter ||
+      minPriceFilter ||
+      maxPriceFilter
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  };
 
   function cartProductsModifiedUpdate(): void {
     setCartProductsModified(
@@ -106,7 +130,7 @@ export const Header: FC = (): JSX.Element => {
             amount: cartProduct.amount,
             posters: cartProduct.posters,
             quantity: array.filter((cartProduct: IProductData) => cartProduct.id === productId)
-              .length,
+              ?.length,
             sum: array.reduce((sum: number, cartProduct: IProductData) => {
               if (cartProduct.id === productId) {
                 return (sum += cartProduct.price || sum);
@@ -216,28 +240,83 @@ export const Header: FC = (): JSX.Element => {
         localStorage.getItem('online-store-data') || ''
       );
 
-      if (storageSaveData.cart.length > 0) {
+      if (storageSaveData.cart?.length > 0) {
         dispatch(setCart(storageSaveData.cart));
       }
-      if (storageSaveData.brandFilter) {
-        dispatch(setBrandFilter(storageSaveData.brandFilter));
+      if (storageSaveData.brandFilter || brandFilterQuery) {
+        if (!brandFilterQuery) {
+          dispatch(setBrandFilter(storageSaveData.brandFilter));
+        } else {
+          if (storageSaveData.brandFilter === brandFilterQuery) {
+            dispatch(setBrandFilter(storageSaveData.brandFilter));
+          } else {
+            dispatch(setBrandFilter(brandFilterQuery));
+          }
+        }
       }
-      if (storageSaveData.categoryFilter) {
-        dispatch(setCategoryFilter(storageSaveData.categoryFilter));
+      if (storageSaveData.categoryFilter || categoryFilterQuery) {
+        if (!categoryFilterQuery) {
+          dispatch(setCategoryFilter(storageSaveData.categoryFilter));
+        } else {
+          if (storageSaveData.categoryFilter === categoryFilterQuery) {
+            dispatch(setCategoryFilter(storageSaveData.categoryFilter));
+          } else {
+            dispatch(setCategoryFilter(categoryFilterQuery));
+          }
+        }
       }
-      if (storageSaveData.inStockFilter) {
-        dispatch(setInStockFilter(storageSaveData.inStockFilter));
+      if (storageSaveData.inStockFilter || instockFilterQuery) {
+        if (!instockFilterQuery) {
+          dispatch(setInStockFilter(storageSaveData.inStockFilter));
+        } else {
+          if (storageSaveData.inStockFilter === instockFilterQuery) {
+            dispatch(setInStockFilter(storageSaveData.inStockFilter));
+          } else {
+            dispatch(setInStockFilter(instockFilterQuery));
+          }
+        }
       }
-      if (storageSaveData.maxPriceFilter) {
-        dispatch(setMaxPriceFilter(storageSaveData.maxPriceFilter));
+      if (storageSaveData.maxPriceFilter || maxPriceFilterQuery) {
+        if (!maxPriceFilterQuery) {
+          dispatch(setMaxPriceFilter(storageSaveData.maxPriceFilter));
+        } else {
+          if (storageSaveData.maxPriceFilter === maxPriceFilterQuery) {
+            dispatch(setMaxPriceFilter(storageSaveData.maxPriceFilter));
+          } else {
+            dispatch(setMaxPriceFilter(maxPriceFilterQuery));
+          }
+        }
       }
-      if (storageSaveData.minPriceFilter) {
-        dispatch(setMinPriceFilter(storageSaveData.minPriceFilter));
+      if (storageSaveData.minPriceFilter || minPriceFilterQuery) {
+        if (!minPriceFilterQuery) {
+          dispatch(setMinPriceFilter(storageSaveData.minPriceFilter));
+        } else {
+          if (storageSaveData.minPriceFilter === minPriceFilterQuery) {
+            dispatch(setMinPriceFilter(storageSaveData.minPriceFilter));
+          } else {
+            dispatch(setMinPriceFilter(minPriceFilterQuery));
+          }
+        }
       }
-      if (storageSaveData.productNameFilter) {
-        dispatch(setProductNameFilter(storageSaveData.productNameFilter));
-        productNameFilterInput.current &&
-          (productNameFilterInput.current.value = storageSaveData.productNameFilter);
+      if (storageSaveData.productNameFilter || nameFilterQuery) {
+        if (!nameFilterQuery) {
+          dispatch(setProductNameFilter(storageSaveData.productNameFilter));
+          productNameFilterInput.current &&
+            storageSaveData.productNameFilter &&
+            (productNameFilterInput.current.value = storageSaveData.productNameFilter);
+        } else {
+          if (storageSaveData.productNameFilter === nameFilterQuery) {
+            dispatch(setProductNameFilter(storageSaveData.productNameFilter));
+            productNameFilterInput.current &&
+              storageSaveData.productNameFilter &&
+              (productNameFilterInput.current.value = storageSaveData.productNameFilter);
+          } else {
+            dispatch(setProductNameFilter(nameFilterQuery));
+            productNameFilterInput.current &&
+              nameFilterQuery &&
+              (productNameFilterInput.current.value = nameFilterQuery);
+          }
+        }
       }
       if (storageSaveData.isPriceRangesShown) {
         setIsPriceRangesShown(true);
@@ -245,14 +324,44 @@ export const Header: FC = (): JSX.Element => {
       if (storageSaveData.isFiltersShown) {
         setIsFiltersShown(true);
       }
-      if (storageSaveData.viewType) {
-        dispatch(setViewType(storageSaveData.viewType));
+      if (storageSaveData.viewType || viewTypeQuery) {
+        if (!viewTypeQuery && storageSaveData.viewType) {
+          dispatch(setViewType(storageSaveData.viewType));
+        } else {
+          if (storageSaveData.viewType === viewTypeQuery) {
+            dispatch(setViewType(storageSaveData.viewType));
+          } else {
+            if (viewTypeQuery === 'cards' || viewTypeQuery === 'list') {
+              dispatch(setViewType(viewTypeQuery));
+            }
+          }
+        }
       }
-      if (storageSaveData.sortByName) {
-        dispatch(setSortByName(storageSaveData.sortByName));
+      if (storageSaveData.sortByName || sortByNameQuery) {
+        if (!sortByNameQuery && storageSaveData.sortByName) {
+          dispatch(setSortByName(storageSaveData.sortByName));
+        } else {
+          if (storageSaveData.sortByName === sortByNameQuery) {
+            dispatch(setSortByName(storageSaveData.sortByName));
+          } else {
+            if (sortByNameQuery === 'ascending' || sortByNameQuery === 'descending') {
+              dispatch(setSortByName(sortByNameQuery));
+            }
+          }
+        }
       }
-      if (storageSaveData.sortByPrice) {
-        dispatch(setSortByPrice(storageSaveData.sortByPrice));
+      if (storageSaveData.sortByPrice || sortByPriceQuery) {
+        if (!sortByPriceQuery && storageSaveData.sortByPrice) {
+          dispatch(setSortByPrice(storageSaveData.sortByPrice));
+        } else {
+          if (storageSaveData.sortByPrice === sortByPriceQuery) {
+            dispatch(setSortByPrice(storageSaveData.sortByPrice));
+          } else {
+            if (sortByPriceQuery === 'ascending' || sortByPriceQuery === 'descending') {
+              dispatch(setSortByPrice(sortByPriceQuery));
+            }
+          }
+        }
       }
       if (storageSaveData.currentCartPage !== 1) {
         if (!cartPageQuery) {
@@ -276,8 +385,45 @@ export const Header: FC = (): JSX.Element => {
           }
         }
       }
-      if (storageSaveData.activePromoCodes.length > 0) {
+      if (storageSaveData.activePromoCodes?.length > 0) {
         dispatch(setActivePromoCodes(storageSaveData.activePromoCodes));
+      }
+    } else {
+      if (brandFilterQuery) {
+        dispatch(setBrandFilter(brandFilterQuery));
+      }
+      if (categoryFilterQuery) {
+        dispatch(setCategoryFilter(categoryFilterQuery));
+      }
+      if (instockFilterQuery) {
+        dispatch(setInStockFilter(instockFilterQuery));
+      }
+      if (maxPriceFilterQuery) {
+        dispatch(setMaxPriceFilter(maxPriceFilterQuery));
+      }
+      if (minPriceFilterQuery) {
+        dispatch(setMinPriceFilter(minPriceFilterQuery));
+      }
+      if (nameFilterQuery) {
+        dispatch(setProductNameFilter(nameFilterQuery));
+        productNameFilterInput.current &&
+          nameFilterQuery &&
+          (productNameFilterInput.current.value = nameFilterQuery);
+      }
+      if (viewTypeQuery) {
+        if (viewTypeQuery === 'cards' || viewTypeQuery === 'list') {
+          dispatch(setViewType(viewTypeQuery));
+        }
+      }
+      if (sortByNameQuery) {
+        if (sortByNameQuery === 'ascending' || sortByNameQuery === 'descending') {
+          dispatch(setSortByName(sortByNameQuery));
+        }
+      }
+      if (sortByPriceQuery) {
+        if (sortByPriceQuery === 'ascending' || sortByPriceQuery === 'descending') {
+          dispatch(setSortByPrice(sortByPriceQuery));
+        }
       }
     }
   }
@@ -380,7 +526,7 @@ export const Header: FC = (): JSX.Element => {
       }
       filteredProducts = filteredProducts.filter((product: IProductData) => product.inStock);
     }
-    if (filteredProducts.length) {
+    if (filteredProducts?.length) {
       const minPrice: number = Math.min(
         ...filteredProducts.map((product: IProductData) => product.price || 0)
       );
@@ -539,7 +685,7 @@ export const Header: FC = (): JSX.Element => {
     isFiltersShown,
     currentCartPage,
     productsPerCartPage,
-    activePromoCodes.length,
+    activePromoCodes?.length,
   ]);
 
   useEffect((): void => {
@@ -602,7 +748,7 @@ export const Header: FC = (): JSX.Element => {
       {!location.href.includes('cart') && !location.href.includes('product') && (
         <button
           type="button"
-          className={isFiltersShown ? 'filters-show-button active' : 'filters-show-button'}
+          className={filtersIsActive() ? 'filters-show-button active' : 'filters-show-button'}
           onClick={(event: React.MouseEvent<HTMLButtonElement>) => isFiltersShownHandler(event)}
           data-testid="filters-show-button"
         >
@@ -620,15 +766,15 @@ export const Header: FC = (): JSX.Element => {
         className="cart-button"
         onClick={(event: React.MouseEvent<HTMLDivElement>) => cartTransition(event)}
       >
-        {cartData.length > 0 && (
+        {cartData?.length > 0 && (
           <span className="cart-quantity-span">
-            {increasableProductsInCart.length > 0
-              ? `${cartData.length} (${increasableProductsInCart.length}) pcs`
-              : `${cartData.length} pcs`}
+            {increasableProductsInCart?.length > 0
+              ? `${cartData?.length} (${increasableProductsInCart.length}) pcs`
+              : `${cartData?.length} pcs`}
           </span>
         )}
         <img src={cartLogo} alt="a cart logo" />
-        {cartData.length > 0 && (
+        {cartData?.length > 0 && (
           <span className="cart-summary-span">{`${cartData.reduce(
             (sum, product: IProductData) => sum + product.price,
             0

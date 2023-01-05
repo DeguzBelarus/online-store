@@ -295,7 +295,7 @@ export const Order: FC<Props> = ({ orderModeHandler }): JSX.Element => {
             amount: cartProduct.amount,
             posters: cartProduct.posters,
             quantity: array.filter((cartProduct: IProductData) => cartProduct.id === productId)
-              .length,
+              ?.length,
             sum: array.reduce((sum: number, cartProduct: IProductData) => {
               if (cartProduct.id === productId) {
                 return (sum += cartProduct.price || sum);
@@ -322,7 +322,7 @@ export const Order: FC<Props> = ({ orderModeHandler }): JSX.Element => {
 
   useEffect((): void => {
     setOrderFormData({ ...orderFormData, codes: activePromoCodes });
-  }, [activePromoCodes.length]);
+  }, [activePromoCodes?.length]);
 
   useEffect((): void => {
     setOrderFormData({
@@ -342,7 +342,7 @@ export const Order: FC<Props> = ({ orderModeHandler }): JSX.Element => {
           ) /
             100),
     });
-  }, [cartProducts.length]);
+  }, [cartProducts?.length]);
 
   useEffect((): void => {
     if (
@@ -356,20 +356,20 @@ export const Order: FC<Props> = ({ orderModeHandler }): JSX.Element => {
       )
     ) {
       setEnteredCreditCardNumber(
-        enteredCreditCardNumber.slice(0, enteredCreditCardNumber.length - 1)
+        enteredCreditCardNumber.slice(0, enteredCreditCardNumber?.length - 1)
       );
     }
-    if (enteredCreditCardNumber.length === 5 && enteredCreditCardNumber[4] !== ' ') {
+    if (enteredCreditCardNumber?.length === 5 && enteredCreditCardNumber[4] !== ' ') {
       const formattedCreditCardNumber: Array<string> = enteredCreditCardNumber.split('');
       formattedCreditCardNumber.splice(4, 0, ' ');
       setEnteredCreditCardNumber(formattedCreditCardNumber.join(''));
     }
-    if (enteredCreditCardNumber.length === 10 && enteredCreditCardNumber[9] !== ' ') {
+    if (enteredCreditCardNumber?.length === 10 && enteredCreditCardNumber[9] !== ' ') {
       const formattedCreditCardNumber: Array<string> = enteredCreditCardNumber.split('');
       formattedCreditCardNumber.splice(9, 0, ' ');
       setEnteredCreditCardNumber(formattedCreditCardNumber.join(''));
     }
-    if (enteredCreditCardNumber.length === 15 && enteredCreditCardNumber[14] !== ' ') {
+    if (enteredCreditCardNumber?.length === 15 && enteredCreditCardNumber[14] !== ' ') {
       const formattedCreditCardNumber: Array<string> = enteredCreditCardNumber.split('');
       formattedCreditCardNumber.splice(14, 0, ' ');
       setEnteredCreditCardNumber(formattedCreditCardNumber.join(''));
@@ -388,10 +388,10 @@ export const Order: FC<Props> = ({ orderModeHandler }): JSX.Element => {
       )
     ) {
       setEnteredCreditCardExpiration(
-        enteredCreditCardExpiration.slice(0, enteredCreditCardExpiration.length - 1)
+        enteredCreditCardExpiration.slice(0, enteredCreditCardExpiration?.length - 1)
       );
     }
-    if (enteredCreditCardExpiration.length === 3 && enteredCreditCardExpiration[2] !== '/') {
+    if (enteredCreditCardExpiration?.length === 3 && enteredCreditCardExpiration[2] !== '/') {
       const formattedCreditCardExpiration: Array<string> = enteredCreditCardExpiration.split('');
       formattedCreditCardExpiration.splice(2, 0, '/');
       setEnteredCreditCardExpiration(formattedCreditCardExpiration.join(''));
@@ -400,7 +400,7 @@ export const Order: FC<Props> = ({ orderModeHandler }): JSX.Element => {
 
   useEffect((): void => {
     if (Number.isNaN(Number(enteredCreditCardCVV.split('').join('')))) {
-      setEnteredCreditCardCVV(enteredCreditCardCVV.slice(0, enteredCreditCardCVV.length - 1));
+      setEnteredCreditCardCVV(enteredCreditCardCVV.slice(0, enteredCreditCardCVV?.length - 1));
     }
   }, [enteredCreditCardCVV]);
 
@@ -535,7 +535,7 @@ export const Order: FC<Props> = ({ orderModeHandler }): JSX.Element => {
             />
           </label>
           <div className="credit-card-wrapper">
-            {activePromoCodes.length > 0 && (
+            {activePromoCodes?.length > 0 && (
               <div className="active-promo-codes">
                 {activePromoCodes.map((promoCode: PromoCode, index: number) => {
                   return <span key={index}>{promoCode[0]}</span>;

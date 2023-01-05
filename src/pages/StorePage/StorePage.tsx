@@ -16,10 +16,9 @@ export const StorePage: FC = (): JSX.Element => {
   const brandFilter: Nullable<string> = new URLSearchParams(search).get('brand');
   const categoryFilter: Nullable<string> = new URLSearchParams(search).get('category');
   const nameFilter: Nullable<string> = new URLSearchParams(search).get('name');
-  const instockFilter: boolean =
-    new URLSearchParams(search).get('instock') === 'true' ? true : false;
-  const minpriceFilter: Nullable<number> = Number(new URLSearchParams(search).get('minprice'));
-  const maxpriceFilter: Nullable<number> = Number(new URLSearchParams(search).get('maxprice'));
+  const inStockFilter = !!new URLSearchParams(search).get('instock');
+  const minPriceFilter: Nullable<number> = Number(new URLSearchParams(search).get('minprice'));
+  const maxPriceFilter: Nullable<number> = Number(new URLSearchParams(search).get('maxprice'));
   const viewType: ViewType = useAppSelector(getViewType);
   const [isMouseOnMain, setIsMouseOnMain] = useState<boolean>(false);
 
@@ -36,9 +35,9 @@ export const StorePage: FC = (): JSX.Element => {
       brandFilter !== null ||
       categoryFilter !== null ||
       nameFilter !== null ||
-      instockFilter ||
-      minpriceFilter !== 0 ||
-      maxpriceFilter !== 0
+      inStockFilter ||
+      minPriceFilter ||
+      maxPriceFilter
     ) {
       return true;
     } else {
@@ -50,18 +49,18 @@ export const StorePage: FC = (): JSX.Element => {
     <>
       <Header />
       <div
-        className={filteredProducts.length < 1 ? 'store-wrapper no-products' : 'store-wrapper'}
+        className={filteredProducts?.length < 1 ? 'store-wrapper no-products' : 'store-wrapper'}
         onMouseOver={(event: React.MouseEvent<HTMLDivElement>) => isMouseOnMainTrue(event)}
         onMouseLeave={(event: React.MouseEvent<HTMLDivElement>) => isMouseOnMainFalse(event)}
         data-testid="store-page"
       >
-        {filteredProducts.length > 0 && filtersIsActive() && (
+        {filteredProducts?.length > 0 && filtersIsActive() && (
           <div
             className={
               viewType === 'cards' ? 'found-products-wrapper' : 'found-products-wrapper list-view'
             }
           >
-            <span>{`Was found ${filteredProducts.length} product(s)`}</span>
+            <span>{`Was found ${filteredProducts?.length} product(s)`}</span>
           </div>
         )}
         <SortBar isMouseOnMain={isMouseOnMain} />
@@ -69,7 +68,7 @@ export const StorePage: FC = (): JSX.Element => {
           className={viewType === 'cards' ? 'products-wrapper' : 'products-wrapper list-view'}
           data-testid="products-wrapper"
         >
-          {filteredProducts.length > 0 &&
+          {filteredProducts?.length > 0 &&
             filteredProducts.map((product: IProductData) => {
               return (
                 <ProductItem
@@ -87,7 +86,7 @@ export const StorePage: FC = (): JSX.Element => {
                 />
               );
             })}
-          {filteredProducts.length === 0 && (
+          {filteredProducts?.length === 0 && (
             <p className="no-products-paragraph">
               There are no products according to your filters...
             </p>

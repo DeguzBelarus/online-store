@@ -9,13 +9,7 @@ import {
   getCurrentCartPage,
   getProductsPerCartPage,
 } from 'app/shopSlice';
-import {
-  ICartProductData,
-  IProductData,
-  PromoCode,
-  ClickAndTouchDivHandler,
-  Nullable,
-} from 'types/types';
+import { ICartProductData, IProductData, PromoCode, ClickAndTouchDivHandler } from 'types/types';
 import './CartProductItem.scss';
 
 interface Props {
@@ -35,8 +29,8 @@ export const CartProductItem: FC<ICartProductData & Props> = ({
   const productsPerCartPage: number = useAppSelector(getProductsPerCartPage);
 
   const showNextPoster: ClickAndTouchDivHandler = (event) => {
-    if (ICartProductData.posters.length < 2) return;
-    if (currentPosterIndex + 1 === ICartProductData.posters.length) {
+    if (ICartProductData.posters?.length < 2) return;
+    if (currentPosterIndex + 1 === ICartProductData.posters?.length) {
       setCurrentPosterIndex(0);
     } else {
       setCurrentPosterIndex(currentPosterIndex + 1);
@@ -44,9 +38,9 @@ export const CartProductItem: FC<ICartProductData & Props> = ({
   };
 
   const showPreviousPoster: ClickAndTouchDivHandler = (event) => {
-    if (ICartProductData.posters.length < 2) return;
+    if (ICartProductData.posters?.length < 2) return;
     if (currentPosterIndex === 0) {
-      setCurrentPosterIndex(ICartProductData.posters.length - 1);
+      setCurrentPosterIndex(ICartProductData.posters?.length - 1);
     } else {
       setCurrentPosterIndex(currentPosterIndex - 1);
     }
@@ -99,7 +93,7 @@ export const CartProductItem: FC<ICartProductData & Props> = ({
         <p className="product-category-paragraph">{ICartProductData.category}</p>
         <p
           className={
-            activePromoCodes.length > 0
+            activePromoCodes?.length > 0
               ? 'product-price-paragraph price-discounted'
               : 'product-price-paragraph'
           }
@@ -107,7 +101,7 @@ export const CartProductItem: FC<ICartProductData & Props> = ({
           {'Price: '}
           <span>{ICartProductData.price.toFixed(2) + '$'}</span>
         </p>
-        {activePromoCodes.length > 0 && (
+        {activePromoCodes?.length > 0 && (
           <p className="price-with-discount">
             {' '}
             {`Your price: ${
@@ -128,7 +122,7 @@ export const CartProductItem: FC<ICartProductData & Props> = ({
             ICartProductData.amount - ICartProductData.quantity || '0!'
           } pcs`}</span>
         </p>
-        {ICartProductData.properties.length > 0 && (
+        {ICartProductData.properties?.length > 0 && (
           <div className="properties-wrapper">
             <h4>Properties:</h4>
             {ICartProductData.properties.map((property: string, index: number) => {

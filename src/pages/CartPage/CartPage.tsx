@@ -136,7 +136,7 @@ export const CartPage: FC<Props> = ({ orderMode }): JSX.Element => {
             amount: cartProduct.amount,
             posters: cartProduct.posters,
             quantity: array.filter((cartProduct: IProductData) => cartProduct.id === productId)
-              .length,
+              ?.length,
             sum: array.reduce((sum: number, cartProduct: IProductData) => {
               if (cartProduct.id === productId) {
                 return (sum += cartProduct.price || sum);
@@ -178,9 +178,9 @@ export const CartPage: FC<Props> = ({ orderMode }): JSX.Element => {
   }, [cartProducts]);
 
   useEffect((): void => {
-    if (cartProductsModified.length) {
+    if (cartProductsModified?.length) {
       let cartProductsSlices: Array<Array<ICartProductData>> = [];
-      for (let i = 0; i < cartProductsModified.length; i = productsPerCartPage + i) {
+      for (let i = 0; i < cartProductsModified?.length; i = productsPerCartPage + i) {
         let cartPageProducts: Array<ICartProductData> = [];
         for (let j = 0; j < productsPerCartPage; j++) {
           if (cartProductsModified[j + i]) {
@@ -195,37 +195,37 @@ export const CartPage: FC<Props> = ({ orderMode }): JSX.Element => {
 
   useEffect((): void => {
     queryUpdate();
-  }, [currentCartPage, productsPerCartPage, orderMode, activePromoCodes.length]);
+  }, [currentCartPage, productsPerCartPage, orderMode, activePromoCodes?.length]);
 
   useEffect((): void => {
-    const cartPagesArray = new Array(Math.ceil(cartProductsModified.length / productsPerCartPage))
+    const cartPagesArray = new Array(Math.ceil(cartProductsModified?.length / productsPerCartPage))
       .fill('0')
       .map((page: string, index: number) => String(index + 1));
     setCartPages(cartPagesArray);
-  }, [cartProductsModified.length, productsPerCartPage]);
+  }, [cartProductsModified?.length, productsPerCartPage]);
 
   useEffect((): void => {
     if (cartPageQuery && String(currentCartPage) !== cartPageQuery) {
       dispatch(setCurrentCartPage(Number(cartPageQuery)));
     }
-    if (cartPages.length > 0 && currentCartPage > cartPages.length) {
-      dispatch(setCurrentCartPage(cartPages.length));
+    if (cartPages?.length > 0 && currentCartPage > cartPages?.length) {
+      dispatch(setCurrentCartPage(cartPages?.length));
     }
 
     if (productsPerPageQuery && String(productsPerCartPage) !== productsPerPageQuery) {
       dispatch(setProductsPerCartPage(Number(productsPerPageQuery)));
     }
-    if (cartPages.length > 0 && (productsPerCartPage > 4 || productsPerCartPage < 2)) {
+    if (cartPages?.length > 0 && (productsPerCartPage > 4 || productsPerCartPage < 2)) {
       dispatch(setProductsPerCartPage(2));
     }
-    if (cartProductsModified.length > 0 && cartProductsModified.length < productsPerCartPage) {
-      if (cartProductsModified.length < 2) {
+    if (cartProductsModified?.length > 0 && cartProductsModified?.length < productsPerCartPage) {
+      if (cartProductsModified?.length < 2) {
         dispatch(setProductsPerCartPage(2));
       } else {
-        dispatch(setProductsPerCartPage(cartProductsModified.length));
+        dispatch(setProductsPerCartPage(cartProductsModified?.length));
       }
     }
-  }, [cartPages.length, cartProductsModified.length]);
+  }, [cartPages?.length, cartProductsModified?.length]);
 
   return (
     <>
@@ -234,7 +234,7 @@ export const CartPage: FC<Props> = ({ orderMode }): JSX.Element => {
         {orderMode && <Order orderModeHandler={orderModeHandler} />}
         <div
           className={
-            cartProducts.length > 0
+            cartProducts?.length > 0
               ? productsPerCartPage === 2
                 ? 'cart-items-wrapper'
                 : productsPerCartPage === 3
@@ -245,7 +245,7 @@ export const CartPage: FC<Props> = ({ orderMode }): JSX.Element => {
               : 'cart-items-wrapper empty-cart'
           }
         >
-          {cartProducts.length > 0 &&
+          {cartProducts?.length > 0 &&
           cartProductsSlices?.length > 0 &&
           cartProductsSlices[currentCartPage - 1]?.length > 0 ? (
             cartProductsSlices[currentCartPage - 1].map(
@@ -273,7 +273,7 @@ export const CartPage: FC<Props> = ({ orderMode }): JSX.Element => {
           ) : (
             <p className="no-products-paragraph">There are no products in your cart :(</p>
           )}
-          {cartProductsModified.length > 0 && (
+          {cartProductsModified?.length > 0 && (
             <div className="cart-lower-container">
               <div className="promo-codes-container">
                 <span className="tip">*valid codes: super, mega</span>
@@ -298,7 +298,7 @@ export const CartPage: FC<Props> = ({ orderMode }): JSX.Element => {
                     Accept
                   </button>
                 </div>
-                {activePromoCodes.length > 0 && (
+                {activePromoCodes?.length > 0 && (
                   <div className="promo-codes-wrapper">
                     {`${activePromoCodes.reduce(
                       (sum: number, promoCode: PromoCode) => sum + promoCode[1],
@@ -347,7 +347,7 @@ export const CartPage: FC<Props> = ({ orderMode }): JSX.Element => {
                         ? 'products-per-page-selector active'
                         : 'products-per-page-selector'
                     }
-                    disabled={cartProductsModified.length < 3}
+                    disabled={cartProductsModified?.length < 3}
                     onClick={(event: React.MouseEvent<HTMLButtonElement>) =>
                       productsPerCartPageHandler(event, 3)
                     }
@@ -361,7 +361,7 @@ export const CartPage: FC<Props> = ({ orderMode }): JSX.Element => {
                         ? 'products-per-page-selector active'
                         : 'products-per-page-selector'
                     }
-                    disabled={cartProductsModified.length < 4}
+                    disabled={cartProductsModified?.length < 4}
                     onClick={(event: React.MouseEvent<HTMLButtonElement>) =>
                       productsPerCartPageHandler(event, 4)
                     }
@@ -370,7 +370,7 @@ export const CartPage: FC<Props> = ({ orderMode }): JSX.Element => {
                   </button>
                 </div>
                 <div className="cart-pages-lower-container">
-                  {cartPages.length > 0 &&
+                  {cartPages?.length > 0 &&
                     cartPages.map((page: string) => {
                       return (
                         <button
@@ -394,17 +394,17 @@ export const CartPage: FC<Props> = ({ orderMode }): JSX.Element => {
               <div className="cart-total-container">
                 <p>Cart total:</p>
                 <div className="cart-info-container">
-                  <p>{`Quantity: ${cartProducts.length} pcs`}</p>
+                  <p>{`Quantity: ${cartProducts?.length} pcs`}</p>
                   <p
                     className={
-                      activePromoCodes.length > 0
+                      activePromoCodes?.length > 0
                         ? 'price-paragraph price-discounted'
                         : 'price-paragraph'
                     }
                   >{`Cost: ${cartProducts
                     .reduce((sum, product: IProductData) => sum + product.price, 0)
                     .toFixed(2)}$`}</p>
-                  {activePromoCodes.length > 0 && (
+                  {activePromoCodes?.length > 0 && (
                     <p className="price-with-discount">{`Your cost: ${(
                       cartProducts.reduce((sum, product: IProductData) => sum + product.price, 0) -
                       cartProducts.reduce((sum, product: IProductData) => sum + product.price, 0) *
