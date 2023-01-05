@@ -87,6 +87,8 @@ export const ProductItem: FC<IProductData> = ({ ...IProductData }) => {
       {!IProductData.inStock && IProductData.amount === 0 && (
         <div className="out-out-stock-container">
           <p className="out-of-stock-paragraph">OUT OF STOCK</p>
+          <div className="left-ribbon"></div>
+          <div className="right-ribbon"></div>
         </div>
       )}
     </div>

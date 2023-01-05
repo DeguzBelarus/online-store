@@ -35,21 +35,65 @@
   }
 
   .out-out-stock-container {
-    width: 100%;
+    width: calc(100% + 30px);
     height: 30px;
     @include flex-all-center;
     position: absolute;
     top: 30px;
-    left: 0;
+    left: -15px;
     background-color: #fff;
-    border-top: 2px solid #000;
-    border-bottom: 2px solid #000;
+    border: 2px solid #000;
 
     .out-of-stock-paragraph {
       width: 100%;
       text-align: center;
       color: deeppink;
       font-size: 14px;
+    }
+
+    .left-ribbon {
+      height: calc(100% + 4px);
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      background: #fff;
+      border: 2px solid #000;
+      border-right: none;
+
+      &:before {
+        content: "";
+        position: absolute;
+        height: 0;
+        width: 0;
+        border-style: solid;
+        border-color: #222 transparent transparent;
+        border-width: 12px 0px 0px 12px;
+        top: 109%;
+        left: 0;
+      }
+    }
+
+    .right-ribbon {
+      height: calc(100% + 4px);
+      position: absolute;
+      top: -2px;
+      right: -2px;
+      background: #fff;
+      border: 2px solid #000;
+      border-left: none;
+
+      &:after {
+        content: "";
+        position: absolute;
+        height: 0;
+        width: 0;
+        border-style: solid;
+        border-color: #222 transparent transparent;
+        border-width: 12px 0px 0px 12px;
+        top: 109%;
+        right: 0;
+        transform: scale(-1, 1);
+      }
     }
   }
 
@@ -85,15 +129,22 @@
       left: 0;
       background-color: rgba($color: #fff, $alpha: 0.7);
       border-top: none;
-      border-top-left-radius: 15px;
-      border-top-right-radius: 15px;
+      border-top-left-radius: 8px;
+      border-top-right-radius: 8px;
       border-bottom: 1px solid #000;
+      border-right: none;
+      border-left: none;
 
       .out-of-stock-paragraph {
         width: 100%;
         text-align: center;
         color: deeppink;
         font-size: 14px;
+      }
+
+      .left-ribbon,
+      .right-ribbon {
+        display: none;
       }
     }
   }
@@ -128,6 +179,7 @@
 
     .price-paragraph {
       color: grey;
+      z-index: 1;
     }
 
     &.list-view {
