@@ -6,9 +6,12 @@
   @include flex-line-start-vertical-top;
   @include user-select-none;
   position: relative;
+  background-color: $store-background-color;
 
   &.no-products {
-    @include flex-all-center;
+    .products-wrapper {
+      @include flex-all-center;
+    }
   }
 
   .no-products-paragraph {
@@ -18,25 +21,22 @@
   }
 
   .found-products-wrapper {
-    width: 190px;
+    width: 200px;
     height: 45px;
     @include flex-all-center;
     position: absolute;
     top: 10px;
     right: 20px;
-    border: 1px solid #777;
-    background-color: rgba($color: #fff, $alpha: 0.9);
+    border: 1px solid blue;
+    background-color: rgba($color: #fff, $alpha: 0.95);
     color: #000;
     opacity: 0;
     animation: appearing linear 0.5s forwards;
     z-index: 1;
 
     span {
-      color: deeppink;
-    }
-
-    &.list-view {
-      height: 30px;
+      color: blue;
+      font-weight: bold;
     }
   }
 
@@ -69,8 +69,8 @@
 
     &::-webkit-scrollbar-thumb {
       width: 5px;
-      background-color: $main-theme-color;
-      outline: 1.5px solid $main-theme-color;
+      background-color: $store-scrollbar-color;
+      outline: 1.5px solid $store-scrollbar-color;
       border-radius: 5px;
     }
   }

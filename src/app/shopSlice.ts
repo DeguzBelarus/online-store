@@ -44,122 +44,77 @@ export const shopSlice = createSlice({
   name: 'shop',
   initialState,
   reducers: {
-    setCategoryFilter(state: WritableDraft<ShopState>, action: PayloadAction<Nullable<string>>) {
-      if (action.payload) {
-        state.categoryFilter = action.payload;
-      } else {
-        state.categoryFilter = initialState.categoryFilter;
-      }
+    setCategoryFilter(
+      state: WritableDraft<ShopState>,
+      { payload }: PayloadAction<Nullable<string>>
+    ) {
+      state.categoryFilter = payload;
     },
-    setBrandFilter(state: WritableDraft<ShopState>, action: PayloadAction<Nullable<string>>) {
-      if (action.payload) {
-        state.brandFilter = action.payload;
-      } else {
-        state.brandFilter = initialState.brandFilter;
-      }
+    setBrandFilter(state: WritableDraft<ShopState>, { payload }: PayloadAction<Nullable<string>>) {
+      state.brandFilter = payload;
     },
     setCurrentProduct(
       state: WritableDraft<ShopState>,
-      action: PayloadAction<Nullable<IProductData>>
+      { payload }: PayloadAction<Nullable<IProductData>>
     ) {
-      if (action.payload) {
-        state.currentProduct = action.payload;
-      } else {
-        state.currentProduct = initialState.currentProduct;
-      }
+      state.currentProduct = payload;
     },
-    setInStockFilter(state: WritableDraft<ShopState>, action: PayloadAction<boolean>) {
-      if (action.payload) {
-        state.inStockFilter = action.payload;
-      } else {
-        state.inStockFilter = initialState.inStockFilter;
-      }
+    setInStockFilter(state: WritableDraft<ShopState>, { payload }: PayloadAction<boolean>) {
+      state.inStockFilter = payload;
     },
-    setMinPriceFilter(state: WritableDraft<ShopState>, action: PayloadAction<Nullable<number>>) {
-      if (action.payload) {
-        state.minPriceFilter = action.payload;
-      } else {
-        state.minPriceFilter = initialState.minPriceFilter;
-      }
+    setMinPriceFilter(
+      state: WritableDraft<ShopState>,
+      { payload }: PayloadAction<Nullable<number>>
+    ) {
+      state.minPriceFilter = payload;
     },
-    setMaxPriceFilter(state: WritableDraft<ShopState>, action: PayloadAction<Nullable<number>>) {
-      if (action.payload) {
-        state.maxPriceFilter = action.payload;
-      } else {
-        state.maxPriceFilter = initialState.maxPriceFilter;
-      }
+    setMaxPriceFilter(
+      state: WritableDraft<ShopState>,
+      { payload }: PayloadAction<Nullable<number>>
+    ) {
+      state.maxPriceFilter = payload;
     },
-    setProductNameFilter(state: WritableDraft<ShopState>, action: PayloadAction<Nullable<string>>) {
-      if (action.payload) {
-        state.productNameFilter = action.payload;
-      } else {
-        state.productNameFilter = initialState.productNameFilter;
-      }
+    setProductNameFilter(
+      state: WritableDraft<ShopState>,
+      { payload }: PayloadAction<Nullable<string>>
+    ) {
+      state.productNameFilter = payload;
     },
-    setCart(state: WritableDraft<ShopState>, action: PayloadAction<Array<IProductData>>) {
-      if (action.payload) {
-        state.cart = action.payload;
-      } else {
-        state.cart = initialState.cart;
-      }
+    setCart(state: WritableDraft<ShopState>, { payload }: PayloadAction<Array<IProductData>>) {
+      state.cart = payload;
     },
     setFilteredProducts(
       state: WritableDraft<ShopState>,
-      action: PayloadAction<Array<IProductData>>
+      { payload }: PayloadAction<Array<IProductData>>
     ) {
-      if (action.payload) {
-        state.filteredProducts = action.payload;
-      } else {
-        state.filteredProducts = initialState.filteredProducts;
-      }
+      state.filteredProducts = payload;
     },
     setSortByName(
       state: WritableDraft<ShopState>,
-      action: PayloadAction<Nullable<'ascending' | 'descending'>>
+      { payload }: PayloadAction<Nullable<'ascending' | 'descending'>>
     ) {
-      if (action.payload) {
-        state.sortByName = action.payload;
-      } else {
-        state.sortByName = initialState.sortByName;
-      }
+      state.sortByName = payload;
     },
     setSortByPrice(
       state: WritableDraft<ShopState>,
-      action: PayloadAction<Nullable<'ascending' | 'descending'>>
+      { payload }: PayloadAction<Nullable<'ascending' | 'descending'>>
     ) {
-      if (action.payload) {
-        state.sortByPrice = action.payload;
-      } else {
-        state.sortByPrice = initialState.sortByPrice;
-      }
+      state.sortByPrice = payload;
     },
-    setViewType(state: WritableDraft<ShopState>, action: PayloadAction<ViewType>) {
-      if (action.payload) {
-        state.viewType = action.payload;
-      } else {
-        state.viewType = initialState.viewType;
-      }
+    setViewType(state: WritableDraft<ShopState>, { payload }: PayloadAction<ViewType>) {
+      state.viewType = payload;
     },
-    setCurrentCartPage(state: WritableDraft<ShopState>, action: PayloadAction<number>) {
-      if (action.payload) {
-        state.currentCartPage = action.payload;
-      } else {
-        state.currentCartPage = initialState.currentCartPage;
-      }
+    setCurrentCartPage(state: WritableDraft<ShopState>, { payload }: PayloadAction<number>) {
+      state.currentCartPage = payload;
     },
-    setProductsPerCartPage(state: WritableDraft<ShopState>, action: PayloadAction<number>) {
-      if (action.payload) {
-        state.productsPerCartPage = action.payload;
-      } else {
-        state.productsPerCartPage = initialState.productsPerCartPage;
-      }
+    setProductsPerCartPage(state: WritableDraft<ShopState>, { payload }: PayloadAction<number>) {
+      state.productsPerCartPage = payload;
     },
-    setActivePromoCodes(state: WritableDraft<ShopState>, action: PayloadAction<Array<PromoCode>>) {
-      if (action.payload) {
-        state.activePromoCodes = action.payload;
-      } else {
-        state.activePromoCodes = initialState.activePromoCodes;
-      }
+    setActivePromoCodes(
+      state: WritableDraft<ShopState>,
+      { payload }: PayloadAction<Array<PromoCode>>
+    ) {
+      state.activePromoCodes = payload;
     },
   },
 });

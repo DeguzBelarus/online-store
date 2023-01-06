@@ -4,12 +4,13 @@
   width: $product-item-width + px;
   height: $product-item-height + px;
   position: relative;
-  border: 2px solid $main-theme-color;
+  border: 3px solid $accents-theme-color;
   border-radius: 15px;
   background-color: $product-item-background-color;
   transition-property: border-color;
   transition-timing-function: linear;
   transition-duration: 0.2s;
+  padding: 1px;
 
   .add-to-cart-button {
     width: 100%;
@@ -30,7 +31,8 @@
     }
 
     span {
-      color: darkmagenta;
+      color: red;
+      font-weight: bold;
     }
   }
 
@@ -42,12 +44,13 @@
     top: 30px;
     left: -15px;
     background-color: #fff;
-    border: 2px solid #000;
+    border: 2px solid $accents-theme-color;
 
     .out-of-stock-paragraph {
       width: 100%;
       text-align: center;
       color: deeppink;
+      font-weight: bold;
       font-size: 14px;
     }
 
@@ -57,7 +60,7 @@
       top: -2px;
       left: -2px;
       background: #fff;
-      border: 2px solid #000;
+      border: 2px solid $accents-theme-color;
       border-right: none;
 
       &:before {
@@ -66,7 +69,7 @@
         height: 0;
         width: 0;
         border-style: solid;
-        border-color: #222 transparent transparent;
+        border-color: $accents-theme-color transparent transparent;
         border-width: 12px 0px 0px 12px;
         top: 109%;
         left: 0;
@@ -79,7 +82,7 @@
       top: -2px;
       right: -2px;
       background: #fff;
-      border: 2px solid #000;
+      border: 2px solid $accents-theme-color;
       border-left: none;
 
       &:after {
@@ -88,7 +91,7 @@
         height: 0;
         width: 0;
         border-style: solid;
-        border-color: #222 transparent transparent;
+        border-color: $accents-theme-color transparent transparent;
         border-width: 12px 0px 0px 12px;
         top: 109%;
         right: 0;
@@ -110,7 +113,7 @@
       bottom: 6px;
       right: 0;
       background-color: #fff;
-      border: 2px solid #000;
+      border: 2px solid $accents-theme-color;
       border-right: none;
       cursor: pointer;
 
@@ -138,7 +141,8 @@
       .out-of-stock-paragraph {
         width: 100%;
         text-align: center;
-        color: deeppink;
+        color: red;
+        font-weight: bold;
         font-size: 14px;
       }
 
@@ -161,7 +165,8 @@
     }
 
     .name-paragraph {
-      color: grey;
+      color: $accents-theme-color;
+      font-weight: bold;
       z-index: 1;
     }
 
@@ -178,7 +183,8 @@
     }
 
     .price-paragraph {
-      color: grey;
+      color: $accents-theme-color;
+      font-weight: bold;
       z-index: 1;
     }
 
@@ -190,9 +196,14 @@
       border-radius: 10px;
       padding: 3px;
 
+      .description-span {
+        color: $secondary-theme-color;
+      }
+
       .name-paragraph {
         width: 110px;
-        color: grey;
+        color: $accents-theme-color;
+        font-weight: bold;
       }
 
       .poster-wrapper {
@@ -206,7 +217,8 @@
       }
 
       .price-paragraph {
-        color: grey;
+        color: $accents-theme-color;
+        font-weight: bold;
       }
     }
   }
@@ -226,6 +238,6 @@
   }
 
   .external-wrapper.list-view:hover {
-    border-color: darkorchid;
+    border-color: pink;
   }
 }

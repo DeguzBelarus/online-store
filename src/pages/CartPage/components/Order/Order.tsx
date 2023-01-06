@@ -11,9 +11,9 @@ import {
   ChangeInputHandler,
   IProductData,
   ICartProductData,
-  FocusInputHandler,
   FormHandler,
   Nullable,
+  FormHandlerBoolean,
 } from 'types/types';
 import './Order.scss';
 
@@ -58,7 +58,7 @@ export const Order: FC<Props> = ({ orderModeHandler }): JSX.Element => {
         0
       ) *
         (activePromoCodes.reduce(
-          (discount: number, promoCode: PromoCode) => discount + promoCode[1],
+          (discount: number, promoCode: PromoCode) => discount + promoCode.promoCodeDiscount,
           0
         ) /
           100),
@@ -68,7 +68,7 @@ export const Order: FC<Props> = ({ orderModeHandler }): JSX.Element => {
   const [enteredCreditCardExpiration, setEnteredCreditCardExpiration] = useState<string>('');
   const [enteredCreditCardCVV, setEnteredCreditCardCVV] = useState<string>('');
 
-  const creditCardEnteredDataValidator: FocusInputHandler = (event) => {
+  const creditCardEnteredDataValidator = (): void => {
     let isCardNumberValid = true;
     let isCardExpirationValid = true;
     let isCardCVVValid = true;
@@ -137,7 +137,7 @@ export const Order: FC<Props> = ({ orderModeHandler }): JSX.Element => {
     }
   };
 
-  const orderConfirmValidator = (event: React.FormEvent<HTMLFormElement>): boolean => {
+  const orderConfirmValidator: FormHandlerBoolean = (event): boolean => {
     event.preventDefault();
 
     setFirstAndLastNamesError('');
@@ -251,23 +251,26 @@ export const Order: FC<Props> = ({ orderModeHandler }): JSX.Element => {
     }
   };
 
-  const orderFormDataUpdate: ChangeInputHandler = (event) => {
-    setOrderFormData({ ...orderFormData, [event.target.name]: event.target.value });
+  const orderFormDataUpdate: ChangeInputHandler = ({ target: { value, name } }) => {
+    setOrderFormData({ ...orderFormData, [name]: value });
   };
 
-  const enteredCreditCardNumberHandler: ChangeInputHandler = (event) => {
-    setEnteredCreditCardNumber(event.target.value);
+  const enteredCreditCardNumberHandler: ChangeInputHandler = ({ target: { value } }) => {
+    setEnteredCreditCardNumber(value);
   };
 
-  const enteredCreditCardExpirationHandler: ChangeInputHandler = (event) => {
-    setEnteredCreditCardExpiration(event.target.value);
+  const enteredCreditCardExpirationHandler: ChangeInputHandler = ({ target: { value } }) => {
+    setEnteredCreditCardExpiration(value);
   };
 
-  const enteredCreditCardCVVHandler: ChangeInputHandler = (event) => {
-    setEnteredCreditCardCVV(event.target.value);
+  const enteredCreditCardCVVHandler: ChangeInputHandler = ({ target: { value } }) => {
+    setEnteredCreditCardCVV(value);
   };
 
-  function sortByNameMethod(prevCartProduct: IProductData, nextCartProduct: IProductData): number {
+  const sortByNameMethod = (
+    prevCartProduct: IProductData,
+    nextCartProduct: IProductData
+  ): number => {
     if (prevCartProduct.name < nextCartProduct.name) {
       return -1;
     }
@@ -275,9 +278,9 @@ export const Order: FC<Props> = ({ orderModeHandler }): JSX.Element => {
       return 1;
     }
     return 0;
-  }
+  };
 
-  function cartProductsModifiedUpdate(): void {
+  const cartProductsModifiedUpdate = (): void => {
     setCartProductsModified(
       cartProducts
         .map((cartProduct: IProductData, index: number, array: Array<IProductData>) => {
@@ -314,7 +317,7 @@ export const Order: FC<Props> = ({ orderModeHandler }): JSX.Element => {
             : [...unique, cartProduct];
         }, [])
     );
-  }
+  };
 
   useEffect((): void => {
     cartProductsModifiedUpdate();
@@ -337,7 +340,7 @@ export const Order: FC<Props> = ({ orderModeHandler }): JSX.Element => {
           0
         ) *
           (activePromoCodes.reduce(
-            (discount: number, promoCode: PromoCode) => discount + promoCode[1],
+            (discount: number, promoCode: PromoCode) => discount + promoCode.promoCodeDiscount,
             0
           ) /
             100),
@@ -422,11 +425,7 @@ export const Order: FC<Props> = ({ orderModeHandler }): JSX.Element => {
   return (
     <div className="order-wrapper">
       {!isOrderCompleted ? (
-        <form
-          className="order-form"
-          onSubmit={(event: React.FormEvent<HTMLFormElement>) => confirmOrder(event)}
-          onInvalid={(event: React.FormEvent<HTMLFormElement>) => orderConfirmValidator(event)}
-        >
+        <form className="order-form" onSubmit={confirmOrder} onInvalid={orderConfirmValidator}>
           <h3>Order description:</h3>
           <label
             className={
@@ -535,13 +534,13 @@ export const Order: FC<Props> = ({ orderModeHandler }): JSX.Element => {
             />
           </label>
           <div className="credit-card-wrapper">
-            {activePromoCodes?.length > 0 && (
+            {activePromoCodes?.length ? (
               <div className="active-promo-codes">
                 {activePromoCodes.map((promoCode: PromoCode, index: number) => {
-                  return <span key={index}>{promoCode[0]}</span>;
+                  return <span key={index}>{promoCode.promoCodeName}</span>;
                 })}
               </div>
-            )}
+            ) : null}
             <span className="transaction-total-span">{orderFormData.total.toFixed(2) + '$'}</span>
             <input
               type="text"
@@ -557,9 +556,7 @@ export const Order: FC<Props> = ({ orderModeHandler }): JSX.Element => {
               onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                 enteredCreditCardNumberHandler(event)
               }
-              onBlur={(event: React.FocusEvent<HTMLInputElement>) =>
-                creditCardEnteredDataValidator(event)
-              }
+              onBlur={creditCardEnteredDataValidator}
             />
             <div
               className={
@@ -586,9 +583,7 @@ export const Order: FC<Props> = ({ orderModeHandler }): JSX.Element => {
               onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                 enteredCreditCardExpirationHandler(event)
               }
-              onBlur={(event: React.FocusEvent<HTMLInputElement>) =>
-                creditCardEnteredDataValidator(event)
-              }
+              onBlur={creditCardEnteredDataValidator}
             />
             <input
               type="text"
@@ -604,19 +599,14 @@ export const Order: FC<Props> = ({ orderModeHandler }): JSX.Element => {
               onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                 enteredCreditCardCVVHandler(event)
               }
-              onBlur={(event: React.FocusEvent<HTMLInputElement>) =>
-                creditCardEnteredDataValidator(event)
-              }
+              onBlur={creditCardEnteredDataValidator}
             />
             <div className="error-message-container">{creditCardError}</div>
           </div>
           <button type="submit" className="order-submit-button">
             SUBMIT
           </button>
-          <div
-            className="order-return-button"
-            onClick={(event: React.MouseEvent<HTMLDivElement>) => orderModeHandler(event)}
-          >
+          <div className="order-return-button" onClick={orderModeHandler}>
             Back
           </div>
         </form>

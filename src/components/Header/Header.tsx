@@ -41,9 +41,9 @@ import {
   PromoCode,
   ChangeInputHandler,
   ClickAndTouchButtonHandler,
-  ClickAndTouchSpanHandler,
   ClickAndTouchDivHandler,
   Nullable,
+  ClickAndTouchDivHandlerParametric,
 } from '../../types/types';
 import products from '../../products.json';
 import { ILocalStorageSaveObject } from '../../types/types';
@@ -90,29 +90,35 @@ export const Header: FC = (): JSX.Element => {
   const brandFilterQuery: Nullable<string> = new URLSearchParams(search).get('brand');
   const categoryFilterQuery: Nullable<string> = new URLSearchParams(search).get('category');
   const nameFilterQuery: Nullable<string> = new URLSearchParams(search).get('name');
-  const instockFilterQuery = !!new URLSearchParams(search).get('instock');
+  const instockFilterQuery = Boolean(new URLSearchParams(search).get('instock'));
   const minPriceFilterQuery: Nullable<number> = Number(new URLSearchParams(search).get('minprice'));
   const maxPriceFilterQuery: Nullable<number> = Number(new URLSearchParams(search).get('maxprice'));
   const viewTypeQuery: Nullable<string> = new URLSearchParams(search).get('view');
   const sortByNameQuery: Nullable<string> = new URLSearchParams(search).get('namesort');
   const sortByPriceQuery: Nullable<string> = new URLSearchParams(search).get('pricesort');
 
+  const brandsArray: Array<string> = Array.from(
+    new Set(filteredProducts.map((product: IProductData) => product.brand))
+  );
+  const categoriesArray: Array<string> = Array.from(
+    new Set(filteredProducts.map((product: IProductData) => product.category))
+  );
+
   const filtersIsActive = (): boolean => {
     if (
-      brandFilter !== null ||
-      categoryFilter !== null ||
-      productNameFilter !== null ||
-      inStockFilter ||
-      minPriceFilter ||
-      maxPriceFilter
+      !brandFilter &&
+      !categoryFilter &&
+      !productNameFilter &&
+      !inStockFilter &&
+      !minPriceFilter &&
+      !maxPriceFilter
     ) {
-      return true;
-    } else {
       return false;
     }
+    return true;
   };
 
-  function cartProductsModifiedUpdate(): void {
+  const cartProductsModifiedUpdate = (): void => {
     setCartProductsModified(
       cartData
         .map((cartProduct: IProductData, index: number, array: Array<IProductData>) => {
@@ -148,7 +154,7 @@ export const Header: FC = (): JSX.Element => {
             : [...unique, cartProduct];
         }, [])
     );
-  }
+  };
 
   const increasableProductsInCartUpdate = (): void => {
     setIncreasableProductsInCart(
@@ -158,72 +164,39 @@ export const Header: FC = (): JSX.Element => {
     );
   };
 
-  const brandsArray: Array<string> = Array.from(
-    new Set(filteredProducts.map((product: IProductData) => product.brand))
-  );
-  const categoriesArray: Array<string> = Array.from(
-    new Set(filteredProducts.map((product: IProductData) => product.category))
-  );
+  const brandFilterHandler: ClickAndTouchDivHandlerParametric<string> = (event, value): void => {
+    dispatch(setBrandFilter(value === brandFilter ? null : value));
+  };
 
-  const brandFilterHandler = (
-    event: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>,
-    value: string
-  ): void => {
-    if (value === brandFilter) {
-      dispatch(setBrandFilter(null));
-    } else {
-      dispatch(setBrandFilter(value));
+  const categoryFilterHandler: ClickAndTouchDivHandlerParametric<string> = (event, value): void => {
+    dispatch(setCategoryFilter(value === categoryFilter ? null : value));
+  };
+
+  const inStockFilterHandler = (): void => {
+    dispatch(setInStockFilter(inStockFilter ? false : true));
+  };
+
+  const productNameFilterHandler: ChangeInputHandler = ({ target: { value } }) => {
+    dispatch(setProductNameFilter(value ? value : null));
+  };
+
+  const minPriceFilterHandler: ChangeInputHandler = ({ target: { value } }) => {
+    if (value) {
+      dispatch(
+        setMinPriceFilter(Number(value) === filteredProductsMinPrice ? null : Number(value))
+      );
     }
   };
 
-  const categoryFilterHandler = (
-    event: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>,
-    value: string
-  ): void => {
-    if (value === categoryFilter) {
-      dispatch(setCategoryFilter(null));
-    } else {
-      dispatch(setCategoryFilter(value));
+  const maxPriceFilterHandler: ChangeInputHandler = ({ target: { value } }) => {
+    if (value) {
+      dispatch(
+        setMaxPriceFilter(Number(value) === filteredProductsMaxPrice ? null : Number(value))
+      );
     }
   };
 
-  const inStockFilterHandler: ChangeInputHandler = (event) => {
-    if (inStockFilter) {
-      dispatch(setInStockFilter(false));
-    } else {
-      dispatch(setInStockFilter(true));
-    }
-  };
-
-  const productNameFilterHandler: ChangeInputHandler = (event) => {
-    if (event.target.value) {
-      dispatch(setProductNameFilter(event.target.value));
-    } else {
-      dispatch(setProductNameFilter(null));
-    }
-  };
-
-  const minPriceFilterHandler: ChangeInputHandler = (event) => {
-    if (event.target.value) {
-      if (Number(event.target.value) === filteredProductsMinPrice) {
-        dispatch(setMinPriceFilter(null));
-      } else {
-        dispatch(setMinPriceFilter(Number(event.target.value)));
-      }
-    }
-  };
-
-  const maxPriceFilterHandler: ChangeInputHandler = (event) => {
-    if (event.target.value) {
-      if (Number(event.target.value) === filteredProductsMaxPrice) {
-        dispatch(setMaxPriceFilter(null));
-      } else {
-        dispatch(setMaxPriceFilter(Number(event.target.value)));
-      }
-    }
-  };
-
-  const resetSearchFilters: ClickAndTouchButtonHandler = (event) => {
+  const resetSearchFilters = (): void => {
     dispatch(setBrandFilter(null));
     dispatch(setCategoryFilter(null));
     dispatch(setInStockFilter(false));
@@ -234,13 +207,13 @@ export const Header: FC = (): JSX.Element => {
     productNameFilterInput.current && (productNameFilterInput.current.value = '');
   };
 
-  function localStorageLoadData(): void {
+  const localStorageLoadData = (): void => {
     if (localStorage.getItem('online-store-data')) {
       const storageSaveData: ILocalStorageSaveObject = JSON.parse(
         localStorage.getItem('online-store-data') || ''
       );
 
-      if (storageSaveData.cart?.length > 0) {
+      if (storageSaveData.cart?.length) {
         dispatch(setCart(storageSaveData.cart));
       }
       if (storageSaveData.brandFilter || brandFilterQuery) {
@@ -385,7 +358,7 @@ export const Header: FC = (): JSX.Element => {
           }
         }
       }
-      if (storageSaveData.activePromoCodes?.length > 0) {
+      if (storageSaveData.activePromoCodes?.length) {
         dispatch(setActivePromoCodes(storageSaveData.activePromoCodes));
       }
     } else {
@@ -426,9 +399,9 @@ export const Header: FC = (): JSX.Element => {
         }
       }
     }
-  }
+  };
 
-  function localStorageSaveData(): void {
+  const localStorageSaveData = (): void => {
     const storageSaveData: ILocalStorageSaveObject = {
       brandFilter,
       categoryFilter,
@@ -447,9 +420,9 @@ export const Header: FC = (): JSX.Element => {
       activePromoCodes,
     };
     localStorage.setItem('online-store-data', JSON.stringify(storageSaveData));
-  }
+  };
 
-  const navigateToMain: ClickAndTouchSpanHandler = (event) => {
+  const navigateToMain = (): void => {
     const urlSearchParams = new URLSearchParams();
     if (categoryFilter) {
       urlSearchParams.append('category', categoryFilter);
@@ -482,7 +455,7 @@ export const Header: FC = (): JSX.Element => {
     dispatch(setCurrentProduct(null));
   };
 
-  function queryUpdate(): void {
+  const queryUpdate = (): void => {
     let filteredProducts: Array<IProductData> = products;
     const urlSearchParams = new URLSearchParams();
 
@@ -629,7 +602,7 @@ export const Header: FC = (): JSX.Element => {
 
     dispatch(setFilteredProducts(filteredProducts));
     navigate(`?${urlSearchParams}`);
-  }
+  };
 
   const isPricesRangesShownHandler: ClickAndTouchDivHandler = (event) => {
     const eventTarget = event.target as HTMLDivElement;
@@ -647,7 +620,7 @@ export const Header: FC = (): JSX.Element => {
     }
   };
 
-  const isFiltersShownHandler: ClickAndTouchButtonHandler = (event) => {
+  const isFiltersShownHandler = (): void => {
     if (isFiltersShown) {
       setIsFiltersShown(false);
     } else {
@@ -655,7 +628,7 @@ export const Header: FC = (): JSX.Element => {
     }
   };
 
-  const urlCopy: ClickAndTouchButtonHandler = (event) => {
+  const urlCopy: ClickAndTouchButtonHandler = (): void => {
     if (isUrlCopied) return;
     navigator.clipboard.writeText(location.href);
     setIsUrlCopied(true);
@@ -664,7 +637,7 @@ export const Header: FC = (): JSX.Element => {
     }, 2000);
   };
 
-  const cartTransition: ClickAndTouchDivHandler = (event) => {
+  const cartTransition = (): void => {
     if (location.href.includes('cart')) return;
     navigate('/cart');
   };
@@ -698,7 +671,7 @@ export const Header: FC = (): JSX.Element => {
   }, [cartProductsModified]);
 
   return (
-    <header data-testid="header">
+    <header>
       {!location.href.includes('cart') && !location.href.includes('product') && (
         <FiltersBar
           filteredProducts={filteredProducts}
@@ -722,12 +695,10 @@ export const Header: FC = (): JSX.Element => {
           inStockFilterHandler={inStockFilterHandler}
           resetSearchFilters={resetSearchFilters}
           isFiltersShown={isFiltersShown}
+          filtersIsActive={filtersIsActive}
         />
       )}
-      <span
-        className="text-logo"
-        onClick={(event: React.MouseEvent<HTMLSpanElement>) => navigateToMain(event)}
-      >
+      <span className="text-logo" onClick={navigateToMain}>
         OnlineStore
       </span>
       {!location.href.includes('cart') && !location.href.includes('product') && (
@@ -741,16 +712,20 @@ export const Header: FC = (): JSX.Element => {
             }
             spellCheck={false}
             ref={productNameFilterInput}
-            data-testid="product-search-input"
           />
         </div>
       )}
       {!location.href.includes('cart') && !location.href.includes('product') && (
         <button
           type="button"
-          className={filtersIsActive() ? 'filters-show-button active' : 'filters-show-button'}
-          onClick={(event: React.MouseEvent<HTMLButtonElement>) => isFiltersShownHandler(event)}
-          data-testid="filters-show-button"
+          className={
+            isFiltersShown
+              ? 'filters-show-button shown'
+              : filtersIsActive()
+              ? 'filters-show-button active'
+              : 'filters-show-button'
+          }
+          onClick={isFiltersShownHandler}
         >
           Filters
         </button>
@@ -758,28 +733,25 @@ export const Header: FC = (): JSX.Element => {
       <button
         type="button"
         className={isUrlCopied ? 'url-copy-button url-copied' : 'url-copy-button'}
-        onClick={(event: React.MouseEvent<HTMLButtonElement>) => urlCopy(event)}
+        onClick={urlCopy}
       >
         {isUrlCopied ? `Copied!` : `URL Copy`}
       </button>
-      <div
-        className="cart-button"
-        onClick={(event: React.MouseEvent<HTMLDivElement>) => cartTransition(event)}
-      >
-        {cartData?.length > 0 && (
+      <div className="cart-button" onClick={cartTransition}>
+        {cartData?.length ? (
           <span className="cart-quantity-span">
-            {increasableProductsInCart?.length > 0
+            {increasableProductsInCart?.length
               ? `${cartData?.length} (${increasableProductsInCart.length}) pcs`
               : `${cartData?.length} pcs`}
           </span>
-        )}
+        ) : null}
         <img src={cartLogo} alt="a cart logo" />
-        {cartData?.length > 0 && (
+        {cartData?.length ? (
           <span className="cart-summary-span">{`${cartData.reduce(
             (sum, product: IProductData) => sum + product.price,
             0
           )}$`}</span>
-        )}
+        ) : null}
       </div>
     </header>
   );

@@ -22,76 +22,85 @@
   h3 {
     width: 100%;
     text-align: center;
+    color: #fff;
   }
 
   .brands-wrapper {
-    width: 100%;
-    height: 202px;
+    width: 90%;
+    height: 207px;
     @include flex-column-line-center-vertical-top;
-    border: 1px solid #000;
+    border: 1px solid $secondary-theme-color;
+    padding: 2px;
 
     h4 {
       width: 100%;
       text-align: center;
+      color: #fff;
     }
 
     .brand-item {
       width: 100%;
       font-size: 12px;
       text-align: center;
-      color: #000;
+      color: $secondary-theme-color;
       cursor: pointer;
 
       &.active {
         .brand-selector-span {
-          color: deeppink;
+          color: red;
         }
       }
     }
   }
 
   .categories-wrapper {
-    width: 100%;
-    height: 62px;
+    width: 90%;
+    height: 67px;
     @include flex-column-line-center-vertical-top;
-    border: 1px solid #000;
+    border: 1px solid $secondary-theme-color;
+    padding: 2px;
 
     h4 {
       width: 100%;
       text-align: center;
+      color: #fff;
     }
 
     .category-item {
       width: 100%;
       font-size: 12px;
       text-align: center;
-      color: #000;
+      color: $secondary-theme-color;
       cursor: pointer;
 
       &.active {
         .category-selector-span {
-          color: deeppink;
+          color: red;
         }
       }
     }
   }
 
   .price-range-wrapper {
-    width: 100%;
+    width: 90%;
     @include flex-all-center;
     position: relative;
-    border: 1px solid #000;
+    border: 1px solid $secondary-theme-color;
+    padding: 2px;
     cursor: pointer;
 
     .prices-range-span {
       width: 100%;
       font-size: 12px;
       text-align: center;
-      color: #000;
       cursor: pointer;
 
+      &:not(.active) {
+        color: $secondary-theme-color;
+      }
+
       &.active {
-        color: deeppink;
+        color: red;
       }
     }
 
@@ -117,7 +126,7 @@
         .price-range-span {
           display: inline-block;
           width: 30px;
-          color: green;
+          color: $accents-theme-color;
           cursor: default;
         }
 
@@ -128,6 +137,7 @@
         .price-text-input {
           width: 42px;
           cursor: default;
+          color: $accents-theme-color;
 
           &:focus {
             outline: none;
@@ -138,20 +148,20 @@
   }
 
   .in-stock-wrapper {
-    width: 100%;
+    width: 90%;
     @include flex-line-spacebetween-vertical-center;
-    border: 1px solid #000;
-    padding: 0 12px;
+    border: 1px solid $secondary-theme-color;
+    padding: 2px 12px;
 
     .in-stock-span {
       width: 100%;
       font-size: 12px;
       text-align: center;
-      color: #000;
+      color: $secondary-theme-color;
       cursor: pointer;
 
       &.active {
-        color: deeppink;
+        color: red;
       }
     }
 
@@ -165,9 +175,16 @@
     width: 90%;
     height: 30px;
     @include flex-all-center;
-    background-color: #fff;
-    border: 2px solid #000;
-    color: green;
+    background-color: $secondary-theme-color;
+    border: 2px solid #fff;
+    color: #fff;
     cursor: pointer;
+
+    &:disabled {
+      color: #aaa;
+      border: 2px solid #aaa;
+      background-color: #777;
+      cursor: default;
+    }
   }
 }

@@ -5,12 +5,7 @@ import { useNavigate, NavigateFunction } from 'react-router-dom';
 
 import addToCartLogo from '../../../../assets/img/add-to-cart.png';
 import { getViewType, setCurrentProduct, getCart, setCart } from 'app/shopSlice';
-import {
-  IProductData,
-  ViewType,
-  ClickAndTouchDivHandler,
-  ClickAndTouchButtonHandler,
-} from '../../../../types/types';
+import { IProductData, ViewType } from '../../../../types/types';
 import './ProductItem.scss';
 
 export const ProductItem: FC<IProductData> = ({ ...IProductData }) => {
@@ -20,7 +15,7 @@ export const ProductItem: FC<IProductData> = ({ ...IProductData }) => {
   const cartData: Array<IProductData> = useAppSelector(getCart);
   const viewType: ViewType = useAppSelector(getViewType);
 
-  const productDetailsTransition: ClickAndTouchDivHandler = (event) => {
+  const productDetailsTransition = (): void => {
     dispatch(setCurrentProduct({ ...IProductData }));
     navigate(`/product/${IProductData.id}`);
   };
@@ -29,11 +24,11 @@ export const ProductItem: FC<IProductData> = ({ ...IProductData }) => {
     return cartData.some((cartProduct: IProductData) => cartProduct.id === IProductData.id);
   };
 
-  const addProductToCart: ClickAndTouchButtonHandler = (event) => {
+  const addProductToCart = (): void => {
     dispatch(setCart([...cartData, { ...IProductData }]));
   };
 
-  const removeProductFromCart: ClickAndTouchButtonHandler = (event) => {
+  const removeProductFromCart = (): void => {
     dispatch(
       setCart(cartData.filter((cartProduct: IProductData) => cartProduct.id !== IProductData.id))
     );
@@ -43,13 +38,13 @@ export const ProductItem: FC<IProductData> = ({ ...IProductData }) => {
     <div className={viewType === 'cards' ? 'external-wrapper' : 'external-wrapper list-view'}>
       <div
         className={viewType === 'cards' ? 'product-item-wrapper' : 'product-item-wrapper list-view'}
-        onClick={(event: React.MouseEvent<HTMLDivElement>) => productDetailsTransition(event)}
+        onClick={productDetailsTransition}
         data-testid="product-card"
       >
         <p className="name-paragraph">{IProductData.name}</p>
         <div
           className={
-            !IProductData.inStock && IProductData.amount === 0
+            !IProductData.inStock && !IProductData.amount
               ? 'poster-wrapper poster-out-of-stock'
               : 'poster-wrapper'
           }
@@ -61,30 +56,27 @@ export const ProductItem: FC<IProductData> = ({ ...IProductData }) => {
             alt="product preview"
           />
         </div>
-        <p className="price-paragraph">{`${IProductData.price}`}$</p>
         {viewType === 'list' && (
           <>
-            <span>{`brand: ${IProductData.brand} amount: ${IProductData.amount} pcs`}</span>
+            <span className="description-span">{`brand: ${IProductData.brand} amount: ${IProductData.amount} pcs`}</span>
           </>
         )}
+        <p className="price-paragraph">{`${IProductData.price}`}$</p>
       </div>
-      {IProductData.inStock && IProductData.amount > 0 && (
+      {IProductData.inStock && IProductData.amount && (
         <button
           type="button"
           className="add-to-cart-button"
-          onClick={(event: React.MouseEvent<HTMLButtonElement>) =>
-            productInCartAvailabilityCheck()
-              ? removeProductFromCart(event)
-              : addProductToCart(event)
-          }
+          onClick={productInCartAvailabilityCheck() ? removeProductFromCart : addProductToCart}
         >
-          {!productInCartAvailabilityCheck() && (
+          {!productInCartAvailabilityCheck() ? (
             <img src={addToCartLogo} alt="an add to cart logo" />
+          ) : (
+            <span>remove</span>
           )}
-          {productInCartAvailabilityCheck() && <span>remove</span>}
         </button>
       )}
-      {!IProductData.inStock && IProductData.amount === 0 && (
+      {!IProductData.inStock && !IProductData.amount && (
         <div className="out-out-stock-container">
           <p className="out-of-stock-paragraph">OUT OF STOCK</p>
           <div className="left-ribbon"></div>
