@@ -84,7 +84,7 @@ export const ProductDetailsPage: FC = (): JSX.Element => {
   };
 
   return (
-    <>
+    <div className="product-details-page-wrapper">
       <Header />
       <div className="breadcrumbs-wrapper">
         <div className="breadcrumbs">
@@ -191,6 +191,6 @@ export const ProductDetailsPage: FC = (): JSX.Element => {
       </div>
 
       <Footer />
-    </>
+    </div>
   );
 };
