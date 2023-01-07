@@ -1,4 +1,4 @@
-import React, { FC, MouseEventHandler, useState, useEffect } from 'react';
+import React, { FC, useState, useEffect } from 'react';
 import { useAppSelector, useAppDispatch } from 'app/hooks';
 import { Dispatch } from '@reduxjs/toolkit';
 import { Params, useParams, Link, useNavigate, NavigateFunction } from 'react-router-dom';
@@ -17,6 +17,7 @@ import './ProductDetailsPage.scss';
 
 export const ProductDetailsPage: FC = (): JSX.Element => {
   const dispatch: Dispatch = useAppDispatch();
+  const navigate: NavigateFunction = useNavigate();
   const cartData: Array<IProductData> = useAppSelector(getCart);
   const filteredProducts: Array<IProductData> = useAppSelector(getFilteredProducts);
   const currentIProductData: IProductData | null = useAppSelector(getCurrentProduct);
@@ -41,11 +42,17 @@ export const ProductDetailsPage: FC = (): JSX.Element => {
     };
   }, []);
 
+  // useEffect(() => {
+  //   if (currentIProductData?.posters) {
+  //     setBigPhotoSrc(currentIProductData?.posters[0]);
+  //   }
+  // }, [currentIProductData?.posters]);
+
   const productInCartAvailabilityCheck = (): boolean => {
     return cartData.some((cartProduct: IProductData) => cartProduct.id === currentIProductData?.id);
   };
 
-  const addProductToCart: ClickAndTouchButtonHandler = (event) => {
+  const addProductToCart: ClickAndTouchButtonHandler = () => {
     if (currentIProductData) {
       const productToCart: IProductData = {
         id: currentIProductData.id,
@@ -71,13 +78,10 @@ export const ProductDetailsPage: FC = (): JSX.Element => {
     );
   };
 
-  // const orderModeHandler: ClickAndTouchButtonHandler = (event) => {
-  //   if (location.href.includes('order')) {
-  //     navigate('/cart');
-  //   } else {
-  //     navigate('/cart/order');
-  //   }
-  // };
+  const buyProduct: ClickAndTouchButtonHandler = (event) => {
+    addProductToCart(event);
+    navigate('/cart/order/');
+  };
 
   return (
     <>
@@ -169,12 +173,19 @@ export const ProductDetailsPage: FC = (): JSX.Element => {
                 <p className="out-of-stock-paragraph">OUT OF STOCK</p>
               </div>
             )}
-            <button
-              className="add-to-cart-button"
-              // onClick={(event: MouseEventHandler<HTMLButtonElement>) => orderModeHandler(event)}
-            >
-              buy now
-            </button>
+            {currentIProductData?.inStock && currentIProductData.amount > 0 && (
+              <button
+                className="add-to-cart-button"
+                onClick={(event: React.MouseEvent<HTMLButtonElement>) => buyProduct(event)}
+              >
+                buy now
+              </button>
+            )}
+            {!currentIProductData?.inStock && currentIProductData?.amount === 0 && (
+              <div className="out-out-stock-container">
+                <p className="out-of-stock-paragraph">OUT OF STOCK</p>
+              </div>
+            )}
           </div>
         </div>
       </div>
