@@ -1,7 +1,7 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC, MouseEventHandler, useState, useEffect } from 'react';
 import { useAppSelector, useAppDispatch } from 'app/hooks';
 import { Dispatch } from '@reduxjs/toolkit';
-import { Params, useParams, Link } from 'react-router-dom';
+import { Params, useParams, Link, useNavigate, NavigateFunction } from 'react-router-dom';
 
 import {
   getCurrentProduct,
@@ -21,6 +21,7 @@ export const ProductDetailsPage: FC = (): JSX.Element => {
   const filteredProducts: Array<IProductData> = useAppSelector(getFilteredProducts);
   const currentIProductData: IProductData | null = useAppSelector(getCurrentProduct);
   const { id }: Readonly<Params<string>> = useParams();
+  const [bigPhotoSrc, setBigPhotoSrc] = useState('posters/A12/a12.jpeg');
 
   useEffect(() => {
     if (!currentIProductData) {
@@ -70,9 +71,39 @@ export const ProductDetailsPage: FC = (): JSX.Element => {
     );
   };
 
+  // const orderModeHandler: ClickAndTouchButtonHandler = (event) => {
+  //   if (location.href.includes('order')) {
+  //     navigate('/cart');
+  //   } else {
+  //     navigate('/cart/order');
+  //   }
+  // };
+
   return (
     <>
       <Header />
+      <div className="breadcrumbs-wrapper">
+        <div className="breadcrumbs">
+          <div className="crumb">
+            <Link to={`/`}>Store</Link>
+          </div>
+          <span> {'>>'} </span>
+          <div className="crumb">
+            <Link to={`/?category=${currentIProductData?.category}`}>
+              {currentIProductData?.category}
+            </Link>
+          </div>
+          <span> {'>>'} </span>
+          <div className="crumb">
+            <Link to={`/?brand=${currentIProductData?.brand}`}>{currentIProductData?.brand}</Link>
+          </div>
+          <span> {'>>'} </span>
+          <div className="crumb">
+            <span>{currentIProductData?.name}</span>
+          </div>
+        </div>
+      </div>
+
       <div className="product-details-wrapper">
         <div className="product-title">
           <h1>{`${currentIProductData?.name}`}</h1>
@@ -86,6 +117,7 @@ export const ProductDetailsPage: FC = (): JSX.Element => {
                     return (
                       <img
                         className="small-photo"
+                        onClick={() => setBigPhotoSrc(poster)}
                         src={require(`../../assets/img/${poster}`)}
                         key={index}
                         alt="a product preview"
@@ -98,7 +130,7 @@ export const ProductDetailsPage: FC = (): JSX.Element => {
             <div className="big-photo-wrapper">
               <img
                 className="big-photo"
-                src={require(`../../assets/img/posters/A70/a70.jpeg`)}
+                src={require(`../../assets/img/${bigPhotoSrc}`)}
                 alt="a product photo"
               />
             </div>
@@ -137,7 +169,12 @@ export const ProductDetailsPage: FC = (): JSX.Element => {
                 <p className="out-of-stock-paragraph">OUT OF STOCK</p>
               </div>
             )}
-            <button className="add-to-cart-button">buy now</button>
+            <button
+              className="add-to-cart-button"
+              // onClick={(event: MouseEventHandler<HTMLButtonElement>) => orderModeHandler(event)}
+            >
+              buy now
+            </button>
           </div>
         </div>
       </div>
