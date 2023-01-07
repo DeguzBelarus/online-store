@@ -33,6 +33,12 @@ import {
   setProductsPerCartPage,
   getActivePromoCodes,
   setActivePromoCodes,
+  getIsFirstLoad,
+  setIsFirstLoad,
+  getIsFiltersShown,
+  setIsFiltersShown,
+  getIsPriceRangesShown,
+  setIsPriceRangesShown,
 } from 'app/shopSlice';
 import {
   IProductData,
@@ -59,10 +65,7 @@ export const Header: FC = (): JSX.Element => {
   const dispatch: Dispatch = useAppDispatch();
   const navigate: NavigateFunction = useNavigate();
 
-  const [isPriceRangesShown, setIsPriceRangesShown] = useState<boolean>(false);
-  const [isFiltersShown, setIsFiltersShown] = useState<boolean>(false);
   const [isUrlCopied, setIsUrlCopied] = useState<boolean>(false);
-  const [isFirstLoad, setIsFirstLoad] = useState<boolean>(true);
   const [filteredProductsMinPrice, setFilteredProductsMinPrice] = useState<Nullable<number>>(null);
   const [filteredProductsMaxPrice, setFilteredProductsMaxPrice] = useState<Nullable<number>>(null);
   const [cartProductsModified, setCartProductsModified] = useState<Array<ICartProductData>>([]);
@@ -96,6 +99,9 @@ export const Header: FC = (): JSX.Element => {
   const viewTypeQuery: Nullable<string> = new URLSearchParams(search).get('view');
   const sortByNameQuery: Nullable<string> = new URLSearchParams(search).get('namesort');
   const sortByPriceQuery: Nullable<string> = new URLSearchParams(search).get('pricesort');
+  const isFirstLoad: boolean = useAppSelector(getIsFirstLoad);
+  const isFiltersShown: boolean = useAppSelector(getIsFiltersShown);
+  const isPriceRangesShown: boolean = useAppSelector(getIsPriceRangesShown);
 
   const brandsArray: Array<string> = Array.from(
     new Set(filteredProducts.map((product: IProductData) => product.brand))
@@ -203,7 +209,7 @@ export const Header: FC = (): JSX.Element => {
     dispatch(setMaxPriceFilter(null));
     dispatch(setMinPriceFilter(null));
     dispatch(setProductNameFilter(null));
-    setIsPriceRangesShown(false);
+    dispatch(setIsPriceRangesShown(false));
     productNameFilterInput.current && (productNameFilterInput.current.value = '');
   };
 
@@ -292,10 +298,10 @@ export const Header: FC = (): JSX.Element => {
         }
       }
       if (storageSaveData.isPriceRangesShown) {
-        setIsPriceRangesShown(true);
+        dispatch(setIsPriceRangesShown(true));
       }
       if (storageSaveData.isFiltersShown) {
-        setIsFiltersShown(true);
+        dispatch(setIsFiltersShown(true));
       }
       if (storageSaveData.viewType || viewTypeQuery) {
         if (!viewTypeQuery && storageSaveData.viewType) {
@@ -595,7 +601,7 @@ export const Header: FC = (): JSX.Element => {
     }
     if (isFirstLoad) {
       localStorageLoadData();
-      setIsFirstLoad(false);
+      dispatch(setIsFirstLoad(false));
     } else {
       localStorageSaveData();
     }
@@ -614,17 +620,17 @@ export const Header: FC = (): JSX.Element => {
     )
       return;
     if (isPriceRangesShown) {
-      setIsPriceRangesShown(false);
+      dispatch(setIsPriceRangesShown(false));
     } else {
-      setIsPriceRangesShown(true);
+      dispatch(setIsPriceRangesShown(true));
     }
   };
 
   const isFiltersShownHandler = (): void => {
     if (isFiltersShown) {
-      setIsFiltersShown(false);
+      dispatch(setIsFiltersShown(false));
     } else {
-      setIsFiltersShown(true);
+      dispatch(setIsFiltersShown(true));
     }
   };
 
