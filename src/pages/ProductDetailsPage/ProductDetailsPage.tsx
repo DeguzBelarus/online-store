@@ -45,7 +45,7 @@ export const ProductDetailsPage: FC = (): JSX.Element => {
         <div className="product-data">
           <div className="product-photos">
             <div className="small-photos">
-              {currentIProductData?.posters && currentIProductData.posters.length > 0 && (
+              {currentIProductData?.posters && currentIProductData.posters.length ? (
                 <div className="small-photo-wrapper">
                   {currentIProductData?.posters.map((poster: string, index: number) => {
                     return (
@@ -58,7 +58,7 @@ export const ProductDetailsPage: FC = (): JSX.Element => {
                     );
                   })}
                 </div>
-              )}
+              ) : null}
             </div>
             <div className="big-photo-wrapper">
               <img

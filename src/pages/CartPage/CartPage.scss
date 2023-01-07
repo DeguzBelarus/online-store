@@ -5,6 +5,7 @@
   height: calc(100vh - #{($header-height + px)} - #{($footer-height + px)});
   @include flex-column-line-center-vertical-top;
   @include user-select-none;
+  background-color: $secondary-theme-color;
   position: relative;
 
   .cart-items-wrapper {
@@ -27,24 +28,27 @@
         border: 1px solid #ccc;
         border-radius: 5px;
         position: relative;
+        background-color: $accents-theme-color;
 
         .tip {
           position: absolute;
           bottom: 1px;
           left: 5px;
-          color: #aaa;
+          color: $secondary-theme-color;
           font-size: 12px;
         }
 
         .promo-code-input-wrapper {
-          width: 100%;
+          width: 98%;
           @include flex-line-start-vertical-center;
           gap: 5px;
 
           .promo-code-input {
+            width: 98%;
             height: 25px;
-            padding: 2px;
-            border: 1px solid deeppink;
+            padding: 3px;
+            padding-right: 1px;
+            border: 2px solid $accents-theme-color;
 
             &:focus {
               outline: none
@@ -56,13 +60,14 @@
             @include flex-all-center;
             padding: 0 8px;
             background-color: #fff;
-            border: 1px solid yellowgreen;
+            border: 2px solid yellowgreen;
             color: green;
+            font-weight: bold;
             cursor: pointer;
 
             &:disabled {
               color: #aaa;
-              border: 1px solid #aaa;
+              border: 2px solid #aaa;
               cursor: default;
             }
           }
@@ -72,6 +77,7 @@
           width: 100%;
           @include flex-column-line-start-vertical-top;
           margin-top: 5px;
+          color: #fff;
 
           .active-codes-wrapper {
             width: 100%;
@@ -86,8 +92,9 @@
               .remove-code-button {
                 @include flex-all-center;
                 border: 1px solid red;
-                padding: 0 4px;
+                padding: 0 10px;
                 color: red;
+                background-color: #fff;
                 cursor: pointer;
               }
             }
@@ -101,6 +108,9 @@
         @include flex-column-line-center-vertical-top;
         border: 1px solid #ccc;
         border-radius: 5px;
+        background-color: $accents-theme-color;
+        color: $secondary-theme-color;
+
 
         .cart-pages-upper-container {
           width: 100%;
@@ -111,8 +121,8 @@
           font-size: 14px;
 
           .products-per-page-selector {
-            width: 60px;
-            height: 80%;
+            width: 65px;
+            height: 75%;
             @include flex-all-center;
             background-color: #fff;
             border: 1px solid #aaa;
@@ -121,13 +131,14 @@
 
             &.active {
               color: #fff;
-              background-color: rgba($color: green, $alpha: 0.7);
+              background-color: rgba($color: $secondary-theme-color, $alpha: 0.7);
               cursor: default;
             }
 
             &:disabled {
               color: #aaa;
               border: 1px solid #aaa;
+              background-color: #777;
               cursor: default;
             }
           }
@@ -142,7 +153,7 @@
           padding: 5px;
 
           .cart-page-selector {
-            width: 8%;
+            width: 12%;
             height: 22px;
             @include flex-all-center;
             background-color: #fff;
@@ -153,7 +164,7 @@
 
             &.active {
               color: #fff;
-              background-color: rgba($color: green, $alpha: 0.7);
+              background-color: rgba($color: $secondary-theme-color, $alpha: 0.7);
               cursor: default;
             }
           }
@@ -166,6 +177,8 @@
         padding: 5px;
         border: 1px solid #ccc;
         border-radius: 5px;
+        background-color: $accents-theme-color;
+        color: $secondary-theme-color;
 
         .cart-info-container {
           width: 150px;
@@ -190,7 +203,9 @@
             @include flex-all-center;
             margin-top: 5px;
             background-color: rgba($color: lavender, $alpha: 1.0);
-            border: 1px solid #000;
+            border: 1px solid $secondary-theme-color;
+            color: #000;
+            font-weight: bold;
             cursor: pointer;
           }
         }
@@ -225,7 +240,8 @@
     }
 
     .no-products-paragraph {
-      color: $main-theme-color;
+      color: $accents-theme-color;
+      font-weight: bold;
     }
   }
 }

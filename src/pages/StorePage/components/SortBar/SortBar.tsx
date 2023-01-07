@@ -10,7 +10,7 @@ import {
   setSortByName,
   setSortByPrice,
 } from 'app/shopSlice';
-import { ViewType, Nullable } from 'types/types';
+import { ViewType, Nullable, ClickAndTouchParagraphHandlerParametric } from 'types/types';
 import './SortBar.scss';
 
 interface Props {
@@ -24,38 +24,28 @@ export const SortBar: FC<Props> = ({ isMouseOnMain }): JSX.Element => {
   const sortByName: Nullable<string> = useAppSelector(getSortByName);
   const sortByPrice: Nullable<string> = useAppSelector(getSortByPrice);
 
-  const viewTypeHandler = (
-    event: React.MouseEvent<HTMLParagraphElement> | React.TouchEvent<HTMLParagraphElement>,
-    value: ViewType
+  const viewTypeHandler: ClickAndTouchParagraphHandlerParametric<ViewType> = (
+    event,
+    value
   ): void => {
     if (viewType !== value) {
       dispatch(setViewType(value));
     }
   };
 
-  const sortByNameHandler = (
-    event: React.MouseEvent<HTMLParagraphElement> | React.TouchEvent<HTMLParagraphElement>,
-    value: Nullable<'ascending' | 'descending'>
-  ): void => {
-    if (sortByName !== value) {
-      dispatch(setSortByName(value));
-    } else {
-      dispatch(setSortByName(null));
-    }
+  const sortByNameHandler: ClickAndTouchParagraphHandlerParametric<
+    Nullable<'ascending' | 'descending'>
+  > = (event, value): void => {
+    dispatch(setSortByName(sortByName !== value ? value : null));
     if (sortByPrice) {
       dispatch(setSortByPrice(null));
     }
   };
 
-  const sortByPriceHandler = (
-    event: React.MouseEvent<HTMLParagraphElement> | React.TouchEvent<HTMLParagraphElement>,
-    value: Nullable<'ascending' | 'descending'>
-  ): void => {
-    if (sortByPrice !== value) {
-      dispatch(setSortByPrice(value));
-    } else {
-      dispatch(setSortByPrice(null));
-    }
+  const sortByPriceHandler: ClickAndTouchParagraphHandlerParametric<
+    Nullable<'ascending' | 'descending'>
+  > = (event, value): void => {
+    dispatch(setSortByPrice(sortByPrice !== value ? value : null));
     if (sortByName) {
       dispatch(setSortByName(null));
     }

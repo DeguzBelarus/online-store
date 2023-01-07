@@ -4,18 +4,22 @@ import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { store } from '../../app/store';
 
-import { StorePage } from './StorePage';
+import { App } from '../../components/App';
 
-describe('STORE PAGE COMPONENT TESTS', (): void => {
+const renderApplication = (): void => {
+  render(
+    <Provider store={store}>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </Provider>
+  );
+};
+
+describe('StorePage tests', (): void => {
   test('renders the store page with products wrapper HTML div elements', () => {
-    render(
-      <Provider store={store}>
-        <BrowserRouter>
-          <StorePage />
-        </BrowserRouter>
-      </Provider>
-    );
-    expect(screen.getByTestId('store-page')).toBeInTheDocument();
+    renderApplication();
+    expect(screen.getByRole('main')).toBeInTheDocument();
     expect(screen.getByTestId('products-wrapper')).toBeInTheDocument();
   });
 });

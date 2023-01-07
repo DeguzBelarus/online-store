@@ -5,7 +5,7 @@
   height: 250px;
   @include flex-line-start-vertical-center;
   @include user-select-none;
-  border: 1px solid #ccc;
+  border: 2px solid $accents-theme-color;
   background-color: #eee;
   border-radius: 5px;
 
@@ -13,7 +13,7 @@
     width: 30px;
     height: 100%;
     @include flex-all-center;
-    color: #aaa;
+    color: $accents-theme-color;
   }
 
   .cart-product-main-container {
@@ -25,11 +25,11 @@
     border-left: 1px solid #ccc;
 
     .product-name-paragraph {
-      color: #555;
+      color: $accents-theme-color;
     }
 
     .product-brand-paragraph {
-      color: #555;
+      color: $accents-theme-color;
     }
 
     .product-category-paragraph {
@@ -37,7 +37,7 @@
     }
 
     .product-price-paragraph {
-      color: #555;
+      color: $accents-theme-color;
 
       span {
         color: yellowgreen;

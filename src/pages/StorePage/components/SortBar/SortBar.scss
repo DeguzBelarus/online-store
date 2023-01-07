@@ -21,26 +21,31 @@ aside {
     @include flex-column-line-center-vertical-top;
     gap: 8px;
 
+
     h3 {
       width: 100%;
       text-align: center;
+      color: #fff;
     }
 
     .sort-type-wrapper {
-      width: 100%;
+      width: 90%;
       height: 100%;
-      border: 1px solid #000;
+      border: 1px solid $secondary-theme-color;
+      margin: 0 auto;
+      padding: 2px;
 
       h4 {
         width: 100%;
         text-align: center;
+        color: #fff;
       }
 
       .sort-type-selector {
         width: 100%;
         font-size: 12px;
         text-align: center;
-        color: #000;
+        color: $secondary-theme-color;
         cursor: pointer;
 
         &.active {

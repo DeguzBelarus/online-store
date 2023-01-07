@@ -1,7 +1,8 @@
 //colors
 $main-theme-color: #6F4E37;
-$sidebars-color: #eee;
-//colors
+$secondary-theme-color: #b39f7a;
+$accents-theme-color: #4b3621;
+$sidebars-color: $accents-theme-color;
 
 // sizes
 $header-height: 40;
@@ -10,15 +11,17 @@ $sort-bar-width: 100;
 $product-item-width: 150;
 $product-item-height: 265;
 $product-item-height-list: 80;
-// sizes
 
 // colors
 $header-background-color: $main-theme-color;
 $footer-background-color: $main-theme-color;
 $sort-bar-background-color: $sidebars-color;
 $filters-bar-background-color: $sidebars-color;
-$product-item-background-color: rgba($color: #fff, $alpha: 0.8);
-// colors
+$product-item-background-color: rgba($color: #fff, $alpha: 0.92);
+$store-background-color: $secondary-theme-color;
+$store-scrollbar-color: $main-theme-color;
+$cart-background-color: $secondary-theme-color;
+$order-background-color: $main-theme-color;
 
 // mixins
 // flex row mixins
@@ -68,8 +71,6 @@ $product-item-background-color: rgba($color: #fff, $alpha: 0.8);
   display: flex;
   align-items: center;
 }
-
-// flex row mixins
 
 // flex column mixins
 @mixin flex-column-all-center {
@@ -134,12 +135,9 @@ $product-item-background-color: rgba($color: #fff, $alpha: 0.8);
   justify-content: space-between;
 }
 
-// flex column mixins
 
 @mixin user-select-none {
   -ms-user-select: none;
   -webkit-user-select: none;
   user-select: none;
 }
-
-// mixins

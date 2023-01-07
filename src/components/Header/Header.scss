@@ -19,7 +19,7 @@ header {
     .search-input {
       height: 30px;
       width: 180px;
-      border: 2px solid #000;
+      border: 2px solid $secondary-theme-color;
       padding-left: 3px;
 
       &:focus {
@@ -31,24 +31,30 @@ header {
   .filters-show-button {
     height: 30px;
     background-color: #fff;
-    border: 2px solid #000;
+    border: 2px solid $secondary-theme-color;
     padding: 0 5px;
     cursor: pointer;
 
     &.active {
-      border: 2px solid deeppink;
+      border: 2px solid red;
+      color: red;
+    }
+
+    &.shown {
+      border: 2px solid yellowgreen;
     }
   }
 
   .url-copy-button {
+    width: 75px;
     height: 30px;
     background-color: #fff;
-    border: 2px solid #000;
+    border: 2px solid $secondary-theme-color;
     padding: 0 5px;
     cursor: pointer;
 
     &.url-copied {
-      color: deeppink;
+      color: #222;
       background-color: yellow;
     }
   }

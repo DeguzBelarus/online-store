@@ -16,10 +16,10 @@ import {
   ICartProductData,
   IProductData,
   PromoCode,
-  ClickAndTouchDivHandler,
-  ClickAndTouchButtonHandler,
   ChangeInputHandler,
   Nullable,
+  ClickAndTouchDivHandlerParametric,
+  ClickAndTouchButtonHandlerParametric,
 } from 'types/types';
 import { Header } from 'components/Header/Header';
 import { Footer } from 'components/Footer/Footer';
@@ -49,31 +49,33 @@ export const CartPage: FC<Props> = ({ orderMode }): JSX.Element => {
   const [enteredPromoCode, setEnteredPromoCode] = useState<string>('');
   const [cartPages, setCartPages] = useState<Array<string>>([]);
   const validPromoCodes: Array<PromoCode> = [
-    ['super', 25],
-    ['mega', 50],
+    { promoCodeName: 'super', promoCodeDiscount: 25 },
+    { promoCodeName: 'mega', promoCodeDiscount: 50 },
   ];
 
-  function queryUpdate(): void {
+  const queryUpdate = (): void => {
     const urlSearchParams = new URLSearchParams();
     urlSearchParams.append('page', String(currentCartPage));
     urlSearchParams.append('limit', String(productsPerCartPage));
     navigate(`?${urlSearchParams}`);
-  }
-
-  function validatePromoCode(code: string): boolean {
-    if (activePromoCodes.some((promoCode: PromoCode) => promoCode[0] === code)) return false;
-    if (!validPromoCodes.some((promoCode: PromoCode) => promoCode[0] === code)) return false;
-    return true;
-  }
-
-  const enteredPromoCodeHandler: ChangeInputHandler = (event): void => {
-    setEnteredPromoCode(event.target.value);
   };
 
-  const activatePromoCode: ClickAndTouchButtonHandler = (event): void => {
+  const validatePromoCode = (code: string): boolean => {
+    if (activePromoCodes.some((promoCode: PromoCode) => promoCode.promoCodeName === code))
+      return false;
+    if (!validPromoCodes.some((promoCode: PromoCode) => promoCode.promoCodeName === code))
+      return false;
+    return true;
+  };
+
+  const enteredPromoCodeHandler: ChangeInputHandler = ({ target: { value } }): void => {
+    setEnteredPromoCode(value);
+  };
+
+  const activatePromoCode = (): void => {
     if (validatePromoCode(enteredPromoCode)) {
       const validCode = validPromoCodes.find(
-        (promoCode: PromoCode) => promoCode[0] === enteredPromoCode
+        (promoCode: PromoCode) => promoCode.promoCodeName === enteredPromoCode
       );
 
       if (validCode !== undefined) {
@@ -84,31 +86,31 @@ export const CartPage: FC<Props> = ({ orderMode }): JSX.Element => {
     }
   };
 
-  const removePromoCode = (
-    event: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>,
-    code: string
-  ): void => {
+  const removePromoCode: ClickAndTouchDivHandlerParametric<string> = (event, code): void => {
     if (!event.currentTarget.classList.contains('remove-code-button')) return;
-    const foundCode = activePromoCodes.find((promoCode: PromoCode) => promoCode[0] === code);
+    const foundCode = activePromoCodes.find(
+      (promoCode: PromoCode) => promoCode.promoCodeName === code
+    );
 
     if (foundCode !== undefined) {
       dispatch(
         setActivePromoCodes(
-          activePromoCodes.filter((promoCode: PromoCode) => promoCode[0] !== foundCode[0])
+          activePromoCodes.filter(
+            (promoCode: PromoCode) => promoCode.promoCodeName !== foundCode.promoCodeName
+          )
         )
       );
     }
   };
 
-  const orderModeHandler: ClickAndTouchDivHandler = (event) => {
-    if (location.href.includes('order')) {
-      navigate('/cart');
-    } else {
-      navigate('/cart/order');
-    }
+  const orderModeHandler = (): void => {
+    location.href.includes('order') ? navigate('/cart') : navigate('/cart/order');
   };
 
-  function sortByNameMethod(prevCartProduct: IProductData, nextCartProduct: IProductData): number {
+  const sortByNameMethod = (
+    prevCartProduct: IProductData,
+    nextCartProduct: IProductData
+  ): number => {
     if (prevCartProduct.name < nextCartProduct.name) {
       return -1;
     }
@@ -116,9 +118,9 @@ export const CartPage: FC<Props> = ({ orderMode }): JSX.Element => {
       return 1;
     }
     return 0;
-  }
+  };
 
-  function cartProductsModifiedUpdate(): void {
+  const cartProductsModifiedUpdate = (): void => {
     setCartProductsModified(
       cartProducts
         .map((cartProduct: IProductData, index: number, array: Array<IProductData>) => {
@@ -136,7 +138,7 @@ export const CartPage: FC<Props> = ({ orderMode }): JSX.Element => {
             amount: cartProduct.amount,
             posters: cartProduct.posters,
             quantity: array.filter((cartProduct: IProductData) => cartProduct.id === productId)
-              .length,
+              ?.length,
             sum: array.reduce((sum: number, cartProduct: IProductData) => {
               if (cartProduct.id === productId) {
                 return (sum += cartProduct.price || sum);
@@ -155,19 +157,19 @@ export const CartPage: FC<Props> = ({ orderMode }): JSX.Element => {
             : [...unique, cartProduct];
         }, [])
     );
-  }
+  };
 
-  const productsPerCartPageHandler = (
-    event: React.MouseEvent<HTMLButtonElement> | React.TouchEvent<HTMLButtonElement>,
-    value: number
+  const productsPerCartPageHandler: ClickAndTouchButtonHandlerParametric<number> = (
+    event,
+    value
   ): void => {
     if (productsPerCartPage === value) return;
     dispatch(setProductsPerCartPage(value));
   };
 
-  const currentCartPageHandler = (
-    event: React.MouseEvent<HTMLButtonElement> | React.TouchEvent<HTMLButtonElement>,
-    value: string
+  const currentCartPageHandler: ClickAndTouchButtonHandlerParametric<string> = (
+    event,
+    value
   ): void => {
     if (String(currentCartPage) === value) return;
     dispatch(setCurrentCartPage(Number(value)));
@@ -178,9 +180,9 @@ export const CartPage: FC<Props> = ({ orderMode }): JSX.Element => {
   }, [cartProducts]);
 
   useEffect((): void => {
-    if (cartProductsModified.length) {
+    if (cartProductsModified?.length) {
       let cartProductsSlices: Array<Array<ICartProductData>> = [];
-      for (let i = 0; i < cartProductsModified.length; i = productsPerCartPage + i) {
+      for (let i = 0; i < cartProductsModified?.length; i = productsPerCartPage + i) {
         let cartPageProducts: Array<ICartProductData> = [];
         for (let j = 0; j < productsPerCartPage; j++) {
           if (cartProductsModified[j + i]) {
@@ -195,46 +197,46 @@ export const CartPage: FC<Props> = ({ orderMode }): JSX.Element => {
 
   useEffect((): void => {
     queryUpdate();
-  }, [currentCartPage, productsPerCartPage, orderMode, activePromoCodes.length]);
+  }, [currentCartPage, productsPerCartPage, orderMode, activePromoCodes?.length]);
 
   useEffect((): void => {
-    const cartPagesArray = new Array(Math.ceil(cartProductsModified.length / productsPerCartPage))
+    const cartPagesArray = new Array(Math.ceil(cartProductsModified?.length / productsPerCartPage))
       .fill('0')
       .map((page: string, index: number) => String(index + 1));
     setCartPages(cartPagesArray);
-  }, [cartProductsModified.length, productsPerCartPage]);
+  }, [cartProductsModified?.length, productsPerCartPage]);
 
   useEffect((): void => {
     if (cartPageQuery && String(currentCartPage) !== cartPageQuery) {
       dispatch(setCurrentCartPage(Number(cartPageQuery)));
     }
-    if (cartPages.length > 0 && currentCartPage > cartPages.length) {
-      dispatch(setCurrentCartPage(cartPages.length));
+    if (cartPages?.length && currentCartPage > cartPages?.length) {
+      dispatch(setCurrentCartPage(cartPages?.length));
     }
 
     if (productsPerPageQuery && String(productsPerCartPage) !== productsPerPageQuery) {
       dispatch(setProductsPerCartPage(Number(productsPerPageQuery)));
     }
-    if (cartPages.length > 0 && (productsPerCartPage > 4 || productsPerCartPage < 2)) {
+    if (cartPages?.length && (productsPerCartPage > 4 || productsPerCartPage < 2)) {
       dispatch(setProductsPerCartPage(2));
     }
-    if (cartProductsModified.length > 0 && cartProductsModified.length < productsPerCartPage) {
-      if (cartProductsModified.length < 2) {
+    if (cartProductsModified?.length && cartProductsModified?.length < productsPerCartPage) {
+      if (cartProductsModified?.length < 2) {
         dispatch(setProductsPerCartPage(2));
       } else {
-        dispatch(setProductsPerCartPage(cartProductsModified.length));
+        dispatch(setProductsPerCartPage(cartProductsModified?.length));
       }
     }
-  }, [cartPages.length, cartProductsModified.length]);
+  }, [cartPages?.length, cartProductsModified?.length]);
 
   return (
     <>
       <Header />
-      <div className="cart-page-wrapper">
+      <main className="cart-page-wrapper">
         {orderMode && <Order orderModeHandler={orderModeHandler} />}
         <div
           className={
-            cartProducts.length > 0
+            cartProducts?.length
               ? productsPerCartPage === 2
                 ? 'cart-items-wrapper'
                 : productsPerCartPage === 3
@@ -245,9 +247,9 @@ export const CartPage: FC<Props> = ({ orderMode }): JSX.Element => {
               : 'cart-items-wrapper empty-cart'
           }
         >
-          {cartProducts.length > 0 &&
+          {cartProducts?.length > 0 &&
           cartProductsSlices?.length > 0 &&
-          cartProductsSlices[currentCartPage - 1]?.length > 0 ? (
+          cartProductsSlices[currentCartPage - 1]?.length ? (
             cartProductsSlices[currentCartPage - 1].map(
               (cartProduct: ICartProductData, index: number) => {
                 return (
@@ -273,7 +275,7 @@ export const CartPage: FC<Props> = ({ orderMode }): JSX.Element => {
           ) : (
             <p className="no-products-paragraph">There are no products in your cart :(</p>
           )}
-          {cartProductsModified.length > 0 && (
+          {cartProductsModified?.length ? (
             <div className="cart-lower-container">
               <div className="promo-codes-container">
                 <span className="tip">*valid codes: super, mega</span>
@@ -291,28 +293,26 @@ export const CartPage: FC<Props> = ({ orderMode }): JSX.Element => {
                     type="button"
                     className="promo-code-accept-button"
                     disabled={!validatePromoCode(enteredPromoCode)}
-                    onClick={(event: React.MouseEvent<HTMLButtonElement>) =>
-                      activatePromoCode(event)
-                    }
+                    onClick={activatePromoCode}
                   >
                     Accept
                   </button>
                 </div>
-                {activePromoCodes.length > 0 && (
+                {activePromoCodes?.length ? (
                   <div className="promo-codes-wrapper">
                     {`${activePromoCodes.reduce(
-                      (sum: number, promoCode: PromoCode) => sum + promoCode[1],
+                      (sum: number, promoCode: PromoCode) => sum + promoCode.promoCodeDiscount,
                       0
                     )}% discount, active codes:`}
                     <div className="active-codes-wrapper">
                       {activePromoCodes.map((promoCode: PromoCode) => {
                         return (
-                          <div className="active-code" key={promoCode[0]}>
-                            {`${promoCode[0]}(${promoCode[1]}%)`}
+                          <div className="active-code" key={promoCode.promoCodeName}>
+                            {`${promoCode.promoCodeName}(${promoCode.promoCodeDiscount}%)`}
                             <div
                               className="remove-code-button"
                               onClick={(event: React.MouseEvent<HTMLDivElement>) =>
-                                removePromoCode(event, promoCode[0])
+                                removePromoCode(event, promoCode.promoCodeName)
                               }
                             >
                               remove
@@ -322,7 +322,7 @@ export const CartPage: FC<Props> = ({ orderMode }): JSX.Element => {
                       })}
                     </div>
                   </div>
-                )}
+                ) : null}
               </div>
               <div className="cart-pages-container">
                 <div className="cart-pages-upper-container">
@@ -347,7 +347,7 @@ export const CartPage: FC<Props> = ({ orderMode }): JSX.Element => {
                         ? 'products-per-page-selector active'
                         : 'products-per-page-selector'
                     }
-                    disabled={cartProductsModified.length < 3}
+                    disabled={cartProductsModified?.length < 3}
                     onClick={(event: React.MouseEvent<HTMLButtonElement>) =>
                       productsPerCartPageHandler(event, 3)
                     }
@@ -361,7 +361,7 @@ export const CartPage: FC<Props> = ({ orderMode }): JSX.Element => {
                         ? 'products-per-page-selector active'
                         : 'products-per-page-selector'
                     }
-                    disabled={cartProductsModified.length < 4}
+                    disabled={cartProductsModified?.length < 4}
                     onClick={(event: React.MouseEvent<HTMLButtonElement>) =>
                       productsPerCartPageHandler(event, 4)
                     }
@@ -370,62 +370,61 @@ export const CartPage: FC<Props> = ({ orderMode }): JSX.Element => {
                   </button>
                 </div>
                 <div className="cart-pages-lower-container">
-                  {cartPages.length > 0 &&
-                    cartPages.map((page: string) => {
-                      return (
-                        <button
-                          type="button"
-                          className={
-                            String(currentCartPage) === page
-                              ? 'cart-page-selector active'
-                              : 'cart-page-selector'
-                          }
-                          onClick={(event: React.MouseEvent<HTMLButtonElement>) =>
-                            currentCartPageHandler(event, page)
-                          }
-                          key={page}
-                        >
-                          {page}
-                        </button>
-                      );
-                    })}
+                  {cartPages?.length
+                    ? cartPages.map((page: string) => {
+                        return (
+                          <button
+                            type="button"
+                            className={
+                              String(currentCartPage) === page
+                                ? 'cart-page-selector active'
+                                : 'cart-page-selector'
+                            }
+                            onClick={(event: React.MouseEvent<HTMLButtonElement>) =>
+                              currentCartPageHandler(event, page)
+                            }
+                            key={page}
+                          >
+                            {page}
+                          </button>
+                        );
+                      })
+                    : null}
                 </div>
               </div>
               <div className="cart-total-container">
                 <p>Cart total:</p>
                 <div className="cart-info-container">
-                  <p>{`Quantity: ${cartProducts.length} pcs`}</p>
+                  <p>{`Quantity: ${cartProducts?.length} pcs`}</p>
                   <p
                     className={
-                      activePromoCodes.length > 0
+                      activePromoCodes?.length
                         ? 'price-paragraph price-discounted'
                         : 'price-paragraph'
                     }
                   >{`Cost: ${cartProducts
                     .reduce((sum, product: IProductData) => sum + product.price, 0)
                     .toFixed(2)}$`}</p>
-                  {activePromoCodes.length > 0 && (
+                  {activePromoCodes?.length ? (
                     <p className="price-with-discount">{`Your cost: ${(
                       cartProducts.reduce((sum, product: IProductData) => sum + product.price, 0) -
                       cartProducts.reduce((sum, product: IProductData) => sum + product.price, 0) *
                         activePromoCodes.reduce(
-                          (sum: number, promoCode: PromoCode) => sum + promoCode[1] / 100,
+                          (sum: number, promoCode: PromoCode) =>
+                            sum + promoCode.promoCodeDiscount / 100,
                           0
                         )
                     ).toFixed(2)}$`}</p>
-                  )}
-                  <div
-                    className="proceed-order-button"
-                    onClick={(event: React.MouseEvent<HTMLDivElement>) => orderModeHandler(event)}
-                  >
+                  ) : null}
+                  <div className="proceed-order-button" onClick={orderModeHandler}>
                     Proceed
                   </div>
                 </div>
               </div>
             </div>
-          )}
+          ) : null}
         </div>
-      </div>
+      </main>
       <Footer />
     </>
   );

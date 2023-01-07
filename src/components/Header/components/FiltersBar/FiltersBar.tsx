@@ -35,6 +35,7 @@ interface Props {
   maxPriceFilter: Nullable<number>;
   minPriceRange: React.RefObject<HTMLInputElement>;
   maxPriceRange: React.RefObject<HTMLInputElement>;
+  filtersIsActive: () => boolean;
 }
 
 export const FiltersBar: FC<Props> = ({
@@ -58,6 +59,7 @@ export const FiltersBar: FC<Props> = ({
   maxPriceFilter,
   minPriceRange,
   maxPriceRange,
+  filtersIsActive,
 }): JSX.Element => {
   return (
     <div
@@ -83,7 +85,7 @@ export const FiltersBar: FC<Props> = ({
         })}
       </div>
       <div className="categories-wrapper">
-        <h4>categories: </h4>
+        <h4>Categories: </h4>
         {categoriesArray.map((category: string, index: number) => {
           return (
             <div
@@ -99,10 +101,7 @@ export const FiltersBar: FC<Props> = ({
           );
         })}
       </div>
-      <div
-        className="price-range-wrapper"
-        onClick={(event: React.MouseEvent<HTMLDivElement>) => isPricesRangesShownHandler(event)}
-      >
+      <div className="price-range-wrapper" onClick={isPricesRangesShownHandler}>
         <span
           className={
             minPriceFilter || maxPriceFilter ? 'prices-range-span active' : 'prices-range-span'
@@ -162,7 +161,7 @@ export const FiltersBar: FC<Props> = ({
         )}
       </div>
       <div className="in-stock-wrapper">
-        <span className={inStockFilter ? 'in-stock-span active' : 'in-stock-span'}>in stock: </span>
+        <span className={inStockFilter ? 'in-stock-span active' : 'in-stock-span'}>In stock: </span>
         <input
           type="checkbox"
           className="in-stock-checkbox"
@@ -174,7 +173,8 @@ export const FiltersBar: FC<Props> = ({
       <button
         type="button"
         className="reset-filters-button"
-        onClick={(event: React.MouseEvent<HTMLButtonElement>) => resetSearchFilters(event)}
+        onClick={resetSearchFilters}
+        disabled={!filtersIsActive()}
       >
         Reset filters
       </button>

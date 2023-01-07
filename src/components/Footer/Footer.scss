@@ -6,7 +6,7 @@ footer {
   @include flex-line-spacebetween-vertical-center;
   @include user-select-none;
   background-color: $footer-background-color;
-  color: #eee;
+  color: $secondary-theme-color;
 
   .footer-authors {
     width: 100%;

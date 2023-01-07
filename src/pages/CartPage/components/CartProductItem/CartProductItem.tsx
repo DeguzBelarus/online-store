@@ -10,64 +10,68 @@ import {
   getProductsPerCartPage,
 } from 'app/shopSlice';
 import {
+  ClickAndTouchDivHandlerParametric,
   ICartProductData,
   IProductData,
   PromoCode,
-  ClickAndTouchDivHandler,
-  Nullable,
 } from 'types/types';
 import './CartProductItem.scss';
 
-interface Props {
+interface Props extends ICartProductData {
   index: number;
 }
 
-export const CartProductItem: FC<ICartProductData & Props> = ({
-  index,
-  ...ICartProductData
-}): JSX.Element => {
+export const CartProductItem: FC<Props> = ({ index, ...ICartProductData }): JSX.Element => {
   const dispatch: Dispatch = useAppDispatch();
 
   let cartProducts: Array<IProductData> = useAppSelector(getCart);
   const activePromoCodes: Array<PromoCode> = useAppSelector(getActivePromoCodes);
-  const [currentPosterIndex, setCurrentPosterIndex] = useState<number>(0);
+  const [currentPosterIndex, setCurrentPosterIndex] = useState(0);
   const currentCartPage: number = useAppSelector(getCurrentCartPage);
   const productsPerCartPage: number = useAppSelector(getProductsPerCartPage);
+  const discountedPrice = (
+    ICartProductData.price -
+    ICartProductData.price *
+      activePromoCodes.reduce(
+        (sum: number, promoCode: PromoCode) => sum + promoCode.promoCodeDiscount / 100,
+        0
+      )
+  ).toFixed(2);
+  const productPositionInCart = (currentCartPage - 1) * productsPerCartPage + index + 1;
+  const currentProductTotalCost =
+    ICartProductData.sum -
+    ICartProductData.sum *
+      activePromoCodes.reduce(
+        (sum: number, promoCode: PromoCode) => sum + promoCode.promoCodeDiscount / 100,
+        0
+      );
 
-  const showNextPoster: ClickAndTouchDivHandler = (event) => {
-    if (ICartProductData.posters.length < 2) return;
-    if (currentPosterIndex + 1 === ICartProductData.posters.length) {
-      setCurrentPosterIndex(0);
-    } else {
-      setCurrentPosterIndex(currentPosterIndex + 1);
-    }
+  const showNextPoster = (): void => {
+    if (!ICartProductData.posters?.length || ICartProductData.posters?.length === 1) return;
+    setCurrentPosterIndex(
+      currentPosterIndex + 1 === ICartProductData.posters?.length ? 0 : currentPosterIndex + 1
+    );
   };
 
-  const showPreviousPoster: ClickAndTouchDivHandler = (event) => {
-    if (ICartProductData.posters.length < 2) return;
-    if (currentPosterIndex === 0) {
-      setCurrentPosterIndex(ICartProductData.posters.length - 1);
-    } else {
-      setCurrentPosterIndex(currentPosterIndex - 1);
-    }
+  const showPreviousPoster = (): void => {
+    if (!ICartProductData.posters?.length || ICartProductData.posters?.length === 1) return;
+    setCurrentPosterIndex(
+      !currentPosterIndex ? ICartProductData.posters?.length - 1 : currentPosterIndex - 1
+    );
   };
 
-  const addProductInCart = (
-    event: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>,
-    id: number
-  ): void => {
+  const addProductInCart: ClickAndTouchDivHandlerParametric<number> = (event, id): void => {
     if (ICartProductData.quantity === ICartProductData.amount) return;
     const addedProduct: IProductData | undefined = cartProducts.find(
       (cartProduct: IProductData) => cartProduct.id === id
     );
-    addedProduct !== undefined && (cartProducts = [...cartProducts, addedProduct]);
+    if (addedProduct) {
+      cartProducts = [...cartProducts, addedProduct];
+    }
     dispatch(setCart(cartProducts));
   };
 
-  const removeProductInCart = (
-    event: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>,
-    id: number
-  ): void => {
+  const removeProductInCart: ClickAndTouchDivHandlerParametric<number> = (event, id): void => {
     const removedProductIndex = cartProducts.findIndex(
       (cartProduct: IProductData) => cartProduct.id === id
     );
@@ -90,16 +94,14 @@ export const CartProductItem: FC<ICartProductData & Props> = ({
           : 'cart-product-item-wrapper'
       }
     >
-      <div className="cart-item-position-container">
-        {(currentCartPage - 1) * productsPerCartPage + index + 1}
-      </div>
+      <div className="cart-item-position-container">{productPositionInCart}</div>
       <div className="cart-product-main-container">
         <p className="product-name-paragraph">{ICartProductData.name}</p>
         <p className="product-brand-paragraph">{ICartProductData.brand}</p>
         <p className="product-category-paragraph">{ICartProductData.category}</p>
         <p
           className={
-            activePromoCodes.length > 0
+            activePromoCodes?.length
               ? 'product-price-paragraph price-discounted'
               : 'product-price-paragraph'
           }
@@ -107,28 +109,16 @@ export const CartProductItem: FC<ICartProductData & Props> = ({
           {'Price: '}
           <span>{ICartProductData.price.toFixed(2) + '$'}</span>
         </p>
-        {activePromoCodes.length > 0 && (
-          <p className="price-with-discount">
-            {' '}
-            {`Your price: ${
-              (
-                ICartProductData.price -
-                ICartProductData.price *
-                  activePromoCodes.reduce(
-                    (sum: number, promoCode: PromoCode) => sum + promoCode[1] / 100,
-                    0
-                  )
-              ).toFixed(2) + '$'
-            }`}
-          </p>
-        )}
+        {activePromoCodes?.length ? (
+          <p className="price-with-discount"> {`Your price: ${discountedPrice + '$'}`}</p>
+        ) : null}
         <p className="product-amount-paragraph">
           {'In stock: '}
           <span>{`${ICartProductData.amount} >> ${
             ICartProductData.amount - ICartProductData.quantity || '0!'
           } pcs`}</span>
         </p>
-        {ICartProductData.properties.length > 0 && (
+        {ICartProductData.properties?.length ? (
           <div className="properties-wrapper">
             <h4>Properties:</h4>
             {ICartProductData.properties.map((property: string, index: number) => {
@@ -139,7 +129,7 @@ export const CartProductItem: FC<ICartProductData & Props> = ({
               );
             })}
           </div>
-        )}
+        ) : null}
       </div>
       <div className="cart-product-secondary-container">
         <div className="select-amount-container">
@@ -155,14 +145,7 @@ export const CartProductItem: FC<ICartProductData & Props> = ({
           >
             +
           </div>
-          <div className="current-amount-cost-container">{`${ICartProductData.quantity}/${
-            ICartProductData.sum -
-            ICartProductData.sum *
-              activePromoCodes.reduce(
-                (sum: number, promoCode: PromoCode) => sum + promoCode[1] / 100,
-                0
-              )
-          }$`}</div>
+          <div className="current-amount-cost-container">{`${ICartProductData.quantity}/${currentProductTotalCost}$`}</div>
           <div
             className={
               ICartProductData.quantity === 1 ? 'decrease-button remove-mode' : 'decrease-button'
@@ -182,16 +165,10 @@ export const CartProductItem: FC<ICartProductData & Props> = ({
             alt="a product preview"
           />
           <div className="switch-poster-buttons-container">
-            <div
-              className="switch-poster-button"
-              onClick={(event: React.MouseEvent<HTMLDivElement>) => showPreviousPoster(event)}
-            >
+            <div className="switch-poster-button" onClick={showPreviousPoster}>
               prev
             </div>
-            <div
-              className="switch-poster-button"
-              onClick={(event: React.MouseEvent<HTMLDivElement>) => showNextPoster(event)}
-            >
+            <div className="switch-poster-button" onClick={showNextPoster}>
               next
             </div>
           </div>
