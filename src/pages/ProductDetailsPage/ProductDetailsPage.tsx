@@ -42,11 +42,11 @@ export const ProductDetailsPage: FC = (): JSX.Element => {
     };
   }, []);
 
-  // useEffect(() => {
-  //   if (currentIProductData?.posters) {
-  //     setBigPhotoSrc(currentIProductData?.posters[0]);
-  //   }
-  // }, [currentIProductData?.posters]);
+  useEffect(() => {
+    if (currentIProductData?.posters) {
+      setBigPhotoSrc(currentIProductData?.posters[0]);
+    }
+  }, [currentIProductData?.posters]);
 
   const productInCartAvailabilityCheck = (): boolean => {
     return cartData.some((cartProduct: IProductData) => cartProduct.id === currentIProductData?.id);
