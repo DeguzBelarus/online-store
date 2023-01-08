@@ -30,7 +30,7 @@ export const Footer: FC = (): JSX.Element => {
         <a href="https://rs.school/js/" target={'_blank'} title="RS School" rel="noreferrer">
           <div className="rsschool-footer-link"></div>
         </a>
-        <p>2022</p>
+        <p>2023</p>
       </div>
     </footer>
   );
