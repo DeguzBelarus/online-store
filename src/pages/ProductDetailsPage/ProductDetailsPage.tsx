@@ -217,7 +217,7 @@ export const ProductDetailsPage: FC = (): JSX.Element => {
               </div>
             </>
           ) : (
-            <span>Such a product was not found</span>
+            <p className="no-products-paragraph">Such a product was not found</p>
           )}
         </div>
       </div>

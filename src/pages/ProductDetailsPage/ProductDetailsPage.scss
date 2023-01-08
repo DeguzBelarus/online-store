@@ -27,11 +27,16 @@
         .crumb {
           text-transform: uppercase;
           color: whitesmoke;
+          cursor: pointer;
         }
       }
     }
 
     .product-details-wrapper {
+      &.no-product {
+        @include flex-all-center;
+        border:none;
+      }
       width: 65%;
       height: 50%;
       border: solid 2px;
@@ -129,6 +134,10 @@
             border-radius: 0.3rem;
           }
         }
+      }
+      .no-products-paragraph {
+        color: $accents-theme-color;
+        font-weight: bold;
       }
     }
   }
