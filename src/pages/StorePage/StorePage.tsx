@@ -52,7 +52,7 @@ export const StorePage: FC = (): JSX.Element => {
         onMouseOver={isMouseOnMainTrue}
         onMouseLeave={isMouseOnMainFalse}
       >
-        {filteredProducts?.length && filtersIsActive() && (
+        {filteredProducts?.length && filtersIsActive() ? (
           <div
             className={
               viewType === 'cards' ? 'found-products-wrapper' : 'found-products-wrapper list-view'
@@ -60,7 +60,7 @@ export const StorePage: FC = (): JSX.Element => {
           >
             <span>{`Was found ${filteredProducts?.length} product(s)`}</span>
           </div>
-        )}
+        ) : null}
         <SortBar isMouseOnMain={isMouseOnMain} />
         <div
           className={viewType === 'cards' ? 'products-wrapper' : 'products-wrapper list-view'}

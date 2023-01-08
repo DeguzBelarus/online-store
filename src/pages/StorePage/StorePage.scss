@@ -27,15 +27,17 @@
     position: absolute;
     top: 10px;
     right: 20px;
-    border: 1px solid blue;
-    background-color: rgba($color: #fff, $alpha: 0.95);
+    border: 3px solid $accents-theme-color;
+    backdrop-filter: blur(5px) saturate(180%);
+    -webkit-backdrop-filter: blur(5px) saturate(180%);
+    background-color: rgba(255, 255, 255, 0.3);
     color: #000;
     opacity: 0;
     animation: appearing linear 0.5s forwards;
     z-index: 1;
 
     span {
-      color: blue;
+      color: red;
       font-weight: bold;
     }
   }
