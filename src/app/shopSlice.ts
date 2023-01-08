@@ -20,6 +20,9 @@ export interface ShopState {
   currentCartPage: number;
   productsPerCartPage: number;
   activePromoCodes: Array<PromoCode>;
+  isFirstLoad: boolean;
+  isFiltersShown: boolean;
+  isPriceRangesShown: boolean;
 }
 
 const initialState: ShopState = {
@@ -38,6 +41,9 @@ const initialState: ShopState = {
   currentCartPage: 1,
   productsPerCartPage: 2,
   activePromoCodes: [],
+  isFirstLoad: true,
+  isFiltersShown: false,
+  isPriceRangesShown: false,
 };
 
 export const shopSlice = createSlice({
@@ -116,6 +122,15 @@ export const shopSlice = createSlice({
     ) {
       state.activePromoCodes = payload;
     },
+    setIsFirstLoad(state: WritableDraft<ShopState>, { payload }: PayloadAction<boolean>) {
+      state.isFirstLoad = payload;
+    },
+    setIsFiltersShown(state: WritableDraft<ShopState>, { payload }: PayloadAction<boolean>) {
+      state.isFiltersShown = payload;
+    },
+    setIsPriceRangesShown(state: WritableDraft<ShopState>, { payload }: PayloadAction<boolean>) {
+      state.isPriceRangesShown = payload;
+    },
   },
 });
 
@@ -135,6 +150,9 @@ export const {
   setCurrentCartPage,
   setActivePromoCodes,
   setProductsPerCartPage,
+  setIsFirstLoad,
+  setIsFiltersShown,
+  setIsPriceRangesShown,
 } = shopSlice.actions;
 
 export const getCart = (state: RootState) => state.shop.cart;
@@ -152,5 +170,8 @@ export const getViewType = (state: RootState) => state.shop.viewType;
 export const getCurrentCartPage = (state: RootState) => state.shop.currentCartPage;
 export const getProductsPerCartPage = (state: RootState) => state.shop.productsPerCartPage;
 export const getActivePromoCodes = (state: RootState) => state.shop.activePromoCodes;
+export const getIsFirstLoad = (state: RootState) => state.shop.isFirstLoad;
+export const getIsFiltersShown = (state: RootState) => state.shop.isFiltersShown;
+export const getIsPriceRangesShown = (state: RootState) => state.shop.isPriceRangesShown;
 
 export default shopSlice.reducer;
