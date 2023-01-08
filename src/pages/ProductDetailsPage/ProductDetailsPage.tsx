@@ -104,122 +104,124 @@ export const ProductDetailsPage: FC = (): JSX.Element => {
   }, []);
 
   return (
-    <>
+    <div className="product-details-page-wrapper">
       <Header />
-      {currentIProductData ? (
-        <div className="breadcrumbs-wrapper">
-          <div className="breadcrumbs">
-            <div className="crumb">
-              <span onClick={translateToMainNoBrandAndCategory}>Store</span>
-            </div>
-            <span> {'>>'} </span>
-            <div className="crumb">
-              <span onClick={translateToCurrentCategory}>{currentIProductData?.category}</span>
-            </div>
-            <span> {'>>'} </span>
-            <div className="crumb">
-              <span onClick={translateToCurrentBrand}>{currentIProductData?.brand}</span>
-            </div>
-            <span> {'>>'} </span>
-            <div className="crumb">
-              <span>{currentIProductData?.name}</span>
+      <div className="product-details-page-content">
+        {currentIProductData ? (
+          <div className="breadcrumbs-wrapper">
+            <div className="breadcrumbs">
+              <div className="crumb">
+                <span onClick={translateToMainNoBrandAndCategory}>Store</span>
+              </div>
+              <span> {'>>'} </span>
+              <div className="crumb">
+                <span onClick={translateToCurrentCategory}>{currentIProductData?.category}</span>
+              </div>
+              <span> {'>>'} </span>
+              <div className="crumb">
+                <span onClick={translateToCurrentBrand}>{currentIProductData?.brand}</span>
+              </div>
+              <span> {'>>'} </span>
+              <div className="crumb">
+                <span>{currentIProductData?.name}</span>
+              </div>
             </div>
           </div>
-        </div>
-      ) : null}
-      <div
-        className={
-          currentIProductData ? 'product-details-wrapper' : 'product-details-wrapper no-product'
-        }
-      >
-        {currentIProductData ? (
-          <>
-            <div className="product-title">
-              <h1>{`${currentIProductData?.name}`}</h1>
-            </div>
-            <div className="product-data">
-              <div className="product-photos">
-                <div className="small-photos">
-                  {currentIProductData?.posters && currentIProductData.posters.length ? (
-                    <div className="small-photo-wrapper">
-                      {currentIProductData?.posters.map((poster: string, index: number) => {
-                        return (
-                          <img
-                            className="small-photo"
-                            onClick={() => setBigPhotoSrc(poster)}
-                            src={require(`../../assets/img/${poster}`)}
-                            key={index}
-                            alt="a product preview"
-                          />
-                        );
-                      })}
+        ) : null}
+        <div
+          className={
+            currentIProductData ? 'product-details-wrapper' : 'product-details-wrapper no-product'
+          }
+        >
+          {currentIProductData ? (
+            <>
+              <div className="product-title">
+                <h1>{`${currentIProductData?.name}`}</h1>
+              </div>
+              <div className="product-data">
+                <div className="product-photos">
+                  <div className="small-photos">
+                    {currentIProductData?.posters && currentIProductData.posters.length ? (
+                      <div className="small-photo-wrapper">
+                        {currentIProductData?.posters.map((poster: string, index: number) => {
+                          return (
+                            <img
+                              className="small-photo"
+                              onClick={() => setBigPhotoSrc(poster)}
+                              src={require(`../../assets/img/${poster}`)}
+                              key={index}
+                              alt="a product preview"
+                            />
+                          );
+                        })}
+                      </div>
+                    ) : null}
+                  </div>
+                  <div className="big-photo-wrapper">
+                    {bigPhotoSrc ? (
+                      <img
+                        className="big-photo"
+                        src={require(`../../assets/img/${bigPhotoSrc}`)}
+                        alt="a product photo"
+                      />
+                    ) : null}
+                  </div>
+                </div>
+                <div className="product-info">
+                  <div className="product-detail-item">
+                    <h3 className="product-detail-item-title">Brand</h3>
+                    <p className="product-detail-item-text">{`${currentIProductData?.brand}`}</p>
+                  </div>
+                  <div className="product-detail-item">
+                    <h3 className="product-detail-item-title">Description</h3>
+                    <p className="product-detail-item-text">{`${currentIProductData?.description}`}</p>
+                  </div>
+                  <div className="product-detail-item">
+                    <h3 className="product-detail-item-title">Category</h3>
+                    <p className="product-detail-item-text">{`${currentIProductData?.category}`}</p>
+                  </div>
+                </div>
+                <div className="add-to-cart">
+                  <div className="product-data-price">{`${currentIProductData?.price}`}</div>
+                  {currentIProductData?.inStock && currentIProductData.amount > 0 && (
+                    <button
+                      type="button"
+                      className="add-to-cart-button"
+                      onClick={
+                        productInCartAvailabilityCheck() ? removeProductFromCart : addProductToCart
+                      }
+                    >
+                      add to cart
+                    </button>
+                  )}
+                  {!currentIProductData?.inStock && currentIProductData?.amount === 0 && (
+                    <div className="out-out-stock-container">
+                      <p className="out-of-stock-paragraph">OUT OF STOCK</p>
                     </div>
-                  ) : null}
-                </div>
-                <div className="big-photo-wrapper">
-                  {bigPhotoSrc ? (
-                    <img
-                      className="big-photo"
-                      src={require(`../../assets/img/${bigPhotoSrc}`)}
-                      alt="a product photo"
-                    />
-                  ) : null}
-                </div>
-              </div>
-              <div className="product-info">
-                <div className="product-detail-item">
-                  <h3>Brand</h3>
-                  <p>{`${currentIProductData?.brand}`}</p>
-                </div>
-                <div className="product-detail-item">
-                  <h3>Description</h3>
-                  {`${currentIProductData?.description}`}
-                </div>
-                <div className="product-detail-item">
-                  <h3>Category</h3>
-                  {`${currentIProductData?.category}`}
+                  )}
+                  {currentIProductData?.inStock && currentIProductData.amount > 0 && (
+                    <button
+                      type="button"
+                      className="add-to-cart-button"
+                      onClick={instantlyBuyProduct}
+                    >
+                      buy now
+                    </button>
+                  )}
+                  {!currentIProductData?.inStock && currentIProductData?.amount === 0 && (
+                    <div className="out-out-stock-container">
+                      <p className="out-of-stock-paragraph">OUT OF STOCK</p>
+                    </div>
+                  )}
                 </div>
               </div>
-              <div className="add-to-cart">
-                <div className="product-data-price">{`${currentIProductData?.price}`}</div>
-                {currentIProductData?.inStock && currentIProductData.amount > 0 && (
-                  <button
-                    type="button"
-                    className="add-to-cart-button"
-                    onClick={
-                      productInCartAvailabilityCheck() ? removeProductFromCart : addProductToCart
-                    }
-                  >
-                    add to cart
-                  </button>
-                )}
-                {!currentIProductData?.inStock && currentIProductData?.amount === 0 && (
-                  <div className="out-out-stock-container">
-                    <p className="out-of-stock-paragraph">OUT OF STOCK</p>
-                  </div>
-                )}
-                {currentIProductData?.inStock && currentIProductData.amount > 0 && (
-                  <button
-                    type="button"
-                    className="add-to-cart-button"
-                    onClick={instantlyBuyProduct}
-                  >
-                    buy now
-                  </button>
-                )}
-                {!currentIProductData?.inStock && currentIProductData?.amount === 0 && (
-                  <div className="out-out-stock-container">
-                    <p className="out-of-stock-paragraph">OUT OF STOCK</p>
-                  </div>
-                )}
-              </div>
-            </div>
-          </>
-        ) : (
-          <span>Such a product was not found</span>
-        )}
+            </>
+          ) : (
+            <span>Such a product was not found</span>
+          )}
+        </div>
       </div>
       <Footer />
-    </>
+    </div>
   );
 };
