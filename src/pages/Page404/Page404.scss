@@ -1,0 +1,42 @@
+@import "../../variables";
+
+.page-404-wrapper {
+  width: 100%;
+  height: 100vh;
+  padding-top: 10%;
+  @include user-select-none;
+  @include flex-column-line-center-vertical-top;
+
+  .page-404-h1 {
+    margin: 30px 15px;
+    color: $accents-theme-color;
+    font-size: 63px;
+    text-transform: uppercase;
+  }
+
+  .page-404-h2 {
+    color: $secondary-theme-color;
+    margin-bottom: 15%;
+  }
+
+  .more-link {
+    text-transform: uppercase;
+    font-size: 13px;
+    background-color: $accents-theme-color;
+    padding: 10px 15px;
+    border-radius: 0;
+    border: none;
+    color: #fff;
+    display: inline-block;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    line-height: 1.5;
+    text-decoration: none;
+    margin-top: 50px;
+    letter-spacing: 1px;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}

@@ -1,0 +1,62 @@
+@import "../../../../variables";
+
+aside {
+  width: $sort-bar-width + px;
+  height: 100%;
+  @include flex-column-line-center-vertical-top;
+  @include user-select-none;
+  gap: 10px;
+  padding-top: 20px;
+  background-color: $sort-bar-background-color;
+  transition: transform linear 0.5s;
+  transform: translateX(-100%);
+
+  &.active {
+    transform: none;
+  }
+
+  .sort-types-wrapper {
+    width: 100%;
+    height: auto;
+    @include flex-column-line-center-vertical-top;
+    gap: 8px;
+
+
+    h3 {
+      width: 100%;
+      text-align: center;
+      color: #fff;
+    }
+
+    .sort-type-wrapper {
+      width: 90%;
+      height: 100%;
+      border: 1px solid $secondary-theme-color;
+      margin: 0 auto;
+      padding: 2px;
+
+      h4 {
+        width: 100%;
+        text-align: center;
+        color: #fff;
+      }
+
+      .sort-type-selector {
+        width: 100%;
+        font-size: 12px;
+        text-align: center;
+        color: $secondary-theme-color;
+        cursor: pointer;
+
+        &.active {
+          color: red;
+          cursor: default;
+        }
+
+        &.clickable {
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}

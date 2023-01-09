@@ -1,0 +1,224 @@
+@import '../../../../variables';
+
+.filters-bar-wrapper {
+  width: $sort-bar-width + px;
+  height: calc(100vh - #{($header-height + px)} - #{($footer-height + px)});
+  @include flex-column-line-center-vertical-top;
+  @include user-select-none;
+  gap: 8px;
+  position: absolute;
+  top: $header-height + px;
+  left: 0;
+  background-color: $filters-bar-background-color;
+  z-index: 1;
+  transition: transform linear 0.5s;
+  transform: translateX(-100%);
+  padding-top: 20px;
+
+  &.active {
+    transform: none;
+  }
+
+  h3 {
+    width: 100%;
+    text-align: center;
+    color: #fff;
+  }
+
+  .brands-wrapper {
+    width: 90%;
+    height: 207px;
+    @include flex-column-line-center-vertical-top;
+    border: 1px solid $secondary-theme-color;
+    padding: 2px;
+
+    h4 {
+      width: 100%;
+      text-align: center;
+      color: #fff;
+    }
+
+    .brand-item {
+      width: 100%;
+      font-size: 12px;
+      text-align: center;
+      color: $secondary-theme-color;
+      cursor: pointer;
+
+      &.active {
+        .brand-selector-span {
+          color: red;
+        }
+      }
+    }
+  }
+
+  .categories-wrapper {
+    width: 90%;
+    height: 67px;
+    @include flex-column-line-center-vertical-top;
+    border: 1px solid $secondary-theme-color;
+    padding: 2px;
+
+    h4 {
+      width: 100%;
+      text-align: center;
+      color: #fff;
+    }
+
+    .category-item {
+      width: 100%;
+      font-size: 12px;
+      text-align: center;
+      color: $secondary-theme-color;
+      cursor: pointer;
+
+      &.active {
+        .category-selector-span {
+          color: red;
+        }
+      }
+    }
+  }
+
+  .price-range-wrapper {
+    width: 90%;
+    @include flex-all-center;
+    position: relative;
+    border: 1px solid $secondary-theme-color;
+    padding: 2px;
+    cursor: pointer;
+
+    .prices-range-span {
+      width: 100%;
+      font-size: 12px;
+      text-align: center;
+      cursor: pointer;
+
+      &:not(.active) {
+        color: $secondary-theme-color;
+      }
+
+      &.active {
+        color: red;
+      }
+    }
+
+    .ranges-wrapper {
+      width: 250px;
+      height: 60px;
+      @include flex-column-all-center;
+      gap: 3px;
+      @include user-select-none;
+      position: absolute;
+      bottom: -25px;
+      right: -260px;
+      z-index: 1;
+      opacity: 0;
+      animation: appearing linear 0.5s forwards;
+      backdrop-filter: blur(5px) saturate(180%);
+      -webkit-backdrop-filter: blur(5px) saturate(180%);
+      background-color: rgba(255, 255, 255, 0.3);
+      border: 2px solid $accents-theme-color;
+
+      .range-wrapper {
+        @include flex-line-start-vertical-center;
+        gap: 8px;
+
+        .price-range-span {
+          display: inline-block;
+          width: 30px;
+          color: $accents-theme-color;
+          cursor: default;
+        }
+
+        .price-range-input {
+          -webkit-appearance: none;
+          -moz-appearance: none;
+          appearance: none;
+          cursor: pointer;
+
+          &::-webkit-slider-runnable-track {
+            height: 8px;
+            border: 1px solid $accents-theme-color;
+          }
+
+          &::-webkit-slider-thumb {
+            width: 22px;
+            height: 6px;
+            background: $accents-theme-color;
+            border: 1px solid #f5f7f6;
+            border-radius: 5px;
+            -webkit-appearance: none;
+          }
+
+          &::-moz-range-track {
+            height: 8px;
+          }
+
+          &::-moz-range-thumb {
+            width: 10px;
+            height: 6px;
+            -webkit-appearance: none;
+          }
+
+          &:focus {
+            outline: none;
+          }
+        }
+
+        .price-text-input {
+          width: 43px;
+          cursor: default;
+          color: $accents-theme-color;
+          font-weight: bold;
+
+          &:focus {
+            outline: none;
+          }
+        }
+      }
+    }
+  }
+
+  .in-stock-wrapper {
+    width: 90%;
+    @include flex-line-spacebetween-vertical-center;
+    border: 1px solid $secondary-theme-color;
+    padding: 2px 12px;
+
+    .in-stock-span {
+      width: 100%;
+      font-size: 12px;
+      text-align: center;
+      color: $secondary-theme-color;
+      cursor: pointer;
+
+      &.active {
+        color: red;
+      }
+    }
+
+    .in-stock-checkbox {
+      height: 80%;
+      cursor: pointer;
+    }
+  }
+
+  .reset-filters-button {
+    width: 90%;
+    height: 30px;
+    @include flex-all-center;
+    background-color: $secondary-theme-color;
+    border: 2px solid #fff;
+    color: #fff;
+    cursor: pointer;
+
+    &:disabled {
+      color: #aaa;
+      border: 2px solid #aaa;
+      background-color: #777;
+      cursor: default;
+    }
+  }
+}

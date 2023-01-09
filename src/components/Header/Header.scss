@@ -1,0 +1,100 @@
+@import "../../variables";
+
+header {
+  width: 100%;
+  height: $header-height + px;
+  @include flex-line-start-vertical-center;
+  @include user-select-none;
+  gap: 10px;
+  position: relative;
+  padding: 0 5px;
+  background-color: $header-background-color;
+
+  .text-logo {
+    color: #fff;
+    cursor: pointer;
+  }
+
+  .search-input-wrapper {
+    .search-input {
+      height: 30px;
+      width: 180px;
+      border: 2px solid $secondary-theme-color;
+      padding-left: 3px;
+
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+
+  .filters-show-button {
+    height: 30px;
+    background-color: #fff;
+    border: 2px solid $secondary-theme-color;
+    padding: 0 5px;
+    cursor: pointer;
+
+    &.active {
+      border: 2px solid red;
+      color: red;
+    }
+
+    &.shown {
+      border: 2px solid yellowgreen;
+      color: green;
+    }
+  }
+
+  .url-copy-button {
+    width: 75px;
+    height: 30px;
+    background-color: #fff;
+    border: 2px solid $secondary-theme-color;
+    padding: 0 5px;
+    cursor: pointer;
+
+    &.url-copied {
+      color: #111;
+      background-color: yellowgreen;
+      font-weight: bold;
+    }
+  }
+
+  .cart-button {
+    width: 146px;
+    height: 30px;
+    @include flex-all-center;
+    @include user-select-none;
+    position: relative;
+    margin-left: auto;
+    background-color: #fff;
+    border: 2px solid #000;
+    cursor: pointer;
+
+    .cart-quantity-span {
+      position: absolute;
+      left: 2px;
+      bottom: 2px;
+      font-size: 12px;
+    }
+
+    img {
+      width: auto;
+      height: 70%;
+    }
+
+    .cart-summary-span {
+      position: absolute;
+      right: 4px;
+      bottom: 2px;
+      font-size: 12px;
+    }
+  }
+}
+
+@keyframes appearing {
+  100% {
+    opacity: 1;
+  }
+}

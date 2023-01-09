@@ -1,0 +1,244 @@
+@import "../../../../variables";
+
+.external-wrapper {
+  width: $product-item-width + px;
+  height: $product-item-height + px;
+  position: relative;
+  border: 3px solid $accents-theme-color;
+  border-radius: 15px;
+  background-color: $product-item-background-color;
+  transition-property: border-color;
+  transition-timing-function: linear;
+  transition-duration: 0.2s;
+  padding: 1px;
+
+  .add-to-cart-button {
+    width: 100%;
+    height: 30px;
+    @include flex-all-center;
+    position: absolute;
+    top: 30px;
+    right: 0;
+    background-color: #fff;
+    border: 2px solid #000;
+    border-right: none;
+    border-left: none;
+    cursor: pointer;
+
+    img {
+      width: auto;
+      height: 95%;
+    }
+
+    span {
+      color: red;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+  }
+
+  .out-out-stock-container {
+    width: calc(100% + 30px);
+    height: 30px;
+    @include flex-all-center;
+    position: absolute;
+    top: 30px;
+    left: -15px;
+    background-color: #fff;
+    border: 2px solid $accents-theme-color;
+
+    .out-of-stock-paragraph {
+      width: 100%;
+      text-align: center;
+      color: red;
+      font-weight: bold;
+      font-size: 13px;
+    }
+
+    .left-ribbon {
+      height: calc(100% + 4px);
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      background: #fff;
+      border: 2px solid $accents-theme-color;
+      border-right: none;
+
+      &:before {
+        content: "";
+        position: absolute;
+        height: 0;
+        width: 0;
+        border-style: solid;
+        border-color: $accents-theme-color transparent transparent;
+        border-width: 12px 0px 0px 12px;
+        top: 109%;
+        left: 0;
+      }
+    }
+
+    .right-ribbon {
+      height: calc(100% + 4px);
+      position: absolute;
+      top: -2px;
+      right: -2px;
+      background: #fff;
+      border: 2px solid $accents-theme-color;
+      border-left: none;
+
+      &:after {
+        content: "";
+        position: absolute;
+        height: 0;
+        width: 0;
+        border-style: solid;
+        border-color: $accents-theme-color transparent transparent;
+        border-width: 12px 0px 0px 12px;
+        top: 109%;
+        right: 0;
+        transform: scale(-1, 1);
+      }
+    }
+  }
+
+  &.list-view {
+    width: 60%;
+    height: auto;
+    margin: 0 auto;
+    border-radius: 12px;
+
+    .add-to-cart-button {
+      width: 140px;
+      @include flex-all-center;
+      position: absolute;
+      bottom: 6px;
+      right: 0;
+      background-color: #fff;
+      border: 2px solid $accents-theme-color;
+      border-right: none;
+      cursor: pointer;
+
+      img {
+        width: auto;
+        height: 85%;
+      }
+    }
+
+    .out-out-stock-container {
+      width: 100%;
+      height: 25px;
+      @include flex-all-center;
+      position: absolute;
+      top: 0;
+      left: 0;
+      background-color: rgba($color: #fff, $alpha: 0.7);
+      border-top: none;
+      border-top-left-radius: 8px;
+      border-top-right-radius: 8px;
+      border-bottom: 1px solid #000;
+      border-right: none;
+      border-left: none;
+
+      .out-of-stock-paragraph {
+        width: 100%;
+        text-align: center;
+        color: red;
+        font-weight: bold;
+        font-size: 13px;
+      }
+
+      .left-ribbon,
+      .right-ribbon {
+        display: none;
+      }
+    }
+  }
+
+  .product-item-wrapper {
+    width: 100%;
+    height: 100%;
+    @include user-select-none;
+    position: relative;
+    cursor: pointer;
+
+    &:not(.list-view) {
+      @include flex-column-line-center-vertical-spacebetween;
+    }
+
+    .name-paragraph {
+      color: $accents-theme-color;
+      font-weight: bold;
+      z-index: 1;
+    }
+
+    .poster-wrapper {
+      width: 65%;
+
+      .poster {
+        width: 100%;
+        height: auto;
+        transition-property: transform;
+        transition-timing-function: linear;
+        transition-duration: 0.3s;
+      }
+    }
+
+    .price-paragraph {
+      color: $accents-theme-color;
+      font-weight: bold;
+      z-index: 1;
+    }
+
+    &.list-view {
+      width: 100%;
+      height: $product-item-height-list + px;
+      @include flex-line-start-vertical-center;
+      gap: 10px;
+      border-radius: 10px;
+      padding: 3px;
+
+      .description-span {
+        color: $secondary-theme-color;
+      }
+
+      .name-paragraph {
+        width: 110px;
+        color: $accents-theme-color;
+        font-weight: bold;
+      }
+
+      .poster-wrapper {
+        width: auto;
+        height: 100%;
+
+        .poster {
+          width: auto;
+          height: 100%;
+        }
+      }
+
+      .price-paragraph {
+        color: $accents-theme-color;
+        font-weight: bold;
+      }
+    }
+  }
+}
+
+
+@media (hover: hover) {
+  .external-wrapper:not(.list-view):hover {
+    .product-item-wrapper {
+      .poster-wrapper {
+        .poster {
+          transform: scale(1.17);
+        }
+      }
+    }
+
+  }
+
+  .external-wrapper.list-view:hover {
+    border-color: pink;
+  }
+}
