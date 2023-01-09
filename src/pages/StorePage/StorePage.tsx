@@ -8,6 +8,7 @@ import { ProductItem } from './components/ProductItem/ProductItem';
 import { Header } from '../../components/Header/Header';
 import { Footer } from '../../components/Footer/Footer';
 import { SortBar } from './components/SortBar/SortBar';
+import products from '../../products.json';
 import './StorePage.scss';
 
 export const StorePage: FC = (): JSX.Element => {
@@ -58,7 +59,7 @@ export const StorePage: FC = (): JSX.Element => {
               viewType === 'cards' ? 'found-products-wrapper' : 'found-products-wrapper list-view'
             }
           >
-            <span>{`Was found ${filteredProducts?.length} product(s)`}</span>
+            <span>{`Was found ${filteredProducts?.length} product(s) from ${products?.length}`}</span>
           </div>
         ) : null}
         <SortBar isMouseOnMain={isMouseOnMain} />

@@ -8,20 +8,15 @@
   position: relative;
   background-color: $store-background-color;
 
-  &.no-products {
-    .products-wrapper {
-      @include flex-all-center;
-    }
-  }
-
   .no-products-paragraph {
     width: 100%;
     text-align: center;
-    color: green;
+    color: $accents-theme-color;
+    font-weight: bold;
   }
 
   .found-products-wrapper {
-    width: 200px;
+    width: 250px;
     height: 45px;
     @include flex-all-center;
     position: absolute;
@@ -74,6 +69,12 @@
       background-color: $store-scrollbar-color;
       outline: 1.5px solid $store-scrollbar-color;
       border-radius: 5px;
+    }
+  }
+
+  &.no-products {
+    .products-wrapper {
+      @include flex-all-center;
     }
   }
 }

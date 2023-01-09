@@ -46,7 +46,9 @@ export const ProductDetailsPage: FC = (): JSX.Element => {
   };
 
   const instantlyBuyProduct = (): void => {
-    addProductToCart();
+    if (!productInCartAvailabilityCheck()) {
+      addProductToCart();
+    }
     navigate('/cart/order/');
   };
 
@@ -146,7 +148,9 @@ export const ProductDetailsPage: FC = (): JSX.Element => {
                         {currentIProductData?.posters.map((poster: string, index: number) => {
                           return (
                             <img
-                              className="small-photo"
+                              className={
+                                bigPhotoSrc === poster ? 'small-photo current-photo' : 'small-photo'
+                              }
                               onClick={() => setBigPhotoSrc(poster)}
                               src={require(`../../assets/img/${poster}`)}
                               key={index}
@@ -191,7 +195,7 @@ export const ProductDetailsPage: FC = (): JSX.Element => {
                         productInCartAvailabilityCheck() ? removeProductFromCart : addProductToCart
                       }
                     >
-                      add to cart
+                      {productInCartAvailabilityCheck() ? 'Remove from cart' : 'add to cart'}
                     </button>
                   )}
                   {!currentIProductData?.inStock && currentIProductData?.amount === 0 && (

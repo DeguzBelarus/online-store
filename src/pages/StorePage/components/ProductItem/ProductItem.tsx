@@ -72,7 +72,7 @@ export const ProductItem: FC<IProductData> = ({ ...IProductData }) => {
           {!productInCartAvailabilityCheck() ? (
             <img src={addToCartLogo} alt="an add to cart logo" />
           ) : (
-            <span>remove</span>
+            <span>remove from cart</span>
           )}
         </button>
       )}

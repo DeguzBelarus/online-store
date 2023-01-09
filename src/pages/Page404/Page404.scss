@@ -9,20 +9,20 @@
 
   .page-404-h1 {
     margin: 30px 15px;
-    color: #de7e85;
+    color: $accents-theme-color;
     font-size: 63px;
     text-transform: uppercase;
   }
 
   .page-404-h2 {
-    color: #bbb;
+    color: $secondary-theme-color;
     margin-bottom: 15%;
   }
 
   .more-link {
     text-transform: uppercase;
     font-size: 13px;
-    background-color: #de7e85;
+    background-color: $accents-theme-color;
     padding: 10px 15px;
     border-radius: 0;
     border: none;
