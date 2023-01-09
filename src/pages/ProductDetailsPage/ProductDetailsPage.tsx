@@ -212,11 +212,6 @@ export const ProductDetailsPage: FC = (): JSX.Element => {
                       buy now
                     </button>
                   )}
-                  {!currentIProductData?.inStock && currentIProductData?.amount === 0 && (
-                    <div className="out-out-stock-container">
-                      <p className="out-of-stock-paragraph">OUT OF STOCK</p>
-                    </div>
-                  )}
                 </div>
               </div>
             </>

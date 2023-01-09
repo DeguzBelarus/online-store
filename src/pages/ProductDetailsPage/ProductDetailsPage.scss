@@ -36,8 +36,9 @@
       &.no-product {
         height: 100%;
         @include flex-all-center;
-        border:none;
+        border: none;
       }
+
       width: 65%;
       height: 50%;
       border: solid 2px;
@@ -90,7 +91,6 @@
         }
 
         .product-info {
-
           @include flex-column-line-center-vertical-top;
           gap: 10px;
 
@@ -139,8 +139,16 @@
             border: 2px solid $accents-theme-color;
             border-radius: 0.3rem;
           }
+
+          .out-out-stock-container {
+            .out-of-stock-paragraph {
+              color: $accents-theme-color;
+              text-align: center;
+            }
+          }
         }
       }
+
       .no-products-paragraph {
         color: $accents-theme-color;
         font-weight: bold;
