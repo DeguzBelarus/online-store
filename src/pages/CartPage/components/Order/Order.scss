@@ -37,7 +37,7 @@
       height: 50px;
       @include flex-all-center;
       margin-top: 30px;
-      background-color: seagreen;
+      background-color: $secondary-theme-color;
       border: 2px solid #555;
       color: #eee;
       cursor: pointer;
@@ -288,6 +288,7 @@
       border-left: none;
       border-right: none;
       cursor: pointer;
+      text-transform: uppercase;
     }
   }
 }
