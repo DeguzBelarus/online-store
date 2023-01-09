@@ -7,7 +7,7 @@
     "category": "smartphones",
     "description": "Android, screen Qualcomm Snapdragon 675, 6 GB RAM, 128 GB flash memory, memory cards, 4500 mAh battery, 2 SIM",
     "properties": ["Camera 32MP", "Display 6.7\""],
-    "posters": ["posters/A70/a70.jpeg", "posters/A70/a70-2.jpeg"],
+    "posters": ["posters/A70/a70.jpeg", "posters/A70/a70-2.jpeg", "posters/A70/a70-3.jpg"],
     "inStock": false,
     "amount": 0
   },
@@ -19,7 +19,7 @@
     "category": "smartphones",
     "description": "Android, screen AMOLED (1080x2400) 120 Hz, Exynos 990, 6 GB RAM, 128 GB flash memory, memory cards, 4500 mAh battery, 2 SIM, IP68 waterproof",
     "properties": ["Camera 12MP", "Display 6.2\""],
-    "posters": ["posters/S20/s20.jpeg", "posters/S20/s20-2.jpeg"],
+    "posters": ["posters/S20/s20.jpeg", "posters/S20/s20-2.jpeg", "posters/S20/s20-3.jpeg"],
     "inStock": true,
     "amount": 10
   },
@@ -31,7 +31,7 @@
     "category": "smartphones",
     "description": "Android, screen AMOLED (1080x2340) 120 Hz, Qualcomm Snapdragon 888, 6 GB RAM, 128 GB flash memory, 4500 mAh battery, 2 SIM, IP68 waterproof",
     "properties": ["Camera 12MP", "Display 6.4\""],
-    "posters": ["posters/S21/s21.jpeg", "posters/S21/s21-2.jpeg"],
+    "posters": ["posters/S21/s21.jpeg", "posters/S21/s21-2.jpeg", "posters/S21/s21-3.jpeg"],
     "inStock": true,
     "amount": 40
   },
@@ -43,33 +43,9 @@
     "category": "smartphones",
     "description": "Android, without shell, screen OLED (1080x2520) 120 Hz, Qualcomm Snapdragon 888, 8 GB RAM, 256 GB flash memory, memory cards, 4500 mAh battery, 2 SIM, IPX8 waterproof",
     "properties": ["Camera 12MP", "Display 6.1\""],
-    "posters": ["posters/Xperia5/xperia5.jpeg", "posters/Xperia5/xperia5-2.jpeg"],
+    "posters": ["posters/Xperia5/xperia5.jpeg", "posters/Xperia5/xperia5-2.jpeg", "posters/Xperia5/xperia5-3.jpeg"],
     "inStock": true,
     "amount": 30
-  },
-  {
-    "id": 5,
-    "name": "Redmi Note 11",
-    "brand": "Xiaomi",
-    "price": 235,
-    "category": "smartphones",
-    "description": "Android, screen AMOLED (1080x2400) 90 Hz, Qualcomm Snapdragon 680, 6 GB RAM, 128 GB flash memory, memory cards, 5000 mAh battery, 2 SIM, IP53 waterproof",
-    "properties": ["Camera 50MP", "Display 6.43\""],
-    "posters": ["posters/RedmiNote11/redmiNote11.jpeg", "posters/RedmiNote11/redmiNote11-2.jpeg"],
-    "inStock": true,
-    "amount": 20
-  },
-  {
-    "id": 6,
-    "name": "Redmi 10C",
-    "brand": "Xiaomi",
-    "price": 180,
-    "category": "smartphones",
-    "description": "Android, screen IPS (720x1650) 60 Hz, Qualcomm Snapdragon 680, 4 GB RAM, 128 GB flash memory, memory cards, 5000 mAh battery, 2 SIM",
-    "properties": ["Camera 50MP", "Display 6.71\""],
-    "posters": ["posters/Redmi10C/redmi10c.jpeg", "posters/Redmi10C/redmi10c-2.jpeg"],
-    "inStock": true,
-    "amount": 10
   },
   {
     "id": 7,
@@ -79,9 +55,9 @@
     "category": "smartphones",
     "description": "Android, screen IPS (1080x2400) 120 Hz, Qualcomm Snapdragon 860, 8 GB RAM, 256 GB flash memory, memory cards, 5160 mAh battery, 2 SIM, IP53 waterproof",
     "properties": ["Camera 48MP", "Display 6.67\""],
-    "posters": ["posters/PocoX3/pocoX3.jpeg", "posters/PocoX3/pocoX3-2.jpeg"],
-    "inStock": false,
-    "amount": 0
+    "posters": ["posters/PocoX3/pocoX3.jpeg", "posters/PocoX3/pocoX3-2.jpeg", "posters/PocoX3/pocoX3-3.jpeg"],
+    "inStock": true,
+    "amount": 10
   },
   {
     "id": 8,
@@ -91,7 +67,7 @@
     "category": "smartphones",
     "description": "Android, without shell, screen AMOLED (1440x3120) 120 Hz, Google Tensor, 12 GB RAM, 128 GB flash memory, 5003 mAh battery, 2 SIM, IP68 waterproof",
     "properties": ["Camera 50MP", "Display 6.7\""],
-    "posters": ["posters/Pixel6pro/pixel6pro.jpeg", "posters/Pixel6pro/pixel6pro-2.jpeg"],
+    "posters": ["posters/Pixel6pro/pixel6pro.jpeg", "posters/Pixel6pro/pixel6pro-2.jpeg", "posters/Pixel6pro/pixel6pro-3.jpeg"],
     "inStock": true,
     "amount": 10
   },
@@ -103,7 +79,7 @@
     "category": "smartphones",
     "description": "Android, screen OLED (1080x2340) 90 Hz, Qualcomm Snapdragon 765G, 8 GB RAM, 128 GB flash memory, 4080 mAh battery, 1 SIM, IP68 waterproof",
     "properties": ["Camera 16MP", "Display 6\""],
-    "posters": ["posters/Pixel5/pixel5.jpeg", "posters/Pixel5/pixel5-2.jpeg"],
+    "posters": ["posters/Pixel5/pixel5.jpeg", "posters/Pixel5/pixel5-2.jpeg", "posters/Pixel5/pixel5-3.jpeg"],
     "inStock": true,
     "amount": 20
   },
@@ -127,7 +103,7 @@
     "category": "smartphones",
     "description": "Apple iOS, OLED screen (1170x2532) 60 Hz, Apple A14 Bionic, 4 GB RAM, 128 GB flash memory, 2815 mAh battery, 1 SIM, IP68 waterproof",
     "properties": ["Camera 12MP", "Display 6.1\""],
-    "posters": ["posters/Iphone12/Iphone12.jpeg", "posters/Iphone12/Iphone12-2.jpeg"],
+    "posters": ["posters/Iphone12/Iphone12.jpeg", "posters/Iphone12/Iphone12-2.jpeg", "posters/Iphone12/Iphone12-3.jpeg"],
     "inStock": true,
     "amount": 30
   },
@@ -139,7 +115,7 @@
     "category": "smartphones",
     "description": "Android, screen IPS (1080x2388) 90 Hz, Qualcomm Snapdragon 680, 6 GB RAM, 128 GB flash memory, 4000 mAh battery, 2 SIM",
     "properties": ["Camera 64MP", "Display 6.7\""],
-    "posters": ["posters/HonorX8/honorX8.jpeg", "posters/HonorX8/honorX8-2.jpeg"],
+    "posters": ["posters/HonorX8/honorX8.jpeg", "posters/HonorX8/honorX8-2.jpeg", "posters/HonorX8/honorX8-3.jpeg"],
     "inStock": true,
     "amount": 50
   },
@@ -151,7 +127,7 @@
     "category": "smartphones",
     "description": "Android, screen AMOLED (1080x2400), Qualcomm Snapdragon 730, 8 GB RAM, 128 GB flash memory, 3700 mAh battery, 2 SIM",
     "properties": ["Camera 48MP", "Display 6.7\""],
-    "posters": ["posters/A80/a80.jpeg", "posters/A80/a80-2.jpeg"],
+    "posters": ["posters/A80/a80.jpeg", "posters/A80/a80-2.jpeg", "posters/A80/a80-3.jpeg"],
     "inStock": true,
     "amount": 20
   },
@@ -163,7 +139,7 @@
     "category": "smartphones",
     "description": "Android, screen AMOLED (1080x2400) 90 Hz, Mediatek Helio G80, 4 GB RAM, 64 GB flash memory, memory cards, 5000 mAh battery, 2 SIM",
     "properties": ["Camera 64MP", "Display 6.4\""],
-    "posters": ["posters/A32/a32.jpeg", "posters/A32/a32-2.jpeg"],
+    "posters": ["posters/A32/a32.jpeg", "posters/A32/a32-2.jpeg", "posters/A32/a32-3.jpeg"],
     "inStock": true,
     "amount": 10
   },
@@ -175,7 +151,7 @@
     "category": "smartphones",
     "description": "Android, screen TFT (720x1600) 60 Hz, Mediatek MT6765 Helio P35, 4 GB RAM, 64 GB flash memory, memory cards, 5000 mAh battery, 2 SIM",
     "properties": ["Camera 48MP", "Display 6.5\""],
-    "posters": ["posters/A12/a12.jpeg", "posters/A12/a12-2.jpeg"],
+    "posters": ["posters/A12/a12.jpeg", "posters/A12/a12-2.jpeg",  "posters/A12/a12-3.jpg"],
     "inStock": false,
     "amount": 0
   },
@@ -187,7 +163,7 @@
     "category": "smartphones",
     "description": "Android, screen IPS (1080x2412) 120 Hz, Mediatek Helio G96, 4 GB RAM, 64 GB flash memory, memory cards, 5000 mAh battery, 2 SIM",
     "properties": ["Camera 50MP", "Display 6.6\""],
-    "posters": ["posters/8I/8i.jpeg", "posters/8I/8i-2.jpeg"],
+    "posters": ["posters/8I/8i.jpeg", "posters/8I/8i-2.jpeg", "posters/8I/8i-3.jpeg"],
     "inStock": false,
     "amount": 0
   },
@@ -199,7 +175,7 @@
     "category": "smartphones",
     "description": "Android, screen IPS (720x1600) 60 Hz, Mediatek MT6765 Helio P35, 4 GB RAM, 64 GB flash memory, memory cards, 5000 mAh battery, 2 SIM",
     "properties": ["Camera 13MP", "Display 6.51\""],
-    "posters": ["posters/Y21/y21.jpeg", "posters/Y21/y21-2.jpeg"],
+    "posters": ["posters/Y21/y21.jpeg", "posters/Y21/y21-2.jpeg", "posters/Y21/y21-3.jpeg"],
     "inStock": true,
     "amount": 30
   },
@@ -223,7 +199,7 @@
     "category": "laptops",
     "description": "1920 x 1080 IPS, 60Hz, non-touch, AMD Ryzen 3 5300U 2600MHz, 8GB DDR4, 256GB SSD, integrated graphics, Windows 10",
     "properties": ["Display 15.6\""],
-    "posters": ["posters/IdeaPad3/ideapad3.jpeg", "posters/IdeaPad3/ideapad3-2.jpeg"],
+    "posters": ["posters/IdeaPad3/ideapad3-3.jpeg", "posters/IdeaPad3/ideapad3.jpeg", "posters/IdeaPad3/ideapad3-2.jpeg"],
     "inStock": true,
     "amount": 20
   },
@@ -235,7 +211,7 @@
     "category": "laptops",
     "description": "2560 x 1600 IPS, 60 Hz, non-touch, AMD Ryzen 5 6600HS 3300 MHz, 16 GB LPDDR5, SSD 512 GB, integrated graphics, no OS",
     "properties": ["Display 16.0\""],
-    "posters": ["posters/IdeaPad5/ideapad5.jpeg", "posters/IdeaPad5/ideapad5-2.jpeg"],
+    "posters": ["posters/IdeaPad5/ideapad5.jpeg", "posters/IdeaPad5/ideapad5-2.jpeg", "posters/IdeaPad5/ideapad5-3.jpeg"],
     "inStock": true,
     "amount": 30
   },
@@ -259,7 +235,7 @@
     "category": "laptops",
     "description": "1920 x 1080 IPS, 60Hz, touchscreen, Intel Core i5 1135G7 2400MHz, 12GB DDR4, 256GB SSD, integrated graphics, Windows 11",
     "properties": ["Display 15.6\""],
-    "posters": ["posters/15dy2067ms/15dy2067ms.jpeg", "posters/15dy2067ms/15dy2067ms-2.jpeg"],
+    "posters": ["posters/15dy2067ms/15dy2067ms.jpeg", "posters/15dy2067ms/15dy2067ms-2.jpeg", "posters/15dy2067ms/15dy2067ms-4.jpg"],
     "inStock": true,
     "amount": 10
   },
@@ -295,7 +271,7 @@
     "category": "tablets",
     "description": "IPS, 60Hz (1920x1200), Android, MediaTek Helio P22T, 4GB RAM, 128GB Flash",
     "properties": ["Camera 8MP", "Display 10.3\""],
-    "posters": ["posters/M10/M10.jpeg", "posters/M10/M10-2.jpeg"],
+    "posters": ["posters/M10/M10.jpeg", "posters/M10/M10-2.jpeg", "posters/M10/M10-3.jpeg"],
     "inStock": true,
     "amount": 20
   },
@@ -310,6 +286,31 @@
     "posters": ["posters/P12/P12.jpeg", "posters/P12/P12-2.jpeg"],
     "inStock": false,
     "amount": 0
+  },
+
+  {
+    "id": 5,
+    "name": "Redmi Note 11",
+    "brand": "Xiaomi",
+    "price": 235,
+    "category": "smartphones",
+    "description": "Android, screen AMOLED (1080x2400) 90 Hz, Qualcomm Snapdragon 680, 6 GB RAM, 128 GB flash memory, memory cards, 5000 mAh battery, 2 SIM, IP53 waterproof",
+    "properties": ["Camera 50MP", "Display 6.43\""],
+    "posters": ["posters/RedmiNote11/redmiNote11.jpeg", "posters/RedmiNote11/redmiNote11-2.jpeg"],
+    "inStock": true,
+    "amount": 20
+  },
+  {
+    "id": 6,
+    "name": "Redmi 10C",
+    "brand": "Xiaomi",
+    "price": 180,
+    "category": "smartphones",
+    "description": "Android, screen IPS (720x1650) 60 Hz, Qualcomm Snapdragon 680, 4 GB RAM, 128 GB flash memory, memory cards, 5000 mAh battery, 2 SIM",
+    "properties": ["Camera 50MP", "Display 6.71\""],
+    "posters": ["posters/Redmi10C/redmi10c.jpeg", "posters/Redmi10C/redmi10c-2.jpeg"],
+    "inStock": true,
+    "amount": 10
   },
   {
     "id": 27,
@@ -343,7 +344,7 @@
     "category": "tablets",
     "description": "TFT (1340x800), Android, MediaTek MT8768T, 3 GB RAM, 32 GB Flash",
     "properties": ["Camera 8MP", "Display 8.7\""],
-    "posters": ["posters/GalaxyTabA7/galaxytaba7.jpeg", "posters/GalaxyTabA7/galaxytaba7-2.jpeg"],
+    "posters": ["posters/GalaxyTabA7/galaxytaba7.jpeg", "posters/GalaxyTabA7/galaxytaba7-2.jpeg", "posters/GalaxyTabA7/galaxytaba7-3.jpeg"],
     "inStock": true,
     "amount": 30
   },
@@ -355,7 +356,7 @@
     "category": "tablets",
     "description": "IPS (1920x1200), Android, Hisilicon Kirin 710A, 4 GB RAM, 128 GB Flash",
     "properties": ["Camera 5MP", "Display 10.1\""],
-    "posters": ["posters/MatePadT10S/matepadt10s.jpeg", "posters/MatePadT10S/matepadt10s-2.jpeg"],
+    "posters": ["posters/MatePadT10S/matepadt10s.jpeg", "posters/MatePadT10S/matepadt10s-2.jpeg", "posters/MatePadT10S/matepadt10s-3.jpeg"],
     "inStock": false,
     "amount": 0
   },
@@ -379,7 +380,7 @@
     "category": "smartphones",
     "description": "Android, screen OLED (1080x2400) 120 Hz, Qualcomm Snapdragon 778G+, 8 GB RAM, 256 GB flash memory, 4800 mAh battery, 2 SIM",
     "properties": ["Camera 54MP", "Display 6.67\""],
-    "posters": ["posters/Honor70/honor70.jpeg", "posters/Honor70/honor70-2.jpeg"],
+    "posters": ["posters/Honor70/honor70.jpeg", "posters/Honor70/honor70-2.jpeg", "posters/Honor70/honor70-3.jpeg"],
     "inStock": true,
     "amount": 20
   },
@@ -403,7 +404,7 @@
     "category": "laptops",
     "description": "1920 x 1080 IPS, 60Hz, non-touch, AMD Ryzen 5 5500U 2100MHz, 16GB DDR4, 512GB SSD, integrated graphics, Windows 11",
     "properties": ["Display 15.6\""],
-    "posters": ["posters/MateBookD15/matebookd15.jpeg", "posters/MateBookD15/matebookd15-2.jpeg"],
+    "posters": ["posters/MateBookD15/matebookd15.jpeg", "posters/MateBookD15/matebookd15-2.jpeg", "posters/MateBookD15/matebookd15-3.jpeg"],
     "inStock": true,
     "amount": 10
   },
@@ -415,7 +416,7 @@
     "category": "laptops",
     "description": "1920 x 1080 IPS, 60 Hz, non-touch, AMD Ryzen 5 5500U 2100 MHz, 16 GB DDR4, SSD 512 GB, integrated graphics, no OS",
     "properties": ["Display 15.6\""],
-    "posters": ["posters/Aspire3/aspire3.jpeg", "posters/Aspire3/aspire3-2.jpeg"],
+    "posters": ["posters/Aspire3/aspire3.jpeg", "posters/Aspire3/aspire3-2.jpeg", "posters/Aspire3/aspire3-3.jpg"],
     "inStock": false,
     "amount": 0
   }
